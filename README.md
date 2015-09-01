@@ -1,2 +1,7 @@
-# grenier
-Articles sur l'algorithmie, les Ã©nigmes et autres...
+# Articles sur l'algorithmie, les Enigmes et autres...
+
+Pour installer localement les modules nécessaires, tapez :
+```
+npm update
+```
+
