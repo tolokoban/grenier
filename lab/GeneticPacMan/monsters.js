@@ -1,68 +1,67 @@
+var Lib = require("./lib");
 var Levels = require("./levels");
 
-/**
- * [delta row, delta col]
- */
-var DIRECTIONS = [ [-1, 0], [0, 1], [1, 0], [0, -1] ];
-var WEIGHTS1 = [5, 4, 3, 0];
-var WEIGHTS2 = [3, 2, 2, 0];
+// Theses  weights  are  in  decreasing  order  because  the  first  one
+// represents  the direction  which  takes the  monster  the nearest  to
+// pacman.
+var WEIGHTS1 = [6, 4, 2, 0];
+// These weights represent  the current direction in  clockwise way. For
+// example, [3,  2, 0,  2] means  that you have  a 3  bonus if  you keep
+// continue in your previous direction, a 2 bonus if you turn right, a 0
+// if you go back and a 1 if you turn left.
+var WEIGHTS2 = [4, 5, 0, 5];
 
-exports.brain = function(level) {
+
+function moveMonster(monster, pacmanRow, pacmanCol, level, W1, W2) {
+  var monsterPos = monster.pos;
+  var monsterRC = level.pos2rc(monsterPos);
+  var monsterRow = monsterRC[0];
+  var monsterCol = monsterRC[1];
+  var prefs = Lib.getPreferedDirections(
+    monsterRow, monsterCol, pacmanRow, pacmanCol,
+    monster.dir, W1, W2);
+  var i, neighbour, vector, targetRow, targetCol;
+  for (i = 0 ; i < prefs.length ; i++) {
+    vector = Lib.getDirectionVector(prefs[i]);
+    targetRow = monsterRow + vector[0];
+    targetCol = monsterCol + vector[1];
+    neighbour = level.getByRC(targetRow, targetCol);
+    if (neighbour != Levels.WALL && neighbour != Levels.MONSTER) {
+      monster.dir = prefs[i];
+      monster.pos = level.rc2pos(targetRow, targetCol);
+      break;
+    }
+  }
+}
+
+function moveAllMonsters(level, W1, W2) {
+  if (typeof W1 === 'undefined') W1 = WEIGHTS1;
+  if (typeof W2 === 'undefined') W2 = WEIGHTS2;
+
   var pacmanIdDead = false;
   var pacmanPos = level.pacman;
   var pacmanRC = level.pos2rc(pacmanPos);
   var pacmanRow = pacmanRC[0];
   var pacmanCol = pacmanRC[1];
-  level.monsters.forEach(
-    function(monster) {
-      var monsterPos = monster.pos;
-      var monsterRC = level.pos2rc(monsterPos);
-      var monsterRow = monsterRC[0];
-      var monsterCol = monsterRC[1];
-      var row = pacmanRow - monsterRow;
-      var rowAbs = Math.abs(row);
-      var col = pacmanCol - monsterCol;
-      var colAbs = Math.abs(col);
-      if (colAbs == rowAbs) {
-        row += Math.random() - .5;
-        rowAbs = Math.abs(rowAbs);
-      }
-      var values = [0, 0, 0, 0];
-      if (rowAbs > colAbs) {
-        // Up or down.
-        if (row > 0) {
-          // Down
-          values = [WEIGHTS1[3], WEIGHTS1[col > 0 ? 1 : 2], WEIGHTS1[0], WEIGHTS1[col > 0 ? 2 : 1]];
-        } else {
-          // Up
-          values = [WEIGHTS1[0], WEIGHTS1[col > 0 ? 1 : 2], WEIGHTS1[3], WEIGHTS1[col > 0 ? 2 : 1]];
-        }
-      } else {
-        // Right or left.
-        if (col > 0) {
-          // Right
-          values = [WEIGHTS1[row > 0 ? 2 : 1], WEIGHTS1[0], WEIGHTS1[row > 0 ? 1 : 2], WEIGHTS1[3]];
-        } else {
-          // Left
-          values = [WEIGHTS1[row > 0 ? 2 : 1], WEIGHTS1[3], WEIGHTS1[row > 0 ? 1 : 2], WEIGHTS1[0]];
-        }
-      }
-      var indexes = [0, 1, 2, 3];
-      indexes.sort(function(a, b) {
-        return values[b] - values[a];
-      });
-      var i, neighbour, vector, targetRow, targetCol;
-      for (i = 0 ; i < indexes.length ; i++) {
-        vector = DIRECTIONS[indexes[i]];
-        targetRow = monsterRow + vector[0];
-        targetCol = monsterCol + vector[1];
-        neighbour = level.getByRC(targetRow, targetCol);
-        if (neighbour != Levels.WALL && neighbour != Levels.MONSTER) {
-          monster.dir = i;
-          monster.pos = level.rc2pos(targetRow, targetCol);
-          break;
-        }
-      }
-    }
-  );
+  level.monsters.forEach(function(monster) {
+    moveMonster(monster, pacmanRow, pacmanCol, level, W1, W2);
+  });
 };
+
+
+function getMonsterScore(level, monsterPos, W1, W2) {
+  var pacmanPos = level.pacman;
+  var pacmanRC = level.pos2rc(pacmanPos);
+  var pacmanRow = pacmanRC[0];
+  var pacmanCol = pacmanRC[1];
+  var monster = {pos: monsterPos, dir: 0};
+  var score = 0;
+  while (score < 1000) {
+    if (monsterPos == pacmanPos) return score;
+
+    score++;
+  }
+  return score;
+}
+
+exports.moveAllMonsters = moveAllMonsters;

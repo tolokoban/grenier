@@ -14,7 +14,19 @@ var toString = function(level) {
     var out = '';
     level.grid.forEach(
       function(v, idx) {
-        out += SYMBOLS[v];
+        var i, monster, symbol = '?'.cyan;
+        if (v == levels.MONSTER) {          
+          for (i = 0 ; i < level.monsters.length ; i++) {
+            monster = level.monsters[i];
+            if (monster.pos == idx) {
+              symbol = "^>v<".charAt(monster.dir).white.bold.bgRed;
+              break;
+            }
+          }
+          out += symbol;
+        } else {
+          out += SYMBOLS[v];
+        }
         if (idx % level.cols == level.cols - 1) {
           out += "\n";
         }
@@ -109,7 +121,7 @@ function parse(rawLevels) {
               data.pacman = position;
             }
             else if (c == 'M') {
-              v = levels.MONSTER;
+              v = levels.EMPTY;
               data.monsters.push({pos: position, dir: 0});
             }
             data.grid.push(v);
