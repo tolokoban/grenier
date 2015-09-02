@@ -1,38 +1,11 @@
-function limit(v, min, max) {
-    if (typeof min === 'undefined') min = -1;
-    if (typeof max === 'undefined') max = 1;
-    if (v < min) { return min; }
-    if (v > max) { return max; }
-    return v;
-}
-
-/**
- * @return {double} Random value between -1 and +1.
- */
-function rnd(min, max) {
-    if (typeof min === 'undefined') min = -1;
-    if (typeof max === 'undefined') max = 1;
-    return min + (Math.random() * (max - min));
-}
-
-/**
- * @return {array} Array of random values between -1 and +1.
- */
-function randomArray(size) {
-    var arr = [];
-    while (size > 0) {
-        arr.push(rnd());
-        size--;
-    }
-    return arr;
-}
+var Lib = require("./lib");
 
 
 function Eye15(brain) {
     if (typeof brain === 'undefined') {
         brain = [];
         for (var k = 0; k < 15*15; k++) {
-            brain.push(randomArray(16));
+            brain.push(Lib.randomArray(16));
         }
     }
     this.brain = brain;
@@ -45,7 +18,7 @@ function Eye15(brain) {
 Eye15.prototype.reproduce = function() {
     var child = new Eye15();
     child.brain = this.brain.map(function (v) {
-        return limit(v + rnd(-0.2, 0.2) * Math.random());
+        return Lib.limit(v + Lib.rnd(-0.2, 0.2) * Math.random());
     });
     return child;
 };
@@ -73,7 +46,7 @@ Eye15.prototype.think = function(level) {
         idxGrid = origin;
         for (row = 0; row < 15; row++) {
             for (col = 0; col < 15; col++) {
-                typ = limit(level.grid[idxGrid % gridSize], 0, 3);
+                typ = Lib.limit(level.grid[idxGrid % gridSize], 0, 3);
                 weight += this.brain[idxEye][4 * dir + typ];
                 idxEye++;
                 idxGrid++;

@@ -15,6 +15,7 @@ function load() {
     try {
         data = JSON.parse(FS.readFileSync(FILENAME).toString());
         nursery.generation = data.generation;
+        nursery.bestScore = data.bestScore;
         data.pacmans.forEach(function(brain) {
             nursery.pacmans.push(new Pacman.Eye15(brain));
         });
@@ -24,11 +25,14 @@ function load() {
             nursery.pacmans.push(new Pacman.Eye15());
         }
     }
+    if (!nursery.bestScore) {
+        nursery.bestScore = -999999999;
+    }
     return nursery;
 }
 
 function save(nursery) {
-    var data = { generation: nursery.generation, pacmans: [] };
+    var data = { generation: nursery.generation, pacmans: [], bestScore: nursery.bestScore };
     nursery.pacmans.forEach(function(pacman) {
         data.pacmans.push(pacman.brain);
     });
@@ -68,7 +72,9 @@ function nextGeneration(nursery) {
         return b.score - a.score;
     });
     nursery.generation++;
-    if (nursery.generation % 50 == 0) {
+    var bestScore = nursery.pacmans[0].score;
+    if (bestScore > nursery.bestScore) {
+        nursery.bestScore = bestScore;
         FS.writeFileSync(
             "generation." + nursery.generation + ".json", 
             JSON.stringify(nursery.pacmans[0].brain)

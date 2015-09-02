@@ -163,6 +163,38 @@ function getDirectionVector(dir) {
     return DIRECTIONS[dir & 3];
 };
 
+function limit(v, min, max) {
+    if (typeof min === 'undefined') min = -1;
+    if (typeof max === 'undefined') max = 1;
+    if (v < min) { return min; }
+    if (v > max) { return max; }
+    return v;
+}
 
+/**
+ * @return {double} Random value between -1 and +1.
+ */
+function rnd(min, max) {
+    if (typeof min === 'undefined') min = -1;
+    if (typeof max === 'undefined') max = 1;
+    return min + (Math.random() * (max - min));
+}
+
+/**
+ * @return {array} Array of random values between -1 and +1.
+ */
+function randomArray(size) {
+    var arr = [];
+    while (size > 0) {
+        arr.push(rnd());
+        size--;
+    }
+    return arr;
+}
+
+
+exports.limit = limit;
+exports.rnd = rnd;
+exports.randomArray = randomArray;
 exports.getPreferedDirections = getPreferedDirections;
 exports.getDirectionVector = getDirectionVector;
