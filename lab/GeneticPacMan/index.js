@@ -1,3 +1,4 @@
+var FS = require("fs");
 var Input = require('readline-sync');
 var Level = require("./level");
 var Monsters = require("./monsters");
@@ -8,7 +9,15 @@ var level = new Level();
 console.log(level.toString());
 
 var isDead = false;
-var pacman = new Pacman.Eye15();
+var generation = Input.question("Generation: ");
+var filename = "generation." + generation + ".json";
+if (!FS.existsSync(filename)) {
+    console.error("File not found! " + filename);
+    filename = undefined;
+}
+var pacman = new Pacman.Eye15(
+    JSON.parse(FS.readFileSync(filename).toString())
+);
 var loops;
 var prefs;
 var dirs;
@@ -44,3 +53,6 @@ while(!isDead) {
         });
     }
 }
+
+level.showMonsters();
+console.log(level.toString());

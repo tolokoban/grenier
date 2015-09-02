@@ -42,6 +42,7 @@ function challengeAll(nursery) {
             score,
             k;
         pacman.score = 0;
+        pacman.time = 0;
         while (maxTime > 0) {
             Monsters.moveAllMonsters(level);
             for (k = 0; k < level.monsters.length; k++) {
@@ -56,8 +57,9 @@ function challengeAll(nursery) {
                 return;
             }
             maxTime--;
+            pacman.time++;
         }
-        pacman.score -= 5000;
+        pacman.score -= 6666;
     });
 }
 
@@ -66,6 +68,12 @@ function nextGeneration(nursery) {
         return b.score - a.score;
     });
     nursery.generation++;
+    if (nursery.generation % 50 == 0) {
+        FS.writeFileSync(
+            "generation." + nursery.generation + ".json", 
+            JSON.stringify(nursery.pacmans[0].brain)
+        );
+    }
     nursery.pacmans.splice(25, 75);
     var i, parent;
     for (i = 0; i < 25; i++) {
@@ -87,10 +95,10 @@ function start() {
         save(nursery);
         out = "Generation #" + nursery.generation;
         pacman = nursery.pacmans[0];
-        out += "  ->  " + pacman.score;
-        for (i = 1; i < 10; i++) {
+        out += "  ->  " + pacman.score + " (" + pacman.time + ")";
+        for (i = 1; i < 5; i++) {
             pacman = nursery.pacmans[i];
-            out += ",  " + pacman.score;
+            out += ",  " + pacman.score + " (" + pacman.time + ")";
         }
         console.log(out);
     }

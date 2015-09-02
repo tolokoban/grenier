@@ -2,16 +2,16 @@
 "use strict";
 
 var FS = require("fs"),
-    Levels = require("./levels"),
+    Level = require("./level"),
     Monsters = require("./monsters");
 
 
 function limit(v) {
-    return Math.min(99, Math.max(0, Math.floor(0.5 + v)));
+    return Math.min(9999, Math.max(0, Math.floor(0.5 + v)));
 }
 
 function rnd() {
-    return Math.floor(Math.random() * 100);
+    return Math.floor(Math.random() * 10000);
 }
 
 function newMonster() {
@@ -25,10 +25,10 @@ function cloneMonster(parent) {
     var W1 = parent.W1.slice(),
         W2 = parent.W2.slice();
     W1 = W1.map(function (v) {
-        return limit(v + (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 3 + 1));
+        return limit(v + (Math.random() * 100 - 50));
     });
     W2 = W2.map(function (v) {
-        return limit(v + (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 3 + 1));
+        return limit(v + (Math.random() * 100 - 50));
     });
     return {W1: W1, W2: W2};
 }
@@ -128,4 +128,4 @@ function start(level) {
 };
 
 
-start(Levels[0]);
+start(new Level());

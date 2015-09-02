@@ -23,9 +23,11 @@ function move(pacman, level) {
             level.pacman.pos = pos;
             break;
         }
-        cost += 5;
+        // A wall collision costs 10 points.
+        cost += 10;
     }
     if (level.grid[pos] == level.MONSTER) {
+        // A monster costs 1000 points;
         cost += 1000;
     }
     else if (level.grid[pos] == level.BULLET) {
@@ -33,8 +35,10 @@ function move(pacman, level) {
         cost -= 50;
         level.bullets--;
         if (level.bullets < 1) {
-            cost -= 5000;
+            cost -= 50000;
         }
+    } else {
+        cost++;
     }
     return cost;
 }

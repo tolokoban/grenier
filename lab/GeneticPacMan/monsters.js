@@ -12,38 +12,39 @@ var WEIGHTS2 = [69,67,0,88];
 
 
 function moveMonster(monster, pacmanRow, pacmanCol, level, W1, W2) {
-  var monsterPos = monster.pos;
-  var monsterRC = level.pos2rc(monsterPos);
-  var monsterRow = monsterRC[0];
-  var monsterCol = monsterRC[1];
-  var prefs = Lib.getPreferedDirections(
-    monsterRow, monsterCol, pacmanRow, pacmanCol,
-    monster.dir, W1, W2);
-  var i, neighbour, vector, targetRow, targetCol;
-  for (i = 0 ; i < prefs.length ; i++) {
-    vector = Lib.getDirectionVector(prefs[i]);
-    targetRow = monsterRow + vector[0];
-    targetCol = monsterCol + vector[1];
-    neighbour = level.getByRC(targetRow, targetCol);
-    if (neighbour != level.WALL && neighbour != level.MONSTER) {
-      monster.dir = prefs[i];
-      monster.pos = level.rc2pos(targetRow, targetCol);
-      break;
+    var monsterPos = monster.pos;
+    var monsterRC = level.pos2rc(monsterPos);
+    var monsterRow = monsterRC[0];
+    var monsterCol = monsterRC[1];
+    var prefs = Lib.getPreferedDirections(
+        level,
+        monsterRow, monsterCol, pacmanRow, pacmanCol,
+        monster.dir, W1, W2);
+    var i, neighbour, vector, targetRow, targetCol;
+    for (i = 0 ; i < prefs.length ; i++) {
+        vector = Lib.getDirectionVector(prefs[i]);
+        targetRow = monsterRow + vector[0];
+        targetCol = monsterCol + vector[1];
+        neighbour = level.getByRC(targetRow, targetCol);
+        if (neighbour != level.WALL && neighbour != level.MONSTER) {
+            monster.dir = prefs[i];
+            monster.pos = level.rc2pos(targetRow, targetCol);
+            break;
+        }
     }
-  }
 }
 
 function moveAllMonsters(level, W1, W2) {
-  if (typeof W1 === 'undefined') W1 = WEIGHTS1;
-  if (typeof W2 === 'undefined') W2 = WEIGHTS2;
+    if (typeof W1 === 'undefined') W1 = WEIGHTS1;
+    if (typeof W2 === 'undefined') W2 = WEIGHTS2;
 
-  var pacmanPos = level.pacman.pos;
-  var pacmanRC = level.pos2rc(pacmanPos);
-  var pacmanRow = pacmanRC[0];
-  var pacmanCol = pacmanRC[1];
-  level.monsters.forEach(function(monster) {
-    moveMonster(monster, pacmanRow, pacmanCol, level, W1, W2);
-  });
+    var pacmanPos = level.pacman.pos;
+    var pacmanRC = level.pos2rc(pacmanPos);
+    var pacmanRow = pacmanRC[0];
+    var pacmanCol = pacmanRC[1];
+    level.monsters.forEach(function(monster) {
+        moveMonster(monster, pacmanRow, pacmanCol, level, W1, W2);
+    });
 };
 
 
