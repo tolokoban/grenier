@@ -27,15 +27,15 @@ function move(pacman, level) {
         cost += 10;
     }
     if (level.grid[pos] == level.MONSTER) {
-        // A monster costs 1000 points;
-        cost += 1000;
+        // A monster's collision ends the game.
+        return cost;
     }
     else if (level.grid[pos] == level.BULLET) {
         level.grid[pos] = level.EMPTY;
-        cost -= 50;
+        cost -= 3;
         level.bullets--;
         if (level.bullets < 1) {
-            cost -= 50000;
+            cost -= 5000;
         }
     } else {
         cost++;

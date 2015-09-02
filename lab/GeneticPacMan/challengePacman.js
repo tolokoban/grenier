@@ -6,7 +6,13 @@ var FS = require("fs"),
     Monsters = require("./monsters"),
     FILENAME = "nursery.pacmans.json";
 
-
+function pad(v, size) {
+    v = "" + v;
+    while (v.length < size) {
+        v = "0" + v;
+    }
+    return v;
+}
 
 function load() {
     var nursery = { generation: 1, pacmans: [] },
@@ -51,19 +57,19 @@ function challengeAll(nursery) {
             Monsters.moveAllMonsters(level);
             for (k = 0; k < level.monsters.length; k++) {
                 if (level.monsters[k].pos == level.pacman.pos) {
-                    pacman.score -= 1000;
                     return;
                 }
             }
             score = Pacman.move(pacman, level);
-            pacman.score += 1 - score;
-            if (score > 999) {
-                return;
+            for (k = 0; k < level.monsters.length; k++) {
+                if (level.monsters[k].pos == level.pacman.pos) {
+                    return;
+                }
             }
+            pacman.score += 1 - score;
             maxTime--;
             pacman.time++;
         }
-        pacman.score -= 6666;
     });
 }
 
@@ -72,13 +78,16 @@ function nextGeneration(nursery) {
         return b.score - a.score;
     });
     nursery.generation++;
-    var bestScore = nursery.pacmans[0].score;
+    var highlight = false;
+    var bestPacman = nursery.pacmans[0];
+    var bestScore = bestPacman.score;
     if (bestScore > nursery.bestScore) {
         nursery.bestScore = bestScore;
         FS.writeFileSync(
-            "generation." + nursery.generation + ".json", 
-            JSON.stringify(nursery.pacmans[0].brain)
+            "generation." + pad(nursery.generation, 6) + ".json",
+            JSON.stringify(bestPacman.brain)
         );
+        highlight = true;
     }
     nursery.pacmans.splice(25, 75);
     var i, parent;
@@ -86,8 +95,21 @@ function nextGeneration(nursery) {
         parent = nursery.pacmans[i];
         nursery.pacmans.push(parent.reproduce());
         nursery.pacmans.push(parent.reproduce());
+    }
+    for (i = 0; i < 25; i++) {
         nursery.pacmans.push(new Pacman.Eye15());
     }
+
+    var out = "Generation #" + nursery.generation;
+    var pacman = nursery.pacmans[0];
+    out += "  ->  " + pacman.score + " (" + pacman.time + ")";
+    for (i = 1; i < 5; i++) {
+        pacman = nursery.pacmans[i];
+        out += ",  " + pacman.score + " (" + pacman.time + ")";
+    }
+    if (highlight) out = out.bold;
+    else out = out.grey;
+    console.log(out);
 }
 
 function start() {
@@ -99,14 +121,6 @@ function start() {
         challengeAll(nursery);
         nextGeneration(nursery);
         save(nursery);
-        out = "Generation #" + nursery.generation;
-        pacman = nursery.pacmans[0];
-        out += "  ->  " + pacman.score + " (" + pacman.time + ")";
-        for (i = 1; i < 5; i++) {
-            pacman = nursery.pacmans[i];
-            out += ",  " + pacman.score + " (" + pacman.time + ")";
-        }
-        console.log(out);
     }
 }
 

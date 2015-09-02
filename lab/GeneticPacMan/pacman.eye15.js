@@ -17,8 +17,14 @@ function Eye15(brain) {
  */
 Eye15.prototype.reproduce = function() {
     var child = new Eye15();
-    child.brain = this.brain.map(function (v) {
-        return Lib.limit(v + Lib.rnd(-0.2, 0.2) * Math.random());
+    child.brain = [];
+    var brain = this.brain;    
+    brain.forEach(function(neuron) {
+        child.brain.push(
+            neuron.map(function (v) {
+                return Lib.limit(v + Lib.rnd(-0.2, 0.2) * Math.random());
+            })
+        );
     });
     return child;
 };

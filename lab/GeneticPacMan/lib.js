@@ -75,7 +75,7 @@ function getPreferedDirections(level, srcRow, srcCol, dstRow, dstCol, currentDir
     }
     var absRow = Math.abs(row);
     var absCol = Math.abs(col);
-    if (absRow == absCol) absRow += Math.random() - .5;
+    if (absRow == absCol) absRow += 0.1;
     var weights;
     if (absCol > absRow) {
         if (col > 0) {
