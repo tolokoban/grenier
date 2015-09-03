@@ -3,9 +3,9 @@ require("../../node_modules/colors/lib/index");
 var levels = [
     [
         "########################################",
-        "#M.............#...#..................M#",
+        "#O.............#...#..................O#",
         "#.############.#.#.##########.########.#",
-        "#..............#.#..........#........#.#",
+        "#.............M#.#.....M....#........#.#",
         "#.######.#######.#.########.########.#.#",
         "#......................................#",
         "#####.#################.##############.#",
@@ -14,13 +14,13 @@ var levels = [
         "#.#########.###.########.####.########.#",
         "#.......#.#.#..............##.##.......#",
         "#.#####.#.....############.....#.#####.#",
-        "#.....#.#.###..........P...###.#.#.....#",
+        "#.....#.#.###.......O..P...###.#.#.....#",
         "#####.#.#...#.############.#...#.#.#####",
         "#...#.#.###.#..............#.###.#.#...#",
         "#.#.#.....#.######.##.######.#.....#.#.#",
-        "#.#...#.#.#..................#.#.#...#.#",
+        "#.#M..#.#.#..................#.#.#..M#.#",
         "#.###.#.#.#####.########.#####.#.#.###.#",
-        "#M....###......................###....M#",
+        "#O....###......................###....O#",
         "########################################"
     ]
 ];
@@ -28,12 +28,13 @@ var levels = [
 
 
 
-var SYMBOLS = [' ', '.', '#', 'M'.red.bold, 'P'.yellow.bold];
+var SYMBOLS = [' ', '.', '#', 'M'.red.bold, 'O'.green.bold, 'P'.yellow.bold, 'x', 'y', 'z'];
 levels.EMPTY = 0;
 levels.BULLET = 1;
 levels.WALL = 2;
 levels.MONSTER = 3;
-levels.PACMAN = 4;
+levels.GUM = 4;
+levels.PACMAN = 5;
 
 
 function Level(levelIndex) {
@@ -45,11 +46,13 @@ function Level(levelIndex) {
     this.bullets = 0;
     this.pacman = {pos: 0};
     this.monsters = [];
+    this.shield = 0;
     this.grid = [];
     this.EMPTY = levels.EMPTY;
     this.BULLET = levels.BULLET;
     this.WALL = levels.WALL;
     this.MONSTER = levels.MONSTER;
+    this.GUM = levels.GUM;
     this.PACMAN = levels.PACMAN;
 
     var position = 0;
@@ -63,12 +66,13 @@ function Level(levelIndex) {
                 this.bullets++;
             }
             else if (c == '#') v = levels.WALL;
+            else if (c == 'O') v = levels.GUM;
             else if (c == 'P') {
                 v = levels.EMPTY;
                 this.pacman.pos = position;
             }
             else if (c == 'M') {
-                v = levels.EMPTY;
+                v = levels.BULLET;
                 this.monsters.push({pos: position, dir: 0});
             }
             this.grid.push(v);
@@ -84,19 +88,27 @@ function Level(levelIndex) {
 Level.prototype.toString = function() {
     var out = '';
     this.grid.forEach(function (v, idx) {
-        var i, monster, symbol = '?'.cyan;
+        var i, monster, symbol = '?'.red.bold;
         if (v == this.MONSTER) {
             for (i = 0 ; i < this.monsters.length ; i++) {
                 monster = this.monsters[i];
                 if (monster.pos == idx) {
-                    symbol = "^>v<".charAt(monster.dir).white.bold.bgRed;
+                    symbol = "^>v<".charAt(monster.dir).white.bold;
+                    if (this.shield > 0) {
+                        symbol = symbol.bgCyan;
+                    } else {
+                        symbol = symbol.bgRed;
+                    }
                     break;
                 }
             }
-            out += symbol;
-        } else {
-            out += SYMBOLS[v];
         }
+        else if (v == this.PACMAN) {
+            symbol = "^>v<".charAt(this.pacman.dir).white.bold.bgYellow;
+        } else {
+            symbol = SYMBOLS[v];
+        }
+        out += symbol;
         if (idx % this.cols == this.cols - 1) {
             out += "\n";
         }
@@ -107,10 +119,29 @@ Level.prototype.toString = function() {
 /**
  * @return void
  */
+Level.prototype.pacmanIsTook = function() {
+    for (var k = 0; k < this.monsters.length; k++) {
+        if (this.monsters[k].pos == this.pacman.pos) {
+            return true;
+        }
+    }
+    return false;
+};
+
+
+/**
+ * @return void
+ */
 Level.prototype.hideMonsters = function() {
     if (!Array.isArray(this.backup)) return this;
     this.grid[this.pacman.pos] = 0;
     this.backup.forEach(function (v, idx) {
+        if (v == -1) {
+            // In the case of monsters  overlapping, the second one will
+            // not  replace  what  it  sawed, because  it  would  add  a
+            // pseudo-monster.
+            return;
+        }
         var pos = this.monsters[idx].pos;
         this.grid[pos] = v;
     }, this);
@@ -126,10 +157,10 @@ Level.prototype.showMonsters = function() {
     this.backup = [];
     this.monsters.forEach(function (monster) {
         var pos = monster.pos;
-        this.backup.push(this.grid[pos]);
-        this.grid[pos] = 3;
+        this.backup.push(this.grid[pos] == this.MONSTER ? -1 : this.grid[pos]);
+        this.grid[pos] = this.MONSTER;
     }, this);
-    this.grid[this.pacman.pos] = 4;
+    this.grid[this.pacman.pos] = this.PACMAN;
     return this;
 };
 

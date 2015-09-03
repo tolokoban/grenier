@@ -1,16 +1,25 @@
-var Lib = require("./lib");
+"use strict";
+
+var Lib = require("./lib"),
+Pacman = require("./pacman");
 
 
 function Eye15(brain) {
     if (typeof brain === 'undefined') {
         brain = [];
         for (var k = 0; k < 15*15; k++) {
-            brain.push(Lib.randomArray(16));
+            brain.push(Lib.randomArray(2 * 4 * 5));
         }
     }
     this.brain = brain;
-    this.type = "eye-15";
+    this.type = "Eye15";
+    this.reset();
 }
+
+// Inherit from Pacman.
+Eye15.prototype = Object.create(Pacman.prototype);
+Eye15.prototype.constructor = Eye15;
+
 
 /**
  * @return void
@@ -22,7 +31,7 @@ Eye15.prototype.reproduce = function() {
     brain.forEach(function(neuron) {
         child.brain.push(
             neuron.map(function (v) {
-                return Lib.limit(v + Lib.rnd(-0.2, 0.2) * Math.random());
+                return Lib.limit(v + Lib.rnd(-0.5, 0.5) * Math.random() * Math.random());
             })
         );
     });
@@ -52,8 +61,8 @@ Eye15.prototype.think = function(level) {
         idxGrid = origin;
         for (row = 0; row < 15; row++) {
             for (col = 0; col < 15; col++) {
-                typ = Lib.limit(level.grid[idxGrid % gridSize], 0, 3);
-                weight += this.brain[idxEye][4 * dir + typ];
+                typ = Lib.limit(level.grid[idxGrid % gridSize], 0, 4);
+                weight += this.brain[idxEye][(level.shield > 0 ? 2 : 1) * 4 * dir + typ];
                 idxEye++;
                 idxGrid++;
             }
@@ -66,3 +75,5 @@ Eye15.prototype.think = function(level) {
 
 
 module.exports = Eye15;
+
+

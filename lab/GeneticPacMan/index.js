@@ -19,14 +19,18 @@ console.log(level.toString());
 var isDead = false;
 var generation = Input.question("Generation: ");
 var filename = "generation." + pad(generation, 6) + ".json";
-var brain;
+var data, brain, type = 'Eye15';
 if (!FS.existsSync(filename)) {
     console.error("File not found! " + filename);
     filename = undefined;
 } else {
-    brain = JSON.parse(FS.readFileSync(filename).toString());    
+    data = JSON.parse(FS.readFileSync(filename).toString());
+    type = data.type;
+    brain = data.brain;
+    console.log("Pac-Man type: " + type.bold.yellow);
+    console.log();
 }
-var pacman = new Pacman.Eye15(brain);
+var pacman = new (Pacman[type])(brain);
 var loops;
 var prefs;
 var dirs;
@@ -34,41 +38,36 @@ var i;
 var dir;
 var pos;
 var cost;
-var score = 0;
-var steps = 1;
-
-level.pacman.score = 0;
 
 while(!isDead) {
-    loops = Input.question("(" + score + ", " + steps 
-        + ")  Move 'n' steps forward (0 to stop) [1]: ");
+    loops = Input.question(
+        pacman.toString() + ")  Move 'n' steps forward (0 to stop) [1]: "
+    );
     if (loops == '') loops = 1;
     else loops = parseInt(loops);
     if (isNaN(loops) || loops < 1) break;
 
     for (var k = 0 ; k < loops ; k++) {
-        steps++;
         level.showMonsters();
         console.log(level.toString());
         level.hideMonsters();
         Monsters.moveAllMonsters(level);
-        level.monsters.forEach(function(monster) {
-            if (monster.pos == level.pacman.pos) {
-                isDead = true;
-            }
-        });
+        if (level.pacmanIsTook()) {
+            isDead = true;
+            console.log("A monster has eaten Pac-Man!".red.bold);
+            break;
+        }
         // Moving Pac-Man.
-        cost = Pacman.move(pacman, level);
-        score -= cost;
-        level.monsters.forEach(function(monster) {
-            if (monster.pos == level.pacman.pos) {
-                isDead = true;
-            }
-        });
+        cost = pacman.move(level);
+        if (level.pacmanIsTook()) {
+            isDead = true;
+            console.log("Pac-man tried to assault a monster!".red.bold);
+            break;
+        }
     }
 }
 
+
 level.showMonsters();
 console.log(level.toString());
-console.log("Score: " + score);
-console.log("Steps: " + steps);
+level.hideMonsters();
