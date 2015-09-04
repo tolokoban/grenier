@@ -1,0 +1,20 @@
+<x-html title="Le grenier de Tolokoban (algorithmes en folie)">
+    <ul>
+        <x-loop $x="1;2;3;4;5" $y ="1;2;3;4;5">
+            <li>
+                <$x></$x> * <$y></$y> = <x-calc>$x * $y</x-calc><br/>
+                <tag-div>
+                    <att-style>
+                        content: "";
+                        display: block;
+                        margin: 8px;
+                        border: 2px solid #000;
+                        background: orange;
+                        width: <x-calc>$x * 10</x-calc>px;
+                        height: <x-calc>$y * 10</x-calc>px;
+                    </att-style>
+                </tag-div>
+            </li>
+        </x-loop>
+    </ul>
+</x-html>
