@@ -82,7 +82,7 @@ function save(nursery) {
 function challengeAll(nursery) {
     nursery.pacmans.forEach(function(pacman) {
         var level = new Level(),
-        maxTime = 10000;
+        maxTime = 5000;
         pacman.reset();
         while (maxTime > 0) {
             Monsters.moveAllMonsters(level);
@@ -155,14 +155,20 @@ function nextGeneration(nursery) {
 
     // Keep only the 25 best. Make two  children for each and add 25 new
     // fresh random pacmans.
-    nursery.pacmans.splice(25, 75);
-    var i, parent;
-    for (i = 0; i < 25; i++) {
+    nursery.pacmans.splice(20, 80);
+    var i, child, parent, parent2, length = nursery.pacmans.length;
+    for (i = 0; i < length; i++) {
         parent = nursery.pacmans[i];
         nursery.pacmans.push(parent.reproduce());
-        nursery.pacmans.push(parent.reproduce());
     }
-    for (i = 0; i < 25; i++) {
+    for (i = 0; i < 10; i++) {
+        parent = nursery.pacmans[i];
+        parent2 = nursery.pacmans[i + 10];
+        child = parent.reproduce(0);
+        child.crossOver(parent2, 40);
+        nursery.pacmans.push(child);
+    }
+    while (nursery.pacmans.length < 100) {
         nursery.pacmans.push(newPacman());
     }
 }

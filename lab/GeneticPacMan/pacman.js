@@ -1,3 +1,6 @@
+var Lib = require("./lib");
+
+
 function Pacman() {
     this.type = "Not implemented!";
 }
@@ -74,3 +77,4 @@ Pacman.prototype.move = function(level) {
 module.exports = Pacman;
 Pacman.Eye15 = require("./pacman.eye15");
 Pacman.Eye7 = require("./pacman.eye7");
+
