@@ -1,11 +1,17 @@
 <x-html title="Le grenier de Tolokoban (algorithmes en folie)">
-    <ul>
+    <div style="position: relative; width: 100%; height: 800px">
         <x-loop $x="1;2;3;4;5" $y ="1;2;3;4;5">
-            <li>
-                <$x></$x> * <$y></$y> = <x-calc>$x * $y</x-calc><br/>
+            <tag-div>
+                <att-style>
+                    position: absolute;
+                    width: 20%; height: 20%;
+                    left: <x-calc>($x-1) * 20</x-calc>%;
+                    top: <x-calc>($y-1) * 20</x-calc>%;
+                </att-style>
+                <$x/> * <$y/> = <x-calc>$x * $y</x-calc><br>
                 <tag-div>
                     <att-style>
-                        content: "";
+                        content: '';
                         display: block;
                         margin: 8px;
                         border: 2px solid #000;
@@ -14,7 +20,7 @@
                         height: <x-calc>$y * 10</x-calc>px;
                     </att-style>
                 </tag-div>
-            </li>
+            </tag-div>
         </x-loop>
-    </ul>
+    </div>
 </x-html>
