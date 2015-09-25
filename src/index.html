@@ -1,26 +1,40 @@
 <x-html title="Le grenier de Tolokoban (algorithmes en folie)">
-    <div style="position: relative; width: 100%; height: 800px">
-        <x-loop $x="1;2;3;4;5" $y ="1;2;3;4;5">
-            <tag-div>
-                <att-style>
-                    position: absolute;
-                    width: 20%; height: 20%;
-                    left: <x-calc>($x-1) * 20</x-calc>%;
-                    top: <x-calc>($y-1) * 20</x-calc>%;
-                </att-style>
-                <$x/> * <$y/> = <x-calc>$x * $y</x-calc><br>
-                <tag-div>
-                    <att-style>
-                        content: '';
-                        display: block;
-                        margin: 8px;
-                        border: 2px solid #000;
-                        background: orange;
-                        width: <x-calc>$x * 10</x-calc>px;
-                        height: <x-calc>$y * 10</x-calc>px;
-                    </att-style>
-                </tag-div>
-            </tag-div>
-        </x-loop>
-    </div>
+
+<x-code src="test.js"/>
+
+
+    <x-md>
+Hello __darkness__ my old friend
+
+
+<pre>
+* Author: Simon and Garfunkel
+* Price: unknown
+</pre>
+
+# Song of ice and fire
+
+This is a regular paragraph.
+
+<table>
+    <tr>
+        <td>Foo</td>
+    </tr>
+</table>
+
+This is another regular paragraph.
+
+# This is a song
+
+* Author: Simon and Garfunkel
+* Price: unknown
+<x-loop $a="1;2;3">
+* Number <$a/>
+</x-loop>
+
+<x-code src="test.js"/>
+
+Et que __prout__ !!! Allez voir [http://google.fr] et vous serez fichés.
+
+    </x-md>
 </x-html>
