@@ -1,12 +1,15 @@
 <x-article title="The Miller's Puzzle (6 août 2015)">
     <page>
-L'énigme suivante est tirée du livre "The canterburry puzzles" écrit en 1919 par Henry Ernest Dudeney.
+L'énigme suivante est tirée du livre "[The canterburry puzzles](https://en.wikipedia.org/wiki/The_Canterbury_Puzzles)" écrit en 1919 par Henry Ernest Dudeney.
 
 > Un meunier aligne 9 sacs de farine sur un mur. Chaque sac est numéroté avec un chiffre différent allant de 1 à 9 et leur position initiale est la suivante : **7**-**28**-**196**-**34**-**5**. Les sacs sont regroupés de sorte à faire apparaître 5 nombres : 1 à 3 chiffres (**196**), 2 à 2 chiffres (**28** et **34**) et 2 à 1 chiffre (**7** et **5**). Il se trouve que <x-latex> 7\times28 = 196</x-latex>, mais que <x-latex> 5\times34\neq196</x-latex>.
 > Vous devez échanger le moins de fois possible deux sacs afin que le produit des deux premiers nombres soit égal au produit des deux derniers et aussi au nombre central à 3 chiffres.
 
+[Voir la solution](#solution).
+
 </page><page>
 
+<a name="solution"/>
 Je vous propose 3 façons de résoudre cette énigme :
 
 * [La force brute](#force-brute) : test de toutes les permutations des sacs.
@@ -19,11 +22,13 @@ Je vous propose 3 façons de résoudre cette énigme :
 
 <a name="force-brute"></a>
 
-Le nombre de combinaisons possibles de 9 sacs de farine est égal à <x-latex> 9! = 9\times 8\times 7\cdots\times 2\times 1 = 362880</x-latex>. Ce nombre est ridiculement petit pour un ordinateur et la force brute est donc particulièrement bien adaptée au problème.
+Le nombre de combinaisons possibles de 9 sacs de farine est égal à <x-latex> 9! = 9\times 8\times 7\times\cdots\times 2\times 1 = 362880</x-latex>. Ce nombre est ridiculement petit pour un ordinateur et la force brute est donc particulièrement bien adaptée au problème.
 
 <x-code lang='js'>
 function solve(row, digit) {
   if (digit < 1) {
+    // `row` is a permutation of 1, 2, ..., 9.
+    // We have to check if this solution holds.
     var a1 = row[0];
     var b1 = row[1] * 10 + row[2];
     var c = row[3] * 100 + row[4] * 10 + row[5];
@@ -34,6 +39,7 @@ function solve(row, digit) {
     }
     return;
   }
+  // Place each digit in all possible places.
   for (var k = 0 ; k < row.length ; k++) {
     if (row[k] < 1) {
       row[k] = digit;
@@ -53,10 +59,13 @@ La réponse arrive en moins d'une seconde :
 * <x-latex> 2 \times 78 = 156 = 39 \times 4</x-latex>
 * <x-latex> 3 \times 58 = 174 = 29 \times 6</x-latex>
 
+[Résolution par déduction](#deduction).
+
 </page><page>
 
-# La déduction
 <a name="deduction"/>
+
+# La déduction
 
 Nommons A et A' les nombres à 1 chiffre, B et B' ceux à 2 chiffres et C celui à trois chiffres.
 Et posons :
@@ -64,6 +73,7 @@ Et posons :
 * <x-latex> B = 10 B_1 + B_0</x-latex>
 * <x-latex> B' = 10 {B'}_1 + {B'}_0</x-latex>
 * <x-latex> C = 100 C_2 + 10 C_1 + C_0</x-latex>
+
 
 ## Théorème 1
 
@@ -95,14 +105,14 @@ Ainsi, le couple unitaire (4,9) est de classe 6.
 
 ## Théorème 3
 
-> Les seuls couples unitaires existants sont : 
->     classe 2 : (4,3) (4,8) (6,7) (8,9)
->     classe 4 : (2,7) (6,9) (8,3)
->     classe 6 : (2,3) (2,8) (4,9) (8,7)
->     classe 8 : (2,4) (2,9) (4,7) (6,3)
+> Il n'existe que 15 couples unitaires : 
+> * classe 2 : (4,3) (4,8) (6,7) (8,9)
+> * classe 4 : (2,7) (6,9) (8,3)
+> * classe 6 : (2,3) (2,8) (4,9) (8,7)
+> * classe 8 : (2,4) (2,9) (4,7) (6,3)
 
 La seule preuve que j'ai trouvée est le calcul direct. Il n'y a pas trop de cas à tester si on suit la définition à la lettre.
-Et si vous ne voulez pas le faire à la main, l'algorithme le fera à votre place :
+Et si vous ne voulez pas le faire à la main, l'algorithme suivant le fera à votre place :
 
 <x-code lang='js'>
 var couples = [[], [], [], [], [], [], [], [], [], []];
@@ -152,20 +162,21 @@ Les couples unitaires nous permettent d'orienter nos recherches. Par exemple, si
 Au final, on obtient ceci :
 
 * Classe 2 :
-  * (4,3) :  `54 * 3 = *162*  ,  64 * 3 = *192*  `
-  * (4,8) :  `38 * 4 = *152*  ,  64 * 8 = *512*  ,  78 * 4 = *312*  `
+* (4,3) :  <x-latex>54 \times 3 = \textbf{162}</x-latex>,  <x-latex>64 \times 3 = \textbf{192}</x-latex>  
+* (4,8) :  <x-latex>38 \times 4 = \textbf{152}</x-latex>,  <x-latex>64 \times 8 = \textbf{512}</x-latex>,
+<x-latex>78 \times 4 = \textbf{312}</x-latex>
 * Classe 4 :
-  * (2,7) :  `67 * 2 = *134*  `
-  * (6,9) :  `29 * 6 = *174*  `
-  * (8,3) :  `58 * 3 = *174*  `
+* (2,7) :  <x-latex>67 \times 2 = \textbf{134}</x-latex>  
+* (6,9) :  <x-latex>29 \times 6 = \textbf{174}</x-latex>  
+* (8,3) :  <x-latex>58 \times 3 = \textbf{174}</x-latex>  
 * Classe 6 :
-  * (2,3) :  `73 * 2 = *146*  ,  93 * 2 = *186*  `
-  * (2,8) :  `52 * 8 = *416*  ,  78 * 2 = *156*  `
-  * (4,9) :  `39 * 4 = *156*  ,  79 * 4 = *316*  `
-  * (8,7) :  `28 * 7 = *196*  `
+* (2,3) :  <x-latex>73 \times 2 = \textbf{146}</x-latex>,  <x-latex>93 \times 2 = \textbf{186}</x-latex>  
+* (2,8) :  <x-latex>52 \times 8 = \textbf{416}</x-latex>,  <x-latex>78 \times 2 = \textbf{156}</x-latex>  
+* (4,9) :  <x-latex>39 \times 4 = \textbf{156}</x-latex>,  <x-latex>79 \times 4 = \textbf{316}</x-latex>  
+* (8,7) :  <x-latex>28 \times 7 = \textbf{196}</x-latex>  
 * Classe 8 :
-  * (2,9) :  `69 * 2 = *138*  ,  79 * 2 = *158*  `
-  * (4,7) :  `24 * 7 = *168*  `
+* (2,9) :  <x-latex>69 \times 2 = \textbf{138}</x-latex>,  <x-latex>79 \times 2 = \textbf{158}</x-latex>  
+* (4,7) :  <x-latex>24 \times 7 = \textbf{168}</x-latex>  
 
 Notre problème est réparti en classes. La classe 2, par exemple, donnera 2 comme dernier chiffre pour C. Mais elle ne résoud pas notre problème puisque il n'y a pas de C commun entre {162, 192} et {152, 512, 312}.
 
