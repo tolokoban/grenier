@@ -1,0 +1,89 @@
+<x-article title="Énumérer les permutations">
+    <page>
+Les permutations sont les façons d'arranger des éléments dans une liste. Par exemple, si on a trois places sur un canapé et que trois personnes s'y assoient, les permutations représentent toutes les configurations possibles.
+
+C'est-à-dire : __[ABC], [CBA], [BAC], [CAB], [ACB]__ et __[BCA]__.
+
+Pourvoir énumérer toutes les permutations est intéressant. Supposons qu'on arrive en bas de l'immeuble d'un ami et qu'on a oublié les 4 chiffres de son digicode. En bon détective, on commence par repérer les touches les plus usées ou avec le plus de traces de doigts. Cela nous donne les 4 chiffres, mais on ne sait toujours pas dans quel ordre il faut les taper.
+Si on a un algorithme pour énumérer toutes les permutations de 4 chiffres, on n'a que 24 combinaisons à tester.
+
+Dans cet article, nous allons étudier deux algorithmes pour lister toutes les permutations de `n` éléments. Le premier génère toute la liste avant de rendre la main. Tandis que le second retourne la permutation qui suit celle qu'on lui passe en argument.
+
+# Algorithme récursif
+
+Pour trouver toutes les permutations de n éléments, il suffit de considérer les cas où le premier élément est en première position, puis en deuxième, puis en troisième, ... et enfin en dernière position.
+On a donc n cas de figure et pour chacun d'eux on se retrouve avec encore n - 1 éléments à permuter. On réitère donc le procédé jusqu'à ce qu'il ne reste plus d'élément à placer.
+
+<x-code>
+def make(size, result=[], level=0, item=None):
+    if level &gt;= size:
+        result.append(item[:])
+        return
+    if item == None:
+        item = [-1 for i in range(size)]
+    for index in range(size):
+        if item[index] &lt; 0:
+            item[index] = level
+            make(size, result, level + 1, item)
+            item[index] = -1
+    return result
+</x-code>
+
+# Algorithme successif
+
+L'algorithme précédent (c'est-à-dire l'algorithme récursif) nous retourne une liste de toutes les permutations et nous apprend, au passage, comment les compter en fonction de `n`. Mais dans les cas où `n` est grand, la liste peut devenir plutôt longue. Par exemple : 4! = 24, 5! = 120, 10! = 3628800, __30! = 265'252'859'812'191'058'636'308'480'000'000__.
+Si on n'a pas la place de stocker de telles listes de permutations, où que l'on veut juste essayer des combinaisons de coffre fort les unes après les autres jusqu'à trouver la bonne, il vaut mieux utiliser un algorithme qui, à partir d'une permutation quelconque, nous retourne la suivante.
+
+Avant d'aller voir la solution sur la page suivante, je vous propose d'essayer d'écrire un tel algorithme en Javascript.
+Il vous suffit d'écrire le contenu d'une fonction à qui on passe l'argument `memory.perm` qui est un tableau possèdant une permutation des nombres allant de 0 à n - 1. La fonction devra retourner un tableau représentant la permutation suivante.
+Par exemple, si `memory.perm = [2, 0, 1, 3]` votre fonction devra retourner `[2, 0, 3, 1]`.
+
+<x-grader src="grader1.js">
+    Bravo ! Votre algorithme fonctionne parfaitement. Voici une proposition :
+    <x-code src="solution1.js"/>
+</x-grader>
+
+</page><page>
+
+Pour cela, on doit considérer chaque permutation comme un nombre à `n` chiffres. Et on doit donner un ordre aux éléments utilisés.
+Par exemple, si on cherche les permutations de 5 lettres, on se munit de l'ordre alphabétique et on déclare que A &lt; B &lt; C &lt; D &lt; E. ON peut alors considérer que ABCDE est le plus petit nombre que l'on peut écrire avec ces 5 lettres et EDCBA le plus grand.
+Recherchons, par exemple, le successeur de __ACEDB__.
+
+On remarque que les trois derniers chiffres sont en ordre décroissant. Ce qui signifie que la valeur de ce triplet est maximale. En effet, n'importe laquelle des 5 autres permutations de ces trois lettres donnerait un nombre plus petit.
+En revanche, la lettre __C__ est plus petite que sa voisine de droite. Alors si on la remplace par une lettre supérieure, on aura un plus grand nombre. Or, comme on cherche le plus petit des nombres supérieurs, on va choisir de le remplacer par la lettre __D__ (l'autre choix aurait été E).
+
+La permutation suivante va donc ressemble à ceci : `AD---`. Les lettres qui restent sont C, E et B. Si on veut minimiser la valeur du nombre qu'ils forment, il faut les ranger par ordre croissant. On obtient donc : `ADBCE`.
+
+Voici à quoi cela ressemble en Python :
+<x-code>
+def Next(perm):
+    idxEnd = len(perm) - 1
+    last = perm[idxEnd]
+    idxCur = idxEnd - 1
+    while idxCur &gt; -1:
+        val = perm[idxCur]
+        if val &lt; last:
+            break
+        last = val
+        idxCur -= 1
+    if idxCur &lt; 0:
+        return None
+    out = perm[:idxCur]
+    idxPivot = idxCur
+    idxCur += 1
+    while idxCur &lt;= idxEnd and perm[idxCur] &gt; val:
+        idxCur += 1
+    idxFirst = idxCur - 1
+    out.append(perm[idxFirst])
+    idxCur = idxEnd
+    while idxCur &gt; idxPivot:
+        if idxCur == idxFirst:
+            out.append(val)
+        else:
+            out.append(perm[idxCur])
+        idxCur -= 1
+    return out
+</x-code>
+Cet algorithme s'arrête quand la liste est triée par ordre décroissant et il commence par une liste triée par ordre croissant. Ainsi, on ignore la fin de la liste si elle est déjà triée par ordre décroissant. Ainsi, si on a [3, 5, 4, 2, 1, 0], on ne s'occuppe que de la sous-liste [3, 5, 4].
+    </page>
+</x-article>
