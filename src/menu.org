@@ -1,0 +1,9 @@
+* Énigme
+[glob] Les mesures de bière et le baril (10 août 2015)
+[millers_puzzle] The Miller's Puzzle (6 août 2015)
+* Algorithmes
+[enumerer_permutations] Énumérer les permutations (26 août 2013)
+* Langages
+[vb6_mode] Créer des modes avec Emacs (6 novembre 2015)
+
+

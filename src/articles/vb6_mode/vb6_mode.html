@@ -1,0 +1,69 @@
+<x-article title="Créer des modes avec Emacs">
+    <page>
+Dans cet article nous allons étudier un peu __Emacs__ en créant des modes pour éditer le vieux langage Visual Basic 6.
+
+# Les fichiers `*.vbg`
+
+Ces fichiers permettent de grouper des projets. Ils ressemblent à ceci :
+<x-code>
+VBGROUP 5.0
+StartupProject=VNegoce6.vbp
+Project=..\Modules\XmlBundles2\XmlBundles.vbp
+Project=..\Modules\VirtualScreen\VirtualScreen.vbp
+Project=..\Modules\NegocePDF\NegocePDF.vbp
+Project=..\Modules\VBX\VBX.vbp
+Project=..\Modules\BoardsManager\BoardsManager.vbp
+</x-code>
+
+Ici, nous voulons simplement pouvoir cliquer sur un nom de fichier pour l'ouvrir.
+
+## Recherche
+
+### Créer un lien
+
+Après quelques recherches de `emacs hyperlinks` sur internet, nous avons trouvé que le terme __Button__ est celui qui est utilisé dans Emacs pour créer nos liens. Nous avons donc ouvert notre emacs et dans le menu `Help -> More manuals -> Lookup Subject in all Manuals...` nous avons tapé le mot clef `Button`.
+Cela nous a amené à la section __37.18__ du manuel de référence de __elisp__. Et voici ce que nous y avons appris.
+
+La fonction de création de boutons est la suivante :
+<x-code lang="elisp">
+(make-button beg end &rest properties)
+</x-code>
+
+Nous spécifierons une fonction à appeler quand l'utilisateur cliquera sur le bouton. Cette fonction ne peut attendre qu'un seul paramètre : BUTTON. La fonciton suivante nous permet de récupérer le texte du bouton :
+
+* `(button-label BUTTON)`: retourne le texte du bouton.
+
+
+
+
+### Ajouter des liens à un fichier VBG
+
+
+`find-file-other-window`
+
+
+
+## Réalisation
+
+<x-code>
+(defun vb6-on-file-click (button)
+  "Open a file when a button is clicked.
+The button's label is the file name relatively to the current buffer path."
+  (interactive)
+  (let ((path
+         (concat
+          (file-name-as-directory (file-name-directory buffer-file-name))
+          (button-label button))))
+    (print path)
+    (find-file-other-window path)))
+
+(defun xxx (begin end)
+  "Test function..."
+  (interactive (list (mark) (point)))
+  (make-button (min begin end) (max begin end)
+               'action 'vb6-on-file-click))
+  
+</x-code>
+
+    </page>
+</x-article>
