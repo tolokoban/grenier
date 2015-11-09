@@ -3,6 +3,7 @@
 [millers_puzzle] The Miller's Puzzle (6 août 2015)
 * Algorithmes
 [enumerer_permutations] Énumérer les permutations (26 août 2013)
+[detection_droites] Détection de droites dans une image (7 novembre 2015)
 * Langages
 [vb6_mode] Créer des modes avec Emacs (6 novembre 2015)
 
