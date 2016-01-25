@@ -1,6 +1,6 @@
 {
     "name": "grenier",
-    "version": "1.0.510",
+    "version": "1.0.511",
     "description": "Articles concernant majoritairement l'algorithmie",
     "main": "index.js",
     "dependencies": {
