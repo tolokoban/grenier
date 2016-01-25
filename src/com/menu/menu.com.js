@@ -60,6 +60,12 @@ exports.compile = function(root, libs) {
 
 /**
  * The parsing is made line by line.
+ *
+ * @param content {string} - Definition of categories and articles.
+ * @return {object}
+ * * __Keys__: name of a category.
+ * * __Values__: array of articles. Articles are object of this form: 
+ *   `{id:..., caption:..., date:..., draft:...}`.
  */
 function parseMenuDefinition(content) {
     var categories = {},
@@ -101,10 +107,17 @@ function parseArticle(line) {
     b = line.lastIndexOf('(');
     if (a < 1) return null;
     if (b < a) return null;
+    var id = line.substring(1, a).trim();
+    var draft = false;
+    if (id.charAt(0) == '!') {
+        id = id.substr(1);
+        draft = true;
+    }
     return {
-        id: line.substring(1, a).trim(),
+        id: id,
         caption: line.substring(a + 1, b - 1).trim(),
-        date: line.substring(b + 1, line.length - 1)
+        date: line.substring(b + 1, line.length - 1),
+        draft: draft
     };
 }
 
@@ -134,7 +147,7 @@ function buildMenu(categories, libs) {
             libs.compileHTML(src);    // Compile article if needed.
             divArticles.children.push(
                 Tree.div(
-                    {},
+                    article.draft ? {'class': 'draft'} : {},
                     [
                         Tree.div(
                             {},

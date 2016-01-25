@@ -4,33 +4,34 @@
     "description": "Articles concernant majoritairement l'algorithmie",
     "main": "index.js",
     "dependencies": {
-      "colors": "^1.1.2",
-      "jasmine": "^2.3.2",
-      "readline-sync": "^1.2.21"
+        "colors": "^1.1.2",
+        "jasmine": "^2.3.2",
+        "readline-sync": "^1.2.21"
     },
     "devDependencies": {},
     "scripts": {
-      "tfw": "node ../ToloFrameWork/bin/tfw.js build",
-      "tfw:dbg": "node --debug-brk ../ToloFrameWork/bin/tfw.js build",
-      "test": "jasmine",
-      "test:dbg": "node --debug-brk node_modules/jasmine/bin/jasmine"
+        "tfw": "node ../ToloFrameWork/bin/tfw.js build",
+        "tfw:dbg": "node --debug-brk ../ToloFrameWork/bin/tfw.js build",
+        "test": "jasmine",
+        "test:dbg": "node --debug-brk node_modules/jasmine/bin/jasmine"
     },
     "repository": {
-      "type": "git",
-      "url": "https://github.com/tolokoban/grenier.git"
+        "type": "git",
+        "url": "https://github.com/tolokoban/grenier.git"
     },
     "keywords": ["algorithme"],
     "author": "Tolokoban",
     "license": "GPL-3.0",
     "bugs": {
-      "url": "https://github.com/tolokoban/grenier/issues"
+        "url": "https://github.com/tolokoban/grenier/issues"
     },
     "homepage": "https://github.com/tolokoban/grenier",
     "tfw": {
-      "modules": [],
-      "compile": {
-        "type": "firefoxos",
-        "files": ["\\.html$", "art/\\.html$"]
-      }
+        "modules": [],
+        "compile": {
+            "type": "firefoxos",
+            "files": ["\\.html$", "article/\\.+/\\.html$"]
+        },
+        "output": "gh-pages"
     }
 }

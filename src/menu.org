@@ -2,10 +2,9 @@
 [glob] Les mesures de bière et le baril (10 août 2015)
 [millers_puzzle] The Miller's Puzzle (6 août 2015)
 [allergique_a_la_primalite] Allergique à la primalité (10 novembre 2015)
+[!depiler_par_les_deux_bouts] Un jeu de pièces (25 janvier 2015)
 * Algorithmes
-[enumerer_permutations] Énumérer les permutations (26 août 2013)
+[!enumerer_permutations] Énumérer les permutations (26 août 2013)
 [detection_droites] Détection de droites dans une image (7 novembre 2015)
 * Langages
-[vb6_mode] Créer des modes avec Emacs (6 novembre 2015)
-
-
+[!vb6_mode] Créer des modes avec Emacs (6 novembre 2015)
