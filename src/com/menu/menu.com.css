@@ -53,6 +53,16 @@ div.menu > div.category > div.articles > div {
     display: table-row;
 }
 
+div.menu > div.category > div.articles > div.draft {
+    font-style: italic;
+    color: #777;
+}
+
+div.menu > div.category > div.articles > div.draft a,
+div.menu > div.category > div.articles > div.draft a:visited {
+    color: #e30;
+}
+
 div.menu > div.category > div.articles > div > div {
     display: table-cell;
     vertical-align: middle;
