@@ -80,16 +80,20 @@ Main.prototype.onTap = function(source) {
     if (this._freeze) return;
     var first = this._first;
     var last = this._last;
-    if (first == last) return;
+    if (first == last) {
+        if (source.hasClass('you') || source.hasClass('him')) {
+            return;
+        }
+    }
     var index = parseInt(source.attr('data-idx'));
     if (index != first && index != last) return;
     var that = this;
 
     if (index == first) {
-        this._first++;
+        this._first = Math.min(this._first + 1, this._last);
     }
     else if (index == last) {
-        this._last--;
+        this._last = Math.max(this._last - 1, this._first);
     }
     source.parent.addClass('flip');
     setTimeout(function() {
