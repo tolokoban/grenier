@@ -108,7 +108,7 @@
 .depiler2bouts-main a.button:visited {
     display: inline-block;
     text-decoration: none;
-    line-height: 30px;
+    height: 30px;
     font-size: 14px;
     padding: 0 15px;
     border-radius: 15px;

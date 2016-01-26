@@ -1,7 +1,11 @@
 "use strict";
+var Triangle = require("svg.triangle");
 var Widget = require("wdg");
+var Bulle = require("tp4.bulle");
+
 var D = Widget.div;
 var T = Widget.tag;
+
 
 /**
  * @example
@@ -20,12 +24,16 @@ var Main = function() {
 
 function createScores() {
     var that = this;
-    var btnResetYou = T('a', 'button').attr('href', '#').html("&LeftTriangle;").Tap(function() {
-        that.reset(false);
-    });
-    var btnResetHim = T('a', 'button').attr('href', '#').html("&RightTriangle;").Tap(function() {
-        that.reset(true);
-    });
+    var btnResetYou = T('a', 'button').attr('href', '#')
+        .append(Triangle({angle: 180, width: '24px', height: '30px'}))
+        .Tap(function() {
+            that.reset(false);
+        });
+    var btnResetHim = T('a', 'button').attr('href', '#')
+        .append(Triangle({angle: 0, width: '24px', height: '30px'}))
+        .Tap(function() {
+            that.reset(true);
+        });
     var pts1 = D("pts1").text("0");
     var pts2 = D("pts2").text("0");
     var delta = D('delta');
@@ -36,7 +44,7 @@ function createScores() {
         ),
         D().append(
             D().text("recommencer:"),
-            D().append(btnResetYou, T('span').html("&nbsp;&nbsp;"), btnResetHim), 
+            D().append(btnResetYou, T('span').html("&nbsp;&nbsp;"), btnResetHim),
             delta
         ),
         D().append(
@@ -89,6 +97,13 @@ Main.prototype.onTap = function(source) {
     if (index != first && index != last) return;
     var that = this;
 
+    if (this._first < this._last) {
+        // Schedule computer's turn only if there are still pieces on the table.
+        setTimeout(function() {
+            that.computersTurn();
+        }, 600);
+    }
+
     if (index == first) {
         this._first = Math.min(this._first + 1, this._last);
     }
@@ -100,9 +115,6 @@ Main.prototype.onTap = function(source) {
         source.addClass('you');
         source.parent.removeClass('flip');
     }, 300);
-    setTimeout(function() {
-        that.computersTurn();
-    }, 600);
     this.pts1(this.pts1() + parseInt(source.text()));
     this._freeze = true;
 };
@@ -111,6 +123,8 @@ Main.prototype.onTap = function(source) {
  * @return void
  */
 Main.prototype.computersTurn = function() {
+    var that = this;
+
     this._freeze = false;
     var values = [];
     this._pieces.forEach(function (piece) {
@@ -144,6 +158,20 @@ Main.prototype.computersTurn = function() {
         piece.addClass('him');
         piece.parent.removeClass('flip');
     }, 300);
+    setTimeout(function() {
+        if (!that._computerHasAlreadySpoken) {
+            var avance = Math.min(pts1 - pts2 + a, pts1 - pts2 + b);
+            if (avance < 0) {
+                Bulle.show(
+                    that._pts2,
+                    "<html>Je parie que je vais gagner avec au moins <b>"
+                        + Math.abs(avance)
+                        + "</b> points d'avance."
+                );
+                that._computerHasAlreadySpoken = true;
+            }
+        }
+    }, 600);
     this.pts2(this.pts2() + parseInt(piece.text()));
 };
 
@@ -193,7 +221,7 @@ Main.prototype.setDelta = function() {
     if (v > 0) {
         v = "+" + v;
         delta.addClass("you").removeClass("him");
-    } 
+    }
     else if (v < 0) {
         delta.addClass("him").removeClass("you");
     }
@@ -205,6 +233,7 @@ Main.prototype.setDelta = function() {
  * @return void
  */
 Main.prototype.reset = function(heStartsFirst) {
+    this._computerHasAlreadySpoken = false;
     var values = [1,2,3,4,5,6,7,8,9,10];
     var j, tmp;
     for (var i = 0 ; i < 10 ; i++) {
