@@ -13,11 +13,42 @@ var T = Widget.tag;
  * var instance = new Main();
  * @class Main
  */
-var Main = function() {
+var Main = function(disableInteractivity) {
     Widget.call(this);
     this.addClass("depiler2bouts-main");
     var nbPieces = 10;
     this._pieces = createPieces.call(this, nbPieces);
+    if (disableInteractivity) {
+        var pts1 = 0;
+        var pts2 = 0;
+        while (pts1 <= pts2) {
+            this.shuffle();
+            this._pieces.forEach(function (piece, idx) {
+                if (idx % 2 == 0) {
+                    pts1 += parseInt(piece.text());
+                } else {
+                    pts2 += parseInt(piece.text());
+                }
+            });
+        }
+        pts1 = pts2 = 0;
+        var w1 = D('pts1').text(0), w2 = D('pts2').text(0);
+        this.append(D('tbl').append(w1, w2));
+        this._pieces.forEach(function (piece, idx) {
+            if (idx % 2 == 0) {
+                this.flip(piece, 'you', idx * 100 + 1000, function(p) {
+                    pts1 += parseInt(p.text());
+                    w1.text(pts1);
+                });
+            } else {
+                this.flip(piece, 'him', idx * 100 + 1000, function(p) {
+                    pts2 += parseInt(p.text());
+                    w2.text(pts2);
+                });
+            }
+        }, this);
+        return;
+    }
     createScores.call(this);
     this.reset();
 };
@@ -122,6 +153,26 @@ Main.prototype.onTap = function(source) {
 /**
  * @return void
  */
+Main.prototype.flip = function(piece, classname, delay, onEndOfAnim) {
+    if (typeof delay === 'undefined') delay = 0;
+    setTimeout(function() {
+        piece.removeClass('you', 'him');
+        piece.parent.addClass('flip');
+    }, delay);
+    setTimeout(function() {
+        piece.addClass(classname);
+        piece.parent.removeClass('flip');
+    }, 300 + delay);
+    if (typeof onEndOfAnim === 'function') {
+        setTimeout(function() {
+            onEndOfAnim(piece);
+        }, 600 + delay);
+    }
+};
+
+/**
+ * @return void
+ */
 Main.prototype.computersTurn = function() {
     var that = this;
 
@@ -175,19 +226,19 @@ Main.prototype.computersTurn = function() {
     this.pts2(this.pts2() + parseInt(piece.text()));
 };
 
-function max(values, first, last) {
-    if (first == last) return values[first];
+function max(values, F, L) {
+    if (F == L) return values[F];
     return Math.max(
-        values[first] + min(values, first + 1, last),
-        values[last] + min(values, first, last - 1)
+        values[F] + min(values, F + 1, L),
+        values[L] + min(values, F, L - 1)
     );
 }
 
-function min(values, first, last) {
-    if (first == last) return -values[first];
+function min(values, F, L) {
+    if (F == L) return -values[F];
     return Math.min(
-            - values[first] + max(values, first + 1, last),
-            - values[last] + max(values, first, last - 1)
+            - values[F] + max(values, F + 1, L),
+            - values[L] + max(values, F, L - 1)
     );
 }
 
@@ -228,12 +279,10 @@ Main.prototype.setDelta = function() {
     delta.text("" + v);
 };
 
-
 /**
  * @return void
  */
-Main.prototype.reset = function(heStartsFirst) {
-    this._computerHasAlreadySpoken = false;
+Main.prototype.shuffle = function() {
     var values = [1,2,3,4,5,6,7,8,9,10];
     var j, tmp;
     for (var i = 0 ; i < 10 ; i++) {
@@ -246,7 +295,15 @@ Main.prototype.reset = function(heStartsFirst) {
 
     this._pieces.forEach(function (piece, idx) {
         piece.text(values[idx]);
-    });
+    });    
+};
+
+/**
+ * @return void
+ */
+Main.prototype.reset = function(heStartsFirst) {
+    this._computerHasAlreadySpoken = false;
+    this.shuffle();
     this.pts1(0);
     this.pts2(0);
     this._first = 0;

@@ -76,6 +76,13 @@ section.x-article > article {
     max-width: 60em;
 }
 
+section.x-article > article p {
+    font-size: 120%;
+    line-height: 125%;
+    font-weight: 300;
+}
+
+
 section.x-article > footer {
     position: absolute;
     left: 0;
@@ -133,7 +140,8 @@ section.x-article blockquote {
     border-left: .5em solid darkorange;
     padding-left: .5em;
     margin-left: .5em;
-    font-size: 120%;
+    font-size: 100%;
     font-weight: 300;
-    line-height: 150%
+    line-height: 150%;
+    font-style: oblique;
 }

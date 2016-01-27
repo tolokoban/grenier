@@ -8,7 +8,7 @@
 var algos = {
     minmax: function() {
         function max(values, F, L) {
-            if (F == L) return values[F];
+            if (F >= L) return values[F];
             return Math.max(
                 values[F] + min(values, F + 1, L),
                 values[L] + min(values, F, L - 1)
@@ -16,7 +16,7 @@ var algos = {
         }
 
         function min(values, F, L) {
-            if (F == L) return -values[F];
+            if (F >= L) return -values[F];
             return Math.min(
                     - values[F] + max(values, F + 1, L),
                     - values[L] + max(values, F, L - 1)
@@ -27,14 +27,14 @@ var algos = {
             if (F >= L) return 0;
             var a = max(values, F + 1, L) - values[F];
             var b = max(values, F, L - 1) - values[L];
-            if (b > a) return 1;
+            if (b < a) return 1;
             return 0;
         };
     }(),
     biggest: function() {
         return function(values, F, L) {
-            if (values[F] < values[L]) return 1;
-            return 0;
+            if (values[F] > values[L]) return 0;
+            return 1;
         };
     }()
 };
@@ -48,17 +48,17 @@ function play(values, algo1, algo2) {
     while (F < L) {
         if (algo1(values, F, L) == 0) {
             // Take first.
-            pts1 += values[F++];
+            pts1 += values[F]; F++;
         } else {
             // Take last.
-            pts1 += values[L--];
+            pts1 += values[L]; L--;
         }
         if (algo2(values, F, L) == 0) {
             // Take first.
-            pts2 += values[F++];
+            pts2 += values[F]; F++;
         } else {
             // Take last.
-            pts2 += values[L--];
+            pts2 += values[L]; L--;
         }
     }
     return pts1 - pts2;
@@ -80,8 +80,7 @@ function shuffle(arr) {
 var arr = [1,2,3,4,5,6,7,8,9,10];
 var count = 0;
 
-//var algo1 = algos.biggest;
-var algo1 = algos.minmax;
+var algo1 = algos.biggest;
 var algo2 = algos.minmax;
 
 var score = 0;

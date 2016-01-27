@@ -1,10 +1,81 @@
 <x-article title="Dépiler les pièces par les deux bouts">
     <page>
-Le jeu suivant se joue à deux. Chaque joueur doit, à son tour, prendre une pièce d'une des extrémités de la pile. Le vainqueur est celui qui totalise la plus grande somme.
+> Le jeu suivant se joue à deux. Chaque joueur doit, à son tour, prendre une pièce d'une des extrémités de la pile. Le vainqueur est celui qui totalise la plus grande somme.
 
-Essayez de trouver une stratégie pour battre l'ordinateur à tous les coups.
+Essayez de trouver une stratégie __simple__ pour battre l'ordinateur à tous les coups quand c'est vous qui commencez.
 
-<x-widget name="depiler2bouts.main"/>
+<x-widget id="game1" name="depiler2bouts.main"/>
         
+Ici, l'ordinateur utilise un stratégie de _force brute_ : il analyse toutes les parties possibles et choisit le coup qui, au final, lui rapportera le plus. C'est l'algorithme du [minmax](#minmax). Mais ce n'est pas uns stratégie _simple_ car elle est impossible à faire de tête pour un humain. Votre solution ne doit pas forcément donner la meilleure partie, c'est-à-dire celle qui maximise l'écart de points, elle doit juste permettre de gagner à tous les coups.
+
+Prenez le temps de réfléchir et faites quelques parties contre l'ordinateur. La solution vient souvent par l'observation.
+
+Et quand vous avez une idée, [testez-là](#grader).
+    </page>
+
+    <page>
+<a name="grader"></a>
+<x-widget name="tfw.grader" src="grader.js"></x-widget>
+
+    </page>
+
+    <page>
+<a name="minmax"></a>
+# L'algorithme du MinMax
+
+Le __gain__ d'une partie est la somme des pièces gagnées par le premier joueur à laquelle on soustrait la somme des pièces gagnées par le second.  
+Si le résultat est positif, le premier joueur est vainqueur.
+
+> Prouvez que, dans le jeu présenté ici, le __gain__ ne peut jamais être nul. ([solution](#solution1))
+
+Si on appelle __MAX__ le premier joueur (qui cherche à maximiser le gain) et __MIN__ le second, on en déduit l'algorithme suivant :
+<x-code src="minmax.js"></x-code>
+
+Le paramètre `values` est un tableau des valeurs des pièces. Par exemple : `[2,3,5,4,6,8,10,1,9,7]`.
+`F` est l'indice de la première pièce (en partant de la gauche) et `L` est l'indice de la dernière (`L` = last).
+
+Pour connaître le gain d'une partie qui commence par la prise de la première pièce (first), on écrit :
+<x-code>
+var gain = values[0] + min(values, 1, 9);
+</x-code>
+
+Et pour le gain résultant de la prise de la dernière pièce :
+<x-code>
+var gain = values[9] + min(values, 0, 8);
+</x-code>
+
+Pour ce jeu, l'algorithme est très rapide puisqu'il ne doit analyser que <x-latex>9^2 = 512</x-latex> parties possibles. Mais c'est le même genre d'algorithme (avec quelques optimisations comme le [alpha-beta pruning](https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning)) qui sert à l'intelligence artificielle d'un jeu d'échec.
+
+
+    </page>
+
+    <page>
+<a name="response"></a>
+## Un stratégie _simple_ pour gagner à tous les coups
+Numérotons les pièces de gauche à droite, indépendamment de leurs valeurs. Nous pouvons former deux groupes : les pièces à index pair (représentées en vert ci-dessous) et les pièces à index impair (en rouge).
+
+<x-widget id="game2" name="depiler2bouts.main">true</x-widget>
+
+Dans l'exemple ci-dessus, on voit bien que la somme des pièces vertes est supérieure à celle des pièces rouges. __On est donc sûr de gagner si on prend toutes les pièces vertes__.
+
+Pour cela, il suffit de prendre la première pièce à gauche. L'ordinateur n'aura d'autre choix que de prendre une rouge. On prendra alors la verte juste à côté de celle qu'il vient de prendre. Elle sera forcément verte. En continuant cette stratégie jusqu'au bout, on est sûr de prendre toutes les pièces vertes et donc de gagner.
+
+Et comme on le prouve ci-dessous, il n'y aura jamais égalité.
+
+<a name="solution1"></a>
+## Le gain n'est jamais nul
+### Démonstration 1
+Il suffit de remarquer que dans les nombres allant de 1 à 10, seuls 5 sont impairs. Donc en fin de partie, puisque chaque joueur aura 5 pièces, les 5 pièces à valeurs impaires seront réparties comme ceci :
+* 0 / 1,
+* 1 / 4,
+* ou 2 / 3.
+
+De plus, on sait que la somme de nombres pairs est toujours paire, et que la somme de <x-latex>n</x-latex> nombres impairs est paire si <x-latex>n</x-latex> est pair et impair dans le cas comtraire.
+
+Donc, en fin de compte, un joueur aura un montant pair et l'autre un montant impair. Ces montants sont donc forcément différents.
+
+### Démonstration 2
+La somme des pièces en jeu est de <x-latex>1+2+\cdots + 10={10 \times 11 \over 2}=55</x-latex>. Si on partage cette somme impaire en deux, on obtient un tas pair et un tas impair.
+
     </page>
 </x-article>

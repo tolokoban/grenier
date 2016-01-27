@@ -88,18 +88,18 @@
     width: 33.33%;
 }
 
-.depiler2bouts-main > div.tbl > div > .pts1,
-.depiler2bouts-main > div.tbl > div > .pts2 {
+.depiler2bouts-main > div.tbl .pts1,
+.depiler2bouts-main > div.tbl .pts2 {
     font-size: 48px;
     font-bold: bolder;
     text-shadow: 2px 2px 1px rgba(0,0,0,.5);
 }
 
-.depiler2bouts-main > div.tbl > div > .pts1 {
+.depiler2bouts-main > div.tbl .pts1 {
     color: #0f0;
 }
 
-.depiler2bouts-main > div.tbl > div > .pts2 {
+.depiler2bouts-main > div.tbl .pts2 {
     color: #f00;
 }
 
