@@ -6,7 +6,7 @@ Essayez de trouver une stratégie __simple__ pour battre l'ordinateur à tous le
 
 <x-widget id="game1" name="depiler2bouts.main"/>
         
-Ici, l'ordinateur utilise un stratégie de _force brute_ : il analyse toutes les parties possibles et choisit le coup qui, au final, lui rapportera le plus. C'est l'algorithme du [minmax](#minmax). Mais ce n'est pas uns stratégie _simple_ car elle est impossible à faire de tête pour un humain. Votre solution ne doit pas forcément donner la meilleure partie, c'est-à-dire celle qui maximise l'écart de points, elle doit juste permettre de gagner à tous les coups.
+Ici, l'ordinateur utilise un stratégie de _force brute_ : il analyse toutes les parties possibles et choisit le coup qui, au final, lui rapportera le plus. C'est l'algorithme du [minimax](#minmax). Mais ce n'est pas une stratégie _simple_ car il n'est pas possible, pour un humain standard, de l'appliquer de tête. Votre solution ne doit pas forcément donner la meilleure partie, c'est-à-dire celle qui maximise l'écart de points, elle doit juste permettre de gagner à tous les coups.
 
 Prenez le temps de réfléchir et faites quelques parties contre l'ordinateur. La solution vient souvent par l'observation.
 
@@ -15,13 +15,23 @@ Et quand vous avez une idée, [testez-là](#grader).
 
     <page>
 <a name="grader"></a>
+        
+A vous de jouer ! Coder votre stratégie en Javascript et testez là à l'aide du bouton "__Valider__".
+Votre fonction sera appelée à chaque étape du jeu avec trois arguments :
+* `values` : un tableau des valeurs des 10 pièces.
+* `F` : l'index de la première pièce parmi celles qui restent.
+* `L` : l'index de la dernière pièce parmi celles qui restent.
+
+Elle devra retourner __0__ pour dire qu'il faut prendre la première pièce (First), ou __1__ pour prendre la dernière (Last).
+
 <x-widget name="tfw.grader" src="grader.js"></x-widget>
 
+La [dernière page](#response) donne une solution en ce qui concerne la stratégie, mais pas pour le code qui en découle simplement.
     </page>
 
     <page>
 <a name="minmax"></a>
-# L'algorithme du MinMax
+# L'algorithme du Minimax
 
 Le __gain__ d'une partie est la somme des pièces gagnées par le premier joueur à laquelle on soustrait la somme des pièces gagnées par le second.  
 Si le résultat est positif, le premier joueur est vainqueur.
