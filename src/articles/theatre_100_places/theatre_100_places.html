@@ -9,6 +9,73 @@ Voici une petite énigme de propabilités.
 > Quelle est la probabilité que le dernier s'assoie à sa place attitrée ?
 
 <x-widget name="theatre100"></x-widget>
-        
+
+## Recherche de solutions
+
+De deux choses l'une : soit on a une intuition génial, soit on reste pantois...
+Il faut bien se rendre à l'évidence qu'on est souvent dans le second cas. Alors il faut tâtonner un peu pour trouver des axes d'attaque du problème.
+
+Commençons par voir ce que cela donne avec des théâtres plus petits, pour lesquels on peut lister toutes les configurations possibles.
+
+<ul>
+    <li>Un théâtre avec 2 places :<br/>
+        <x-widget name="theatre100.main">{size: 2}</x-widget></li>
+    <li>Un théâtre avec 3 places :<br/>
+        <x-widget name="theatre100.main">{size: 3}</x-widget></li>
+    <li>Un théâtre avec 4 places :<br/>
+        <x-widget name="theatre100.main">{size: 4}</x-widget></li>
+    <li>Un théâtre avec 5 places :<br/>
+        <x-widget name="theatre100.main">{size: 5}</x-widget></li>
+    <li>Un théâtre avec 6 places :<br/>
+        <x-widget name="theatre100.main">{size: 6}</x-widget></li>
+    <li>Un théâtre avec 7 places :<br/>
+        <x-widget name="theatre100.main">{size: 7}</x-widget></li>
+</ul>
+
+Ah ! Il semble bien qu'on puisse conjecturer que la réponse sera 50%. Les exemples ci-dessous nous laissent entendre qu'il doit y avoir quelque chose en rapport avec les puissances de 2.
+
+
+Regardons maintenant ce qu'il se passe sur les premières étape d'une configuration choisie au hasard pour un théâtre de 100 places.
+
+* Le premier spectateur entre dans la salle et s'assoit à la place 27.
+* Les spectateurs 2 à 26 peuvent prendre leur place attitrée.
+* Le 27 doit choisir au hasard car le 1 a pris son siège.
+* Deux cas se présentent :
+    * S'il prend la place 1, tous les autres spectateurs s'installent à leur place normale.
+    * Sinon, on se retrouve dans la situation initiale avec un théâtre de 100 - 26 = 74 places.
+
+Posons <x-latex>C_n</x-latex> le nombre de configurations possibles dans un théâtre de <x-latex>n</x-latex> places.  
+Alors, on a : _(1)_ <x-latex>C_n = 1 + \sum_{k=2}^n C_{n+1-k}</x-latex>
+
+
+Détaillons le cas <x-latex>n = 4</x-latex> :  
+
+
+* `1234` : <x-latex>1</x-latex>
+* `-1--` : <x-latex>C_3 = 1 + C_2 + C_1 = 1 + 2 + 1 = 4</x-latex>
+* `-21-` : <x-latex>C_2 = 1 + C_1 = 1 + 1 = 2</x-latex>
+* `-231` : <x-latex>C_1 = 1</x-latex>
+
+On obtient : <x-latex>C_4 = 8 = 2^3</x-latex>.
+
+Il ne nous reste plus qu'à démontrer la conjecture suivante par récurrence : <x-latex>C_n = 2^{n - 1}</x-latex>
+
+Il est évident que dans un théâtre avec une seule place, il n'y a qu'une configuration possible. Donc <x-latex>C_1 = 1</x-latex>. De même, pour un théâtre à 2 places, le premier spectateur a deux possibilités, mais le second prend ce qui lui reste, donc <x-latex>C_2 = 2</x-latex>.  
+Supposons donc notre relation soit vraie jusqu'au rang <x-latex>n</x-latex>. C'est-à-dire que <x-latex>\forall k\leq n, C_k = 2^{k - 1}</x-latex>. Montrons que c'est aussi vrai au rang <x-latex>n + 1</x-latex>.
+
+D'après la relation _(1)_, on a :  
+<x-latex>C_{n+1} = 1 + \sum_{k=2}^{n+1} C_{n+2-k}</x-latex>  
+<x-latex>C_{n+1} = 1 + C_1 + C_2 + \cdots + C_n</x-latex>  
+
+
+En utilisant l'hypothèse de récurrence, on obtiens :
+
+
+<x-latex>C_{n+1} = 1 + 2^0 + 2^1 + \cdots + 2^{n-1}</x-latex>  
+<x-latex>C_{n+1} = 1 + \sum_{k=0}^{n-1}2^k</x-latex>  
+<x-latex>C_{n+1} = 1 + {2^n - 1\over2 - 1}</x-latex>  
+<x-latex>C_{n+1} = 2^n</x-latex>  
+
+
     </page>
 </x-article>
