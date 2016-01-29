@@ -1,0 +1,60 @@
+<!DOCTYPE HTML><html><head><title>Au théâtre, chacun sa place !</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><link rel="stylesheet" type="text/css" href="../../css/articles/theatre_100_places/@theatre_100_places.css"><script src="../../js/articles/theatre_100_places/@theatre_100_places.js"></script></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>Au théâtre, chacun sa place !</header><article><p>Voici une petite énigme de propabilités.</p>
+<blockquote>
+<p>Un théâtre pouvant accueillir 100 personnes affiche complet. Les 100 sièges numérotés sont affectés à 100 spectateurs qui entrent chacun à leur tour.
+Le premier est un peu distrait et il s&#39;assoit à une place quelconque, sans regarder son billet.
+Les suivants recherchent leur place attitrée, mais si elle et déjà occuppée, ils ne font pas d&#39;esclandre et prennent une place libre aléatoirement.</p>
+<p>Quelle est la probabilité que le dernier s&#39;assoie à sa place attitrée ?</p>
+</blockquote>
+<div id="theatre100189" style="display:none"></div>
+
+<h2 id="recherche-de-solutions">Recherche de solutions</h2>
+<p>De deux choses l&#39;une : soit on a une intuition génial, soit on reste pantois...
+Il faut bien se rendre à l&#39;évidence qu&#39;on est souvent dans le second cas. Alors il faut tâtonner un peu pour trouver des axes d&#39;attaque du problème.</p>
+<p>Commençons par voir ce que cela donne avec des théâtres plus petits, pour lesquels on peut lister toutes les configurations possibles.</p>
+<ul>
+    <li>Un théâtre avec 2 places :<br/>
+        <div id="theatre100.main190" style="display:none"></div></li>
+    <li>Un théâtre avec 3 places :<br/>
+        <div id="theatre100.main191" style="display:none"></div></li>
+    <li>Un théâtre avec 4 places :<br/>
+        <div id="theatre100.main192" style="display:none"></div></li>
+    <li>Un théâtre avec 5 places :<br/>
+        <div id="theatre100.main193" style="display:none"></div></li>
+    <li>Un théâtre avec 6 places :<br/>
+        <div id="theatre100.main194" style="display:none"></div></li>
+    <li>Un théâtre avec 7 places :<br/>
+        <div id="theatre100.main195" style="display:none"></div></li>
+</ul>
+
+<p>Ah ! Il semble bien qu&#39;on puisse conjecturer que la réponse sera 50%. Les exemples ci-dessous nous laissent entendre qu&#39;il doit y avoir quelque chose en rapport avec les puissances de 2.</p>
+<p>Regardons maintenant ce qu&#39;il se passe sur les premières étape d&#39;une configuration choisie au hasard pour un théâtre de 100 places.</p>
+<ul>
+<li>Le premier spectateur entre dans la salle et s&#39;assoit à la place 27.</li>
+<li>Les spectateurs 2 à 26 peuvent prendre leur place attitrée.</li>
+<li>Le 27 doit choisir au hasard car le 1 a pris son siège.</li>
+<li>Deux cas se présentent :<ul>
+<li>S&#39;il prend la place 1, tous les autres spectateurs s&#39;installent à leur place normale.</li>
+<li>Sinon, on se retrouve dans la situation initiale avec un théâtre de 100 - 26 = 74 places.</li>
+</ul>
+</li>
+</ul>
+<p>Posons <math><mrow><msub><mo>C</mo><mi>n</mi></msub></mrow></math> le nombre de configurations possibles dans un théâtre de <math><mrow><mi>n</mi></mrow></math> places.<br>Alors, on a : <em>(1)</em> <math><mrow><msub><mo>C</mo><mi>n</mi></msub><mo>=</mo><mn>1</mn><mo>+</mo><munderover><mo>&sum;</mo><mrow><mi>k</mi><mo>=</mo><mn>2</mn></mrow><mi>n</mi></munderover><msub><mo>C</mo><mrow><mi>n</mi><mo>+</mo><mn>1</mn><mo>-</mo><mi>k</mi></mrow></msub></mrow></math></p>
+<p>Détaillons le cas <math><mrow><mi>n</mi><mo>=</mo><mn>4</mn></mrow></math> :  </p>
+<ul>
+<li><code>1234</code> : <math><mrow><mn>1</mn></mrow></math></li>
+<li><code>-1--</code> : <math><mrow><msub><mo>C</mo><mn>3</mn></msub><mo>=</mo><mn>1</mn><mo>+</mo><msub><mo>C</mo><mn>2</mn></msub><mo>+</mo><msub><mo>C</mo><mn>1</mn></msub><mo>=</mo><mn>1</mn><mo>+</mo><mn>2</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>4</mn></mrow></math></li>
+<li><code>-21-</code> : <math><mrow><msub><mo>C</mo><mn>2</mn></msub><mo>=</mo><mn>1</mn><mo>+</mo><msub><mo>C</mo><mn>1</mn></msub><mo>=</mo><mn>1</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>2</mn></mrow></math></li>
+<li><code>-231</code> : <math><mrow><msub><mo>C</mo><mn>1</mn></msub><mo>=</mo><mn>1</mn></mrow></math></li>
+</ul>
+<p>On obtient : <math><mrow><msub><mo>C</mo><mn>4</mn></msub><mo>=</mo><mn>8</mn><mo>=</mo><msup><mn>2</mn><mn>3</mn></msup></mrow></math>.</p>
+<p>Il ne nous reste plus qu&#39;à démontrer la conjecture suivante par récurrence : <math><mrow><msub><mo>C</mo><mi>n</mi></msub><mo>=</mo><msup><mn>2</mn><mrow><mi>n</mi><mo>-</mo><mn>1</mn></mrow></msup></mrow></math></p>
+<p>Il est évident que dans un théâtre avec une seule place, il n&#39;y a qu&#39;une configuration possible. Donc <math><mrow><msub><mo>C</mo><mn>1</mn></msub><mo>=</mo><mn>1</mn></mrow></math>. De même, pour un théâtre à 2 places, le premier spectateur a deux possibilités, mais le second prend ce qui lui reste, donc <math><mrow><msub><mo>C</mo><mn>2</mn></msub><mo>=</mo><mn>2</mn></mrow></math>.<br>Supposons donc notre relation soit vraie jusqu&#39;au rang <math><mrow><mi>n</mi></mrow></math>. C&#39;est-à-dire que <math><mrow><mo>&forall;</mo><mi>k</mi><mo>&leq;</mo><mi>n</mi><mo>,</mo><msub><mo>C</mo><mi>k</mi></msub><mo>=</mo><msup><mn>2</mn><mrow><mi>k</mi><mo>-</mo><mn>1</mn></mrow></msup></mrow></math>. Montrons que c&#39;est aussi vrai au rang <math><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></math>.</p>
+<p>D&#39;après la relation <em>(1)</em>, on a :  </p>
+<math><mrow><msub><mo>C</mo><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mn>1</mn><mo>+</mo><munderover><mo>&sum;</mo><mrow><mi>k</mi><mo>=</mo><mn>2</mn></mrow><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></munderover><msub><mo>C</mo><mrow><mi>n</mi><mo>+</mo><mn>2</mn><mo>-</mo><mi>k</mi></mrow></msub></mrow></math><br><math><mrow><msub><mo>C</mo><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mn>1</mn><mo>+</mo><msub><mo>C</mo><mn>1</mn></msub><mo>+</mo><msub><mo>C</mo><mn>2</mn></msub><mo>+</mo><mo>&ctdot;</mo><mo>+</mo><msub><mo>C</mo><mi>n</mi></msub></mrow></math>  
+
+
+<p>En utilisant l&#39;hypothèse de récurrence, on obtiens :</p>
+<math><mrow><msub><mo>C</mo><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mn>1</mn><mo>+</mo><msup><mn>2</mn><mn>0</mn></msup><mo>+</mo><msup><mn>2</mn><mn>1</mn></msup><mo>+</mo><mo>&ctdot;</mo><mo>+</mo><msup><mn>2</mn><mrow><mi>n</mi><mo>-</mo><mn>1</mn></mrow></msup></mrow></math><br><math><mrow><msub><mo>C</mo><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mn>1</mn><mo>+</mo><munderover><mo>&sum;</mo><mrow><mi>k</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>n</mi><mo>-</mo><mn>1</mn></mrow></munderover><msup><mn>2</mn><mi>k</mi></msup></mrow></math><br><math><mrow><msub><mo>C</mo><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mn>1</mn><mo>+</mo><mfrac><mrow><msup><mn>2</mn><mi>n</mi></msup><mo>-</mo><mn>1</mn></mrow><mrow><mn>2</mn><mo>-</mo><mn>1</mn></mrow></mfrac></mrow></math><br><math><mrow><msub><mo>C</mo><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><msup><mn>2</mn><mi>n</mi></msup></mrow></math>  
+
+
+<div style="height:1rem"></div></article></section></body></html>

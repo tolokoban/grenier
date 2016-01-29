@@ -1,3 +1,97 @@
-var require=function(){var r={};return function(e,o){var n;if(o=window["#"+e],"undefined"==typeof o){var i=new Error("Required module is missing: "+e);throw console.error(i.stack),i}if(n=r[e],"undefined"==typeof n){n={exports:{}};var t=n.exports;o(t,n),r[e]=n.exports,n=n.exports}return n}}();
-window["#$"]=function(n,r){n.config={name:"grenier",description:"Articles concernant majoritairement l'algorithmie",author:"Tolokoban",version:"1.0.511",major:1,minor:0,revision:511,date:new Date(2015,10,14,11,46,43)};var a=null;n.lang=function(n){return void 0===n&&(n=window.localStorage.getItem("Language"),n||(n=window.navigator.language,n||(n=window.navigator.browserLanguage,n||(n="fr"))),n=n.substr(0,2).toLowerCase()),a=n,window.localStorage.setItem("Language",n),n},n.intl=function(r,a){var o,t,e,i,g,l,s=r[n.lang()],u=a[0];if(!s)return console.error('Missing internationalization for language : "'+n.lang()+'"!'),u;if(o=s[u],!o)return console.error("Missing internationalization ["+n.lang()+']: "'+u+'"!'),u;if(a.length>1){for(t="",g=0,e=0;e<o.length;e++)i=o.charAt(e),"$"===i?(t+=o.substring(g,e),e++,l=o.charCodeAt(e)-48,t+=0>l||l>=a.length?"$"+o.charAt(e):a[l],g=e+1):"\\"===i&&(t+=o.substring(g,e),e++,t+=o.charAt(e),g=e+1);t+=o.substr(g),o=t}return o}};
-//# sourceMappingURL=map/@index.js.map
+var require = function() {
+    var modules = {};
+    
+    return function(id, body) {
+        var mod;
+        body = window["#" + id];
+        if (typeof body === 'undefined') {
+            var err = new Error("Required module is missing: " + id);   
+            console.error(err.stack);
+            throw err;
+        }
+        mod = modules[id];
+        if (typeof mod === 'undefined') {
+            mod = {exports: {}};
+            var exports = mod.exports;
+            body(exports, mod);
+            modules[id] = mod.exports;
+            mod = mod.exports;
+            //console.log("Module initialized: " + id);
+        }
+        return mod;
+    };
+}();
+
+
+
+//########################################
+window['#$']=function(exports,module){  exports.config={
+    name:"grenier",
+    description:"Articles concernant majoritairement l'algorithmie",
+    author:"Tolokoban",
+    version:"1.0.511",
+    major:1,
+    minor:0,
+    revision:511,
+    date:new Date(2016,0,26,16,11,16)
+};
+var currentLang = null;
+exports.lang = function(lang) {
+    if (lang === undefined) {
+        lang = window.localStorage.getItem("Language");
+        if (!lang) {
+            lang = window.navigator.language;
+            if (!lang) {
+                lang = window.navigator.browserLanguage;
+                if (!lang) {
+                    lang = "fr";
+                }
+            }
+        }
+        lang = lang.substr(0, 2).toLowerCase();
+    }
+    currentLang = lang;
+    window.localStorage.setItem("Language", lang);
+    return lang;
+};
+exports.intl = function(words, params) {
+    var dic = words[exports.lang()],
+    k = params[0],
+    txt, newTxt, i, c, lastIdx, pos;
+    if (!dic) {
+        //console.error("Missing internationalization for language : \"" + exports.lang() + "\"!");
+        return k;
+    }
+    txt = dic[k];
+    if (!txt) {
+        //console.error("Missing internationalization [" + exports.lang() + "]: \"" + k + "\"!");
+        return k;
+    }
+    if (params.length > 1) {
+        newTxt = "";
+        lastIdx = 0;
+        for (i = 0 ; i < txt.length ; i++) {
+            c = txt.charAt(i);
+            if (c === '$') {
+                newTxt += txt.substring(lastIdx, i);
+                i++;
+                pos = txt.charCodeAt(i) - 48;
+                if (pos < 0 || pos >= params.length) {
+                    newTxt += "$" + txt.charAt(i);
+                } else {
+                    newTxt += params[pos];
+                }
+                lastIdx = i + 1;
+            } else if (c === '\\') {
+                newTxt += txt.substring(lastIdx, i);
+                i++;
+                newTxt += txt.charAt(i);
+                lastIdx = i + 1;
+            }
+        }
+        newTxt += txt.substr(lastIdx);
+        txt = newTxt;
+    }
+    return txt;
+};
+ }
