@@ -54,7 +54,15 @@ Theatre100.prototype.refresh = function() {
     if (this._interval) {
         clearInterval(this._interval);
     }
+    this._delay = 1;
     this._interval = setInterval(function() {
+        // All the step must not have the same rate.
+        // We want green cell to be displayed fast but not red ones.
+        // Then after a red cell, we set `this._delay` to a bigger value than 1.
+        this._delay--;
+        if (this._delay > 0) return;
+
+        this._delay = 1;
         var P = that._places;
         if (P.index >= P.length) {
             clearInterval(that._interval);
@@ -67,6 +75,7 @@ Theatre100.prototype.refresh = function() {
                 pos = Math.floor(Math.random() * P.length);
                 P[pos] = 0;
                 cells[pos].addClass(pos == 0 ? 'ok' : 'ko').text('00');
+                if (pos != 0) this._delay = 25;
             } else {
                 // Second player try to seat at its place.
                 if (P[P.index] < 0) {
@@ -80,6 +89,7 @@ Theatre100.prototype.refresh = function() {
                             if (rnd == 0) {
                                 P[pos] = P.index;
                                 cells[pos].addClass('ko').text((P.index < 10 ? '0' : '') + P.index);
+                                this._delay = 25;
                                 break;                              
                             } else {
                                 rnd--;
@@ -89,8 +99,9 @@ Theatre100.prototype.refresh = function() {
                 }
             }
             P.index++;
+            if (P.index == P.length - 1) this._delay = 150;
         }
-    }, 50);
+    }, 20);
 };
 
 

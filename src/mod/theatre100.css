@@ -36,7 +36,7 @@ div.theatre100 > div.tbl > div > div.ok {
 }
 
 div.theatre100 > div.tbl > div > div.ko {
-    transition: all .2s;
+    transition: all .5s;
     background-color: #f77;
     color: #000;
 }

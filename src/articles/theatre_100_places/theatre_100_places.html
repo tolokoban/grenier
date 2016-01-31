@@ -1,21 +1,26 @@
 <x-article title="Au théâtre, chacun sa place !">
     <page>
-Voici une petite énigme de propabilités.
+Un beau jour, je tombe sur cette énigme :
 
-> Un théâtre pouvant accueillir 100 personnes affiche complet. Les 100 sièges numérotés sont affectés à 100 spectateurs qui entrent chacun à leur tour.
+> Un théâtre pouvant accueillir 100 personnes affiche complet. Les 100 sièges numérotés sont affectés à 100 spectateurs qui entrent chacun à leur tour prendre leur place attitrée.
 > Le premier est un peu distrait et il s'assoit à une place quelconque, sans regarder son billet.
 > Les suivants recherchent leur place attitrée, mais si elle et déjà occuppée, ils ne font pas d'esclandre et prennent une place libre aléatoirement.
 > 
-> Quelle est la probabilité que le dernier s'assoie à sa place attitrée ?
+> Quelle est la probabilité que le dernier s'assoie à sa place ?
 
 <x-widget name="theatre100"></x-widget>
 
-## Recherche de solutions
+Je vous laisse y réfléchir deux minutes avant de [tourner la page](#solution).
+    </page>
 
-De deux choses l'une : soit on a une intuition génial, soit on reste pantois...
-Il faut bien se rendre à l'évidence qu'on est souvent dans le second cas. Alors il faut tâtonner un peu pour trouver des axes d'attaque du problème.
+    <page>
+<a name="solution"></a>
 
-Commençons par voir ce que cela donne avec des théâtres plus petits, pour lesquels on peut lister toutes les configurations possibles.
+Devant une énigme, de deux choses l'une : soit on a une intuition génial, soit on reste pantois...
+
+
+Il faut bien se rendre à l'évidence, je suis plutôt dans le second cas.
+Alors, pour voir si des idées me viennent, j'essaie de tâtonner un peu en me frottant au problème posé avec moins de places. Parce qu'avec des théâtres plus petits, je peux lister toutes les configurations possibles.
 
 <ul>
     <li>Un théâtre avec 2 places :<br/>
@@ -32,7 +37,8 @@ Commençons par voir ce que cela donne avec des théâtres plus petits, pour les
         <x-widget name="theatre100.main">{size: 7}</x-widget></li>
 </ul>
 
-Ah ! Il semble bien qu'on puisse conjecturer que la réponse sera 50%. Les exemples ci-dessous nous laissent entendre qu'il doit y avoir quelque chose en rapport avec les puissances de 2.
+Ah ! Il semble bien qu'on puisse conjecturer que la réponse sera 50%, non ?
+Ça oriente déjà pas mal mes recherches. Il faut que j'essaie de prouver cette conjecture.
 
 
 Regardons maintenant ce qu'il se passe sur les premières étape d'une configuration choisie au hasard pour un théâtre de 100 places.
@@ -43,6 +49,9 @@ Regardons maintenant ce qu'il se passe sur les premières étape d'une configura
 * Deux cas se présentent :
     * S'il prend la place 1, tous les autres spectateurs s'installent à leur place normale.
     * Sinon, on se retrouve dans la situation initiale avec un théâtre de 100 - 26 = 74 places.
+
+Très bien, un algorithme se dégage clairement et il est récursif.
+Il faut le traduire en langage mathématique.
 
 Posons <x-latex>C_n</x-latex> le nombre de configurations possibles dans un théâtre de <x-latex>n</x-latex> places.  
 Alors, on a : _(1)_ <x-latex>C_n = 1 + \sum_{k=2}^n C_{n+1-k}</x-latex>
@@ -58,9 +67,10 @@ Détaillons le cas <x-latex>n = 4</x-latex> :
 
 On obtient : <x-latex>C_4 = 8 = 2^3</x-latex>.
 
-Il ne nous reste plus qu'à démontrer la conjecture suivante par récurrence : <x-latex>C_n = 2^{n - 1}</x-latex>
+Bon. D'après mes essais sur les petits théâtres, j'ai trouvé que <x-latex>C_2=2, C_3=4, C_4=8, C_5=16, C_6=32, C_7=64</x-latex>.
+Il faut donc que j'essaie de démontrer par récurrence que <x-latex>C_n = 2^{n - 1}</x-latex>.
 
-Il est évident que dans un théâtre avec une seule place, il n'y a qu'une configuration possible. Donc <x-latex>C_1 = 1</x-latex>. De même, pour un théâtre à 2 places, le premier spectateur a deux possibilités, mais le second prend ce qui lui reste, donc <x-latex>C_2 = 2</x-latex>.  
+J'ai mes situation initiales jusqu'à <x-latex>n = 7</x-latex>.
 Supposons donc notre relation soit vraie jusqu'au rang <x-latex>n</x-latex>. C'est-à-dire que <x-latex>\forall k\leq n, C_k = 2^{k - 1}</x-latex>. Montrons que c'est aussi vrai au rang <x-latex>n + 1</x-latex>.
 
 D'après la relation _(1)_, on a :  
@@ -75,6 +85,49 @@ En utilisant l'hypothèse de récurrence, on obtiens :
 <x-latex>C_{n+1} = 1 + \sum_{k=0}^{n-1}2^k</x-latex>  
 <x-latex>C_{n+1} = 1 + {2^n - 1\over2 - 1}</x-latex>  
 <x-latex>C_{n+1} = 2^n</x-latex>  
+
+
+Ouf... Tant de mathématiques m'ont épuisé. Je finirai plus tard. 
+
+
+[Le lendemain](#lendemain)...
+    </page>
+
+    <page>
+<a name="lendemain"></a>
+Le lendemain, je parle de mes résultats à mon pote Thomas.
+Je lui dis que j'ai réussi à trouver le nombre de combinaisons en fonction des places dans le théâtre et qu'il ne me reste qu'à trouver le nombre de cas où la dernière place est libre.
+J'ai déjà une idée, mais je n'ai pas eu le temps de la rédiger.
+
+Il m'écoute attentivement, réfléchit deux minutes et me sort :
+
+
+"_Dans ton algorithme récursif, on voit clairement que le dernier n'a que deux possibilités : soit son siège, soit celui du premier spectateur._"
+
+"_Il a donc 50% de chance d'être à sa place, non ?_"
+
+
+Goulp ! Une soirée de travail anéantie... Moi qui était si fier de ma récurrence. Pourquoi l'intuition frappe-t-elle toujours mes potes et pas moi ?
+
+Je rentre tout penau chez moi et oublie ce maudit problème quelques temps.
+
+
+Et puis une nuit, je me réveille.
+Ce n'était pas un peu fallacieux l'argument du Thomas ?
+Le dernier spectateur n'a-t-il vraiment que deux possibilités ?
+
+Certes, dans tous les cas, il finira en place 1 ou 100. Là dessus, pas de problème.
+Mais la question la plus importante est de savoir si dans toutes les configurations, on en a bien autant avec la place __1__ libre qu'avec la place __100__. Si ce n'est pas le cas, on n'est pas à 50%.
+
+
+Du coup je reviens à mes calculs que j'avais laissés en plan au moment de calculer les cas favorables. 
+Ces cas favorables sont ceux où personne n'a pris la dernière place.
+C'est-à-dire les cas où 99 spectateurs ont pris 99 places dans un théâtre. Je reconnais <x-latex>C_{99}</x-latex> et c'est justement la moitié de <x-latex>C_{100}</x-latex>.
+
+
+Ce calcul me rassure. J'ai trouvé la solution et elle me semble indiscutable.
+Mais Thomas m'a mis le doute. Il y a peut-être moyen de ne pas faire de calcul finalement.
+
 
 
     </page>

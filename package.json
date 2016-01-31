@@ -6,7 +6,8 @@
   "dependencies": {
     "colors": "^1.1.2",
     "jasmine": "^2.3.2",
-    "readline-sync": "^1.2.21"
+    "readline-sync": "^1.2.21",
+    "toloframework": "^0.30.14"
   },
   "devDependencies": {
     "toloframework": "^0.30.8"
