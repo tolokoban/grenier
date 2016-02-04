@@ -1,0 +1,21 @@
+<!DOCTYPE HTML><html><head><title>Détection de droites dans une image</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><link rel="stylesheet" type="text/css" href="../../css/articles\\detection_droites\\@detection_droites.css"><script src="../../js/articles\\detection_droites\\@detection_droites.js"></script></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>Détection de droites dans une image</header><article><p>Je vous présente ici la technique de la <a href="http://en.wikipedia.org/wiki/Hough_transform">transformée de Hough</a>.</p>
+<p>On commence par une détection de contours. Pour chaque point qui en résulte, on recherche les paramètres de toutes les droites qui peuvent passer par lui. Normalement, il y en a une infinité, mais on se place dans un monde discret pour que ce soit réalisable. On recense donc une liste de paramètres dont certains peuvent apparaître plusieurs fois. Ce sont ceux dont l&#39;occurence est la plus grande qui ont le plus de chance de représenter une droite dans l&#39;image.</p>
+<h1 id="param-trage-d-une-droite">Paramétrage d&#39;une droite</h1>
+<p>Toute droite du plan peut être identifiée de façon unique par deux paramètres :</p>
+<ul>
+<li><strong>R</strong> : sa distance à l&#39;origine (0,0). </li>
+<li><strong>A</strong> : l&#39;angle qu&#39;elle fait par rapport à un axe.</li>
+</ul>
+<p>L&#39;équation de la droite est donc : <code>R = x Cos(A) + y Sin(A)</code></p>
+<p>Il va donc falloir chercher, pour chaque point, l&#39;ensemble des couples (R, A) des droites qui passent par là. Il en existe évidemment une infinité, mais nous allons discrétiser le domaine pour diminuer ce nombre. Pour cela, nous allons, par exemple, seulement détecter les droites dont <strong>A</strong> est un multiple entier de 10°. Il n&#39;y a ainsi plus que 36 droites possibles par point. Pour chaque point (x,y) et chaque angle <strong>A</strong>, on peut déterminer facilement <strong>R</strong> par la formule <code>R = x Cos(A) + y Sin(A)</code>.</p>
+<h1 id="d-terminer-quelle-droite-passe-par-un-point-donn-">Déterminer quelle droite passe par un point donné</h1>
+<p>Pour chaque point, on détermine les valeurs de <strong>R</strong> pour chacune des 36 valeurs de <strong>A</strong>. Deux points appartiennent à la même droite s&#39;ils ont en commun un couple <code>(A,R)</code>. Pour que ceci soit possible, il faut aussi discrétiser les valeurs de <strong>R</strong>.</p>
+<h1 id="exemple">Exemple</h1>
+<p><img style="box-shadow:0 0 3px #000;float:right;margin-left:1em" id="image" src="sample.jpg"/></p>
+<p>L&#39;image ci-contre comporte 32x32 pixels. Voici comment détecter les droites qui se cachent dans les points en noir.</p>
+<p>On commence par recenser les coordonnées de chaque point noir. Ensuite, on remplit un tableau pour toutes les valeurs discrètes de <strong>R</strong> en fonction des 36 valeurs de <strong>A</strong> (0°, 10°, 20°, ..., 350°).</p>
+<div id="sample"></div>
+
+
+
+<div style="height:1rem"></div></article></section></body></html>

@@ -1,0 +1,43 @@
+<!DOCTYPE HTML><html><head><title>Les mesures de bières et le baril</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><link rel="stylesheet" type="text/css" href="../../css/articles\\glob\\@glob.2.css"><script src="../../js/articles\\glob\\@glob.2.js"></script></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>Les mesures de bières et le baril</header><article><p>Une idée pour résoudre le problème serait de se retrouver dans la situation où il ne resterait qu&#39;une pinte dans le baril. On utiliserait alors uniquement les deux verres pour faire en sorte que l&#39;un des deux ne contienne plus qu&#39;une pinte. Dès lors, il suffit de vider l&#39;autre verre et de le remplir avec le contenu du baril.</p>
+<p>On va donc commencer par analyser le cas où on n&#39;utilise que les verres pour se retrouver avec une pinte dans l&#39;un d&#39;eux. Il n&#39;y a que 6 possibilités :</p>
+<ul>
+<li>Situation initiale: [0,4]<ul>
+<li>Remplir le petit verre avec le grand verre : [3,1]</li>
+</ul>
+</li>
+<li>Situation initiale: [2,2]<ul>
+<li>Remplir le petit verre avec le grand verre : [3,1]</li>
+</ul>
+</li>
+<li>Situation initiale: [2,4]<ul>
+<li>Remplir le grand verre avec le petit verre : [1,5]</li>
+</ul>
+</li>
+<li>Situation initiale: [2,5]<ul>
+<li>Remplir le petit verre avec le grand verre : [3,4]</li>
+<li>Vider le petit verre sur le sol : [0,4]</li>
+<li>Remplir le petit verre avec le grand verre : [3,1]</li>
+</ul>
+</li>
+<li>Situation initiale: [3,3]<ul>
+<li>Remplir le grand verre avec le petit verre : [1,5]</li>
+</ul>
+</li>
+<li>Situation initiale: [3,4]<ul>
+<li>Vider le petit verre sur le sol : [0,4]</li>
+<li>Remplir le petit verre avec le grand verre : [3,1]</li>
+</ul>
+</li>
+</ul>
+<p>On peut les résumer en 4 voies possibles :</p>
+<ul>
+<li><strong>[3,1]</strong>, [2,2], [0,2,2], [3,2,2], [0,5,2], [2,5,0], [2,5,53], [2,0,58], [0,2,58], [3,2,55], [0,5,55], [0,0,60]</li>
+<li><strong>[3,1]</strong>, [0,4], [3,4], [2,5], [2,0,55], [0,2,55], [3,2,55], [0,5,55], [0,0,60]</li>
+<li><strong>[1,5]</strong>, [3,3], [3,3,54], [0,3,57], [3,0,57], [0,0,60]</li>
+<li><strong>[1,5]</strong>, [2,4], [2,0,4], [0,2,4], [3,2,1], [0,5,1], [1,5,0], [1,5,54], [3,3,54], [0,3,57], [3,0,57], [0,0,60]</li>
+</ul>
+<p>Comme on le voit, il est possible d&#39;arriver dans une de ces deux configurations : [3,0,1] et [0,5,1].
+Malheureusement, il n&#39;existe pas de solution n&#39;utilisant que les deux verres pour produire une pinte à partir de [3,0] ou [0,5].
+Ce n&#39;est donc pas de cette façon que l&#39;on doit résoudre l&#39;énigme. On doit garder la dernière étape qui consiste à n&#39;utiliser que les deux verres avec un pinte dans le baril, mais pour produire la première pinte, il faut que ce soit fait directement dans le baril.</p>
+<p>La solution est donnée sur la dernière page...</p>
+<div style="height:1rem"></div><footer>Pages : <span><a href="glob.html">1</a></span><span><a href="glob.1.html">2</a></span><span><span class="selected">3</span></span><span><a href="glob.3.html">4</a></span><span><a href="glob.4.html">5</a></span></footer></article></section></body></html>

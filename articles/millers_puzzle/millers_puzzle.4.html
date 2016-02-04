@@ -1,0 +1,159 @@
+<!DOCTYPE HTML><html><head><title>The Miller's Puzzle (6 août 2015)</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><link rel="stylesheet" type="text/css" href="../../css/articles\\millers_puzzle\\@millers_puzzle.4.css"><script src="../../js/articles\\millers_puzzle\\@millers_puzzle.4.js"></script></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>The Miller's Puzzle (6 août 2015)</header><article><h1 id="la-recherche-r-cursive-par-niveaux">La recherche récursive par niveaux</h1>
+<p><a name="recherche-recursive"/></p>
+<p>Une <em>transposition</em> est l&#39;acte d&#39;échanger deux sacs de place. Dans cette résolution, on va partir de la situation initiale et tenter toutes les transpositions cohérentes possibles jusqu&#39;à arriver à une solution. La <em>cohérence</em> repose sur les théorèmes trouvés par la méthode de la déduction.</p>
+<p>La situation initiale est la suivante : <strong>7</strong>-<strong>28</strong>-<strong>196</strong>-<strong>34</strong>-<strong>5</strong>.</p>
+<p>Les théorèmes 1, 2 et 4 sont respectés, mais pas le 1(bis). Pour se rapprocher de la solution, il faudra au moins une transposition pour déplacer ce 5. Cela nous donne une idée d&#39;heuristique, c&#39;est-à-dire une fonction qui nous donne le nombre minimal de transpositions à réaliser pour atteindre la solution.</p>
+<p>L&#39;heuristique ne peut pas être simplement le compte des contraintes violées. Une telle heuristique ne serait pas <a href="https://en.wikipedia.org/wiki/Admissible_heuristic">admissible</a> puisqu&#39;il existe des cas où ses prévisions dépassent la réalité.
+Prenons l&#39;exemple suivant : 2-78-456-39-1. Il viole deux contraintes : le <em>1</em> ne fait pas partie de C et <math><mrow><mn>39</mn><mo>&times;</mo><mn>1</mn></mrow></math> n&#39;est pas pair. Pourtant, il suffit de transposer le <em>1</em> et le <em>4</em> pour atteindre une solution : 2-78-156-39-4.</p>
+<p>On en déduit qu&#39;une transposition peut régler 2 problèmes simultanément. Une façon de rendre admissible notre heuristique serait de la transformer en <em>nombre de contraintes violées divisé par 2</em>.</p>
+<p>Avec cette heuristique, on arrive à la solution suivante en trois transpositions :</p>
+<ul>
+<li>7-28-196-34-5</li>
+<li>7-28-196-3<strong>5</strong>-<strong>4</strong></li>
+<li>7-28-1<strong>5</strong>6-3<strong>9</strong>-4</li>
+<li><strong>2</strong>-<strong>7</strong>8-156-39-4</li>
+</ul>
+<p>Et voici l&#39;algorithme qui nous donne ce résultat :</p>
+<pre class="custom highlight js">var transpositions <span class="operator">=</span> [];
+<span class="keyword">
+var</span> i, j;
+<span class="keyword">
+for</span> (i <span class="operator">=</span> 0 ; i <span class="operator">&lt;</span> 8 ; i<span class="operator">+</span><span class="operator">+</span>) {
+ <span class="keyword"> for</span> (j <span class="operator">=</span> i <span class="operator">+</span> 1 ; j <span class="operator">&lt;</span> 9 ; j<span class="operator">+</span><span class="operator">+</span>) {
+    transpositions.<span class="function">push</span>([i, j]);
+  }
+}
+
+<span class="keyword">
+function</span> <span class="function">pretty</span>(key) {
+ <span class="keyword"> return</span> key.<span class="function">substr</span>(0, 1) <span class="operator">+</span> <span class="string">"-"</span> <span class="operator">+</span> key.<span class="function">substr</span>(1, 2) <span class="operator">+</span> <span class="string">"-"</span>
+    <span class="operator">+</span> key.<span class="function">substr</span>(3, 3) <span class="operator">+</span> <span class="string">"-"</span> <span class="operator">+</span> key.<span class="function">substr</span>(6, 2) <span class="operator">+</span> <span class="string">"-"</span> <span class="operator">+</span> key.<span class="function">substr</span>(8);
+}
+
+<span class="keyword">
+function</span> <span class="function">State</span>(parent) {
+ <span class="keyword"> if</span> <span class="keyword">(typeof</span> parent <span class="operator">===</span> 'undefined') {
+   <span class="keyword"> this</span>.key <span class="operator">=</span> '';
+   <span class="keyword"> this</span>.cost <span class="operator">=</span> 0;
+   <span class="keyword"> this</span>.path <span class="operator">=</span> [];
+   <span class="keyword"> this</span>.digits <span class="operator">=</span> [7, 2,8, 1,9,6, 3,4, 5];
+   <span class="keyword"> this</span>.heuristic <span class="operator">=</span> 0;
+   <span class="keyword"> this</span>.<span class="function">update</span>();
+  }<span class="keyword"> else</span> {
+   <span class="keyword"> this</span>.key <span class="operator">=</span> parent.key;
+   <span class="keyword"> this</span>.path <span class="operator">=</span> parent.path.<span class="function">slice</span>();
+   <span class="keyword"> this</span>.cost <span class="operator">=</span> parent.cost;
+   <span class="keyword"> this</span>.digits <span class="operator">=</span> parent.digits.<span class="function">slice</span>();
+   <span class="keyword"> this</span>.heuristic <span class="operator">=</span> parent.heuristic;
+  }
+}
+
+<span class="comment">/**
+ * @return void
+ */</span>
+State.prototype.transpose <span class="operator">=</span><span class="keyword"> function</span>(vect) {
+ <span class="keyword"> this</span>.path.<span class="function">push</span><span class="keyword">(this</span>.key);
+ <span class="keyword"> var</span> a <span class="operator">=</span> vect[0], b <span class="operator">=</span> vect[1];
+ <span class="keyword"> var</span> tmp <span class="operator">=</span><span class="keyword"> this</span>.digits[a];
+ <span class="keyword"> this</span>.digits[a] <span class="operator">=</span><span class="keyword"> this</span>.digits[b];
+ <span class="keyword"> this</span>.digits[b] <span class="operator">=</span> tmp;
+ <span class="keyword"> this</span>.cost<span class="operator">+</span><span class="operator">+</span>;
+ <span class="keyword"> this</span>.<span class="function">update</span>();
+};
+
+State.prototype.update <span class="operator">=</span><span class="keyword"> function</span>() {
+ <span class="keyword"> var</span> key <span class="operator">=</span> '';
+ <span class="keyword"> this</span>.digits.<span class="function">forEach</span>(
+   <span class="keyword"> function</span>(digit) {
+      key <span class="operator">+</span><span class="operator">=</span> digit;
+    }
+  );
+ <span class="keyword"> this</span>.key <span class="operator">=</span> key;
+
+ <span class="keyword"> var</span> digits <span class="operator">=</span><span class="keyword"> this</span>.digits;
+ <span class="keyword"> var</span> a <span class="operator">=</span> digits[0];
+ <span class="keyword"> var</span> b1 <span class="operator">=</span> digits[1];
+ <span class="keyword"> var</span> b0 <span class="operator">=</span> digits[2];
+ <span class="keyword"> var</span> c2 <span class="operator">=</span> digits[3];
+ <span class="keyword"> var</span> c1 <span class="operator">=</span> digits[4];
+ <span class="keyword"> var</span> c0 <span class="operator">=</span> digits[5];
+ <span class="keyword"> var</span> d1 <span class="operator">=</span> digits[6];
+ <span class="keyword"> var</span> d0 <span class="operator">=</span> digits[7];
+ <span class="keyword"> var</span> e <span class="operator">=</span> digits[8];
+ <span class="keyword"> var</span> b <span class="operator">=</span> b1 <span class="operator">*</span> 10 <span class="operator">+</span> b0;
+ <span class="keyword"> var</span> c <span class="operator">=</span> c2 <span class="operator">*</span> 100 <span class="operator">+</span> c1 <span class="operator">*</span> 10 <span class="operator">+</span> c0;
+ <span class="keyword"> var</span> d <span class="operator">=</span> d1 <span class="operator">*</span> 10 <span class="operator">+</span> d0;
+ <span class="keyword"> var</span> h <span class="operator">=</span> 0;
+ <span class="keyword"> if</span> (c2 <span class="operator">!=</span> 1 <span class="operator">&amp;</span><span class="operator">&amp;</span> c1 <span class="operator">!=</span> 1) h<span class="operator">+</span><span class="operator">+</span>;
+ <span class="keyword"> if</span> (a <span class="operator">%</span> 2 <span class="operator">==</span> 1 <span class="operator">&amp;</span><span class="operator">&amp;</span> b0 <span class="operator">%</span> 2 <span class="operator">==</span> 1) h<span class="operator">+</span><span class="operator">+</span>;
+ <span class="keyword"> if</span> (e <span class="operator">%</span> 2 <span class="operator">==</span> 1 <span class="operator">&amp;</span><span class="operator">&amp;</span> d0 <span class="operator">%</span> 2 <span class="operator">==</span> 1) h<span class="operator">+</span><span class="operator">+</span>;
+ <span class="keyword"> if</span> (c0 <span class="operator">!=</span> 1 <span class="operator">&amp;</span><span class="operator">&amp;</span> c0 <span class="operator">%</span> 2 <span class="operator">==</span> 1) h<span class="operator">+</span><span class="operator">+</span>;
+ <span class="keyword"> if</span> (a <span class="operator">*</span> b <span class="operator">!=</span> c) h<span class="operator">+</span><span class="operator">+</span>;
+ <span class="keyword"> if</span> (e <span class="operator">*</span> d <span class="operator">!=</span> c) h<span class="operator">+</span><span class="operator">+</span>;
+ <span class="keyword"> this</span>.heuristic <span class="operator">=</span> h;
+};
+
+State.prototype.next <span class="operator">=</span><span class="keyword"> function</span>(fringe) {
+  transpositions.<span class="function">forEach</span>(
+   <span class="keyword"> function</span>(tr) {
+     <span class="keyword"> var</span> state <span class="operator">=</span><span class="keyword"> new</span> <span class="function">State</span><span class="keyword">(this</span>);
+      state.<span class="function">transpose</span>(tr);
+     <span class="keyword"> if</span> (state.path.<span class="function">indexOf</span>(state.key) <span class="operator">&lt;</span> 0) {
+        fringe.<span class="function">push</span>(state);
+      }
+    },
+   <span class="keyword"> this</span>
+  );
+};
+
+State.prototype.isGoal <span class="operator">=</span><span class="keyword"> function</span>() {
+ <span class="keyword"> var</span> digits <span class="operator">=</span><span class="keyword"> this</span>.digits;
+ <span class="keyword"> var</span> a <span class="operator">=</span> digits[0];
+ <span class="keyword"> var</span> b1 <span class="operator">=</span> digits[1];
+ <span class="keyword"> var</span> b0 <span class="operator">=</span> digits[2];
+ <span class="keyword"> var</span> c2 <span class="operator">=</span> digits[3];
+ <span class="keyword"> var</span> c1 <span class="operator">=</span> digits[4];
+ <span class="keyword"> var</span> c0 <span class="operator">=</span> digits[5];
+ <span class="keyword"> var</span> d1 <span class="operator">=</span> digits[6];
+ <span class="keyword"> var</span> d0 <span class="operator">=</span> digits[7];
+ <span class="keyword"> var</span> e <span class="operator">=</span> digits[8];
+ <span class="keyword"> var</span> b <span class="operator">=</span> b1 <span class="operator">*</span> 10 <span class="operator">+</span> b0;
+ <span class="keyword"> var</span> c <span class="operator">=</span> c2 <span class="operator">*</span> 100 <span class="operator">+</span> c1 <span class="operator">*</span> 10 <span class="operator">+</span> c0;
+ <span class="keyword"> var</span> d <span class="operator">=</span> d1 <span class="operator">*</span> 10 <span class="operator">+</span> d0;
+ <span class="keyword"> return</span> (a <span class="operator">*</span> b <span class="operator">==</span> c <span class="operator">&amp;</span><span class="operator">&amp;</span> e <span class="operator">*</span> d <span class="operator">==</span> c);
+};
+
+State.prototype.toString <span class="operator">=</span><span class="keyword"> function</span>() {
+ <span class="keyword"> var</span> text <span class="operator">=</span> '';
+ <span class="keyword"> this</span>.path.<span class="function">forEach</span>(
+   <span class="keyword"> function</span>(key) {
+      text <span class="operator">+</span><span class="operator">=</span> <span class="function">pretty</span>(key) <span class="operator">+</span> ' , ';
+    }
+  );
+  text <span class="operator">+</span><span class="operator">=</span> <span class="function">pretty</span><span class="keyword">(this</span>.key);
+ <span class="keyword"> return</span> text;
+};
+
+<span class="keyword">
+function</span> <span class="function">solve</span>() {
+ <span class="keyword"> var</span> fringe <span class="operator">=</span> <span class="keyword">[new</span> <span class="function">State</span>()];
+ <span class="keyword"> var</span> state;
+ <span class="keyword"> while</span> (fringe.length <span class="operator">&gt;</span> 0) {
+    console.<span class="function">log</span>(<span class="string">"Fringe: "</span> <span class="operator">+</span> fringe.length);
+    state <span class="operator">=</span> fringe.<span class="function">pop</span>();
+    console.<span class="function">log</span>(state.<span class="function">toString</span>());
+   <span class="keyword"> if</span> (state.<span class="function">isGoal</span>()) {
+      console.<span class="function">log</span>();
+      console.<span class="function">log</span>(<span class="string">"Solution: "</span> <span class="operator">+</span> state.<span class="function">toString</span>());
+     <span class="keyword"> return</span>;
+    }
+    state.<span class="function">next</span>(fringe);
+    fringe.<span class="function">sort</span><span class="keyword">(function</span>(s1, s2) {
+     <span class="keyword"> return</span> <span class="operator">-</span>(s1.cost <span class="operator">+</span> s1.heuristic <span class="operator">-</span> s2.cost <span class="operator">-</span> s2.heuristic);
+    });
+  }
+}
+
+<span class="function">solve</span>();</pre>
+
+<div style="height:1rem"></div><footer>Pages : <span><a href="millers_puzzle.html">1</a></span><span><a href="millers_puzzle.1.html">2</a></span><span><a href="millers_puzzle.2.html">3</a></span><span><a href="millers_puzzle.3.html">4</a></span><span><span class="selected">5</span></span><span><a href="millers_puzzle.5.html">6</a></span></footer></article></section></body></html>

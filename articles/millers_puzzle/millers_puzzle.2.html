@@ -1,0 +1,40 @@
+<!DOCTYPE HTML><html><head><title>The Miller's Puzzle (6 août 2015)</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><link rel="stylesheet" type="text/css" href="../../css/articles\\millers_puzzle\\@millers_puzzle.2.css"><script src="../../js/articles\\millers_puzzle\\@millers_puzzle.2.js"></script></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>The Miller's Puzzle (6 août 2015)</header><article><h1 id="la-force-brute">La force brute</h1>
+<p><a name="force-brute"></a></p>
+<p>Le nombre de combinaisons possibles de 9 sacs de farine est égal à <math><mrow><mn>9</mn><mo>!</mo><mo>=</mo><mn>9</mn><mo>&times;</mo><mn>8</mn><mo>&times;</mo><mn>7</mn><mo>&times;</mo><mo>&ctdot;</mo><mo>&times;</mo><mn>2</mn><mo>&times;</mo><mn>1</mn><mo>=</mo><mn>362880</mn></mrow></math>. Ce nombre est ridiculement petit pour un ordinateur et la force brute est donc particulièrement bien adaptée au problème.</p>
+<pre class="custom highlight js">function <span class="function">solve</span>(row, digit) {
+ <span class="keyword"> if</span> (digit <span class="operator">&lt;</span> 1) {
+    <span class="comment">// `row` is a permutation of 1, 2, ..., 9.
+</span>    <span class="comment">// We have to check if this solution holds.
+</span>   <span class="keyword"> var</span> a1 <span class="operator">=</span> row[0];
+   <span class="keyword"> var</span> b1 <span class="operator">=</span> row[1] <span class="operator">*</span> 10 <span class="operator">+</span> row[2];
+   <span class="keyword"> var</span> c <span class="operator">=</span> row[3] <span class="operator">*</span> 100 <span class="operator">+</span> row[4] <span class="operator">*</span> 10 <span class="operator">+</span> row[5];
+   <span class="keyword"> var</span> b2 <span class="operator">=</span> row[6] <span class="operator">*</span> 10 <span class="operator">+</span> row[7];
+   <span class="keyword"> var</span> a2 <span class="operator">=</span> row[8];
+   <span class="keyword"> if</span> (a1 <span class="operator">*</span> b1 <span class="operator">==</span> c <span class="operator">&amp;</span><span class="operator">&amp;</span> c <span class="operator">==</span> b2 <span class="operator">*</span> a2) {
+      console.<span class="function">log</span>(a1, b1, c, b2, a2);
+    }
+   <span class="keyword"> return</span>;
+  }
+  <span class="comment">// Place each digit in all possible places.
+</span> <span class="keyword"> for</span> <span class="keyword">(var</span> k <span class="operator">=</span> 0 ; k <span class="operator">&lt;</span> row.length ; k<span class="operator">+</span><span class="operator">+</span>) {
+   <span class="keyword"> if</span> (row[k] <span class="operator">&lt;</span> 1) {
+      row[k] <span class="operator">=</span> digit;
+      <span class="function">solve</span>(row, digit <span class="operator">-</span> 1);
+      row[k] <span class="operator">=</span> 0;
+    }
+  }
+}
+
+<span class="function">solve</span>([0,0,0,0,0,0,0,0,0], 9);</pre>
+
+<p>La réponse arrive en moins d&#39;une seconde :</p>
+<ul>
+<li><math><mrow><mn>6</mn><mo>&times;</mo><mn>29</mn><mo>=</mo><mn>174</mn><mo>=</mo><mn>58</mn><mo>&times;</mo><mn>3</mn></mrow></math></li>
+<li><math><mrow><mn>4</mn><mo>&times;</mo><mn>39</mn><mo>=</mo><mn>156</mn><mo>=</mo><mn>78</mn><mo>&times;</mo><mn>2</mn></mrow></math></li>
+<li><math><mrow><mn>2</mn><mo>&times;</mo><mn>78</mn><mo>=</mo><mn>156</mn><mo>=</mo><mn>39</mn><mo>&times;</mo><mn>4</mn></mrow></math></li>
+<li><math><mrow><mn>3</mn><mo>&times;</mo><mn>58</mn><mo>=</mo><mn>174</mn><mo>=</mo><mn>29</mn><mo>&times;</mo><mn>6</mn></mrow></math>
+
+</li>
+</ul>
+<p><a href="millers_puzzle.3.html#deduction">Résolution par déduction</a>.</p>
+<div style="height:1rem"></div><footer>Pages : <span><a href="millers_puzzle.html">1</a></span><span><a href="millers_puzzle.1.html">2</a></span><span><span class="selected">3</span></span><span><a href="millers_puzzle.3.html">4</a></span><span><a href="millers_puzzle.4.html">5</a></span><span><a href="millers_puzzle.5.html">6</a></span></footer></article></section></body></html>

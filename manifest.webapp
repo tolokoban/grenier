@@ -1,0 +1,15 @@
+{
+  "launch_path": "/index.html",
+  "developer": {
+    "name": "Tolokoban",
+    "url": "https://github.com/tolokoban/grenier"
+  },
+  "icons": {
+    "60": "/icon-60.png",
+    "128": "/icon-128.png",
+    "256": "/icon-256.png"
+  },
+  "name": "grenier",
+  "version": "1.0.512",
+  "description": "Articles concernant majoritairement l'algorithmie"
+}

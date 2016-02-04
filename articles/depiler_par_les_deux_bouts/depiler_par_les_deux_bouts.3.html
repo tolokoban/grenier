@@ -1,0 +1,22 @@
+<!DOCTYPE HTML><html><head><title>Dépiler les pièces par les deux bouts</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><link rel="stylesheet" type="text/css" href="../../css/articles\\depiler_par_les_deux_bouts\\@depiler_par_les_deux_bouts.3.css"><script src="../../js/articles\\depiler_par_les_deux_bouts\\@depiler_par_les_deux_bouts.3.js"></script></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>Dépiler les pièces par les deux bouts</header><article><p><a name="response"></a></p>
+<h2 id="un-strat-gie-_simple_-pour-gagner-tous-les-coups">Un stratégie <em>simple</em> pour gagner à tous les coups</h2>
+<p>Numérotons les pièces de gauche à droite, indépendamment de leurs valeurs. Nous pouvons former deux groupes : les pièces à index pair (représentées en vert ci-dessous) et les pièces à index impair (en rouge).</p>
+<div id="game2" style="display:none"></div>
+
+<p>Dans l&#39;exemple ci-dessus, on voit bien que la somme des pièces vertes est supérieure à celle des pièces rouges. <strong>On est donc sûr de gagner si on prend toutes les pièces vertes</strong>.</p>
+<p>Pour cela, il suffit de prendre la première pièce à gauche. L&#39;ordinateur n&#39;aura d&#39;autre choix que de prendre une rouge. On prendra alors la verte juste à côté de celle qu&#39;il vient de prendre. Elle sera forcément verte. En continuant cette stratégie jusqu&#39;au bout, on est sûr de prendre toutes les pièces vertes et donc de gagner.</p>
+<p>Et comme on le prouve ci-dessous, il n&#39;y aura jamais égalité.</p>
+<p><a name="solution1"></a></p>
+<h2 id="le-gain-n-est-jamais-nul">Le gain n&#39;est jamais nul</h2>
+<h3 id="d-monstration-1">Démonstration 1</h3>
+<p>Il suffit de remarquer que dans les nombres allant de 1 à 10, seuls 5 sont impairs. Donc en fin de partie, puisque chaque joueur aura 5 pièces, les 5 pièces à valeurs impaires seront réparties comme ceci :</p>
+<ul>
+<li>0 / 1,</li>
+<li>1 / 4,</li>
+<li>ou 2 / 3.</li>
+</ul>
+<p>De plus, on sait que la somme de nombres pairs est toujours paire, et que la somme de <math><mrow><mi>n</mi></mrow></math> nombres impairs est paire si <math><mrow><mi>n</mi></mrow></math> est pair et impair dans le cas comtraire.</p>
+<p>Donc, en fin de compte, un joueur aura un montant pair et l&#39;autre un montant impair. Ces montants sont donc forcément différents.</p>
+<h3 id="d-monstration-2">Démonstration 2</h3>
+<p>La somme des pièces en jeu est de <math><mrow><mn>1</mn><mo>+</mo><mn>2</mn><mo>+</mo><mo>&ctdot;</mo><mo>+</mo><mn>10</mn><mo>=</mo><mfrac><mrow><mn>10</mn><mo>&times;</mo><mn>11</mn></mrow><mrow><mn>2</mn></mrow></mfrac><mo>=</mo><mn>55</mn></mrow></math>. Si on partage cette somme impaire en deux, on obtient un tas pair et un tas impair.</p>
+<div style="height:1rem"></div><footer>Pages : <span><a href="depiler_par_les_deux_bouts.html">1</a></span><span><a href="depiler_par_les_deux_bouts.1.html">2</a></span><span><a href="depiler_par_les_deux_bouts.2.html">3</a></span><span><span class="selected">4</span></span></footer></article></section></body></html>

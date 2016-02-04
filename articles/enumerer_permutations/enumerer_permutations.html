@@ -1,0 +1,32 @@
+<!DOCTYPE HTML><html><head><title>Énumérer les permutations</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><link rel="stylesheet" type="text/css" href="../../css/articles\\enumerer_permutations\\@enumerer_permutations.css"><script src="../../js/articles\\enumerer_permutations\\@enumerer_permutations.js"></script></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>Énumérer les permutations</header><article><p>Les permutations sont les façons d&#39;arranger des éléments dans une liste. Par exemple, si on a trois places sur un canapé et que trois personnes s&#39;y assoient, les permutations représentent toutes les configurations possibles.</p>
+<p>C&#39;est-à-dire : <strong>[ABC], [CBA], [BAC], [CAB], [ACB]</strong> et <strong>[BCA]</strong>.</p>
+<p>Pourvoir énumérer toutes les permutations est intéressant. Supposons qu&#39;on arrive en bas de l&#39;immeuble d&#39;un ami et qu&#39;on a oublié les 4 chiffres de son digicode. En bon détective, on commence par repérer les touches les plus usées ou avec le plus de traces de doigts. Cela nous donne les 4 chiffres, mais on ne sait toujours pas dans quel ordre il faut les taper.
+Si on a un algorithme pour énumérer toutes les permutations de 4 chiffres, on n&#39;a que 24 combinaisons à tester.</p>
+<p>Dans cet article, nous allons étudier deux algorithmes pour lister toutes les permutations de <code>n</code> éléments. Le premier génère toute la liste avant de rendre la main. Tandis que le second retourne la permutation qui suit celle qu&#39;on lui passe en argument.</p>
+<h1 id="algorithme-r-cursif">Algorithme récursif</h1>
+<p>Pour trouver toutes les permutations de n éléments, il suffit de considérer les cas où le premier élément est en première position, puis en deuxième, puis en troisième, ... et enfin en dernière position.
+On a donc n cas de figure et pour chacun d&#39;eux on se retrouve avec encore n - 1 éléments à permuter. On réitère donc le procédé jusqu&#39;à ce qu&#39;il ne reste plus d&#39;élément à placer.</p>
+<pre class="custom highlight js">def <span class="function">make</span>(size, result<span class="operator">=</span>[], level<span class="operator">=</span>0, item<span class="operator">=</span>None):
+   <span class="keyword"> if</span> level <span class="operator">=</span> size:
+        result.<span class="function">append</span>(item[:])
+       <span class="keyword"> return</span>
+   <span class="keyword"> if</span> item <span class="operator">==</span> None:
+        item <span class="operator">=</span> [<span class="operator">-</span>1<span class="keyword"> for</span> i<span class="keyword"> in</span> <span class="function">range</span>(size)]
+   <span class="keyword"> for</span> index<span class="keyword"> in</span> <span class="function">range</span>(size):
+       <span class="keyword"> if</span> item[index]  0:
+            item[index] <span class="operator">=</span> level
+            <span class="function">make</span>(size, result, level <span class="operator">+</span> 1, item)
+            item[index] <span class="operator">=</span> <span class="operator">-</span>1
+   <span class="keyword"> return</span> result</pre>
+
+<h1 id="algorithme-successif">Algorithme successif</h1>
+<p>L&#39;algorithme précédent (c&#39;est-à-dire l&#39;algorithme récursif) nous retourne une liste de toutes les permutations et nous apprend, au passage, comment les compter en fonction de <code>n</code>. Mais dans les cas où <code>n</code> est grand, la liste peut devenir plutôt longue. Par exemple : 4! = 24, 5! = 120, 10! = 3628800, <strong>30! = 265&#39;252&#39;859&#39;812&#39;191&#39;058&#39;636&#39;308&#39;480&#39;000&#39;000</strong>.
+Si on n&#39;a pas la place de stocker de telles listes de permutations, où que l&#39;on veut juste essayer des combinaisons de coffre fort les unes après les autres jusqu&#39;à trouver la bonne, il vaut mieux utiliser un algorithme qui, à partir d&#39;une permutation quelconque, nous retourne la suivante.</p>
+<p>Avant d&#39;aller voir la solution sur la page suivante, je vous propose d&#39;essayer d&#39;écrire un tel algorithme en Javascript.
+Il vous suffit d&#39;écrire le contenu d&#39;une fonction à qui on passe l&#39;argument <code>memory.perm</code> qui est un tableau possèdant une permutation des nombres allant de 0 à n - 1. La fonction devra retourner un tableau représentant la permutation suivante.
+Par exemple, si <code>memory.perm = [2, 0, 1, 3]</code> votre fonction devra retourner <code>[2, 0, 3, 1]</code>.</p>
+<p><x-grader src="grader1.js">
+    Bravo ! Votre algorithme fonctionne parfaitement. Voici une proposition :
+    <x-code src="solution1.js"/>
+</x-grader></p>
+<div style="height:1rem"></div><footer>Pages : <span><span class="selected">1</span></span><span><a href="enumerer_permutations.1.html">2</a></span></footer></article></section></body></html>

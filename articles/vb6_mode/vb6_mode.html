@@ -1,0 +1,44 @@
+<!DOCTYPE HTML><html><head><title>Créer des modes avec Emacs</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><link rel="stylesheet" type="text/css" href="../../css/articles\\vb6_mode\\@vb6_mode.css"><script src="../../js/articles\\vb6_mode\\@vb6_mode.js"></script></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>Créer des modes avec Emacs</header><article><p>Dans cet article nous allons étudier un peu <strong>Emacs</strong> en créant des modes pour éditer le vieux langage Visual Basic 6.</p>
+<h1 id="les-fichiers-vbg-">Les fichiers <code>*.vbg</code></h1>
+<p>Ces fichiers permettent de grouper des projets. Ils ressemblent à ceci :</p>
+<pre class="custom highlight js">VBGROUP 5.0
+StartupProject<span class="operator">=</span>VNegoce6.vbp
+Project<span class="operator">=</span>..\Modules\XmlBundles2\XmlBundles.vbp
+Project<span class="operator">=</span>..\Modules\VirtualScreen\VirtualScreen.vbp
+Project<span class="operator">=</span>..\Modules\NegocePDF\NegocePDF.vbp
+Project<span class="operator">=</span>..\Modules\VBX\VBX.vbp
+Project<span class="operator">=</span>..\Modules\BoardsManager\BoardsManager.vbp</pre>
+
+<p>Ici, nous voulons simplement pouvoir cliquer sur un nom de fichier pour l&#39;ouvrir.</p>
+<h2 id="recherche">Recherche</h2>
+<h3 id="cr-er-un-lien">Créer un lien</h3>
+<p>Après quelques recherches de <code>emacs hyperlinks</code> sur internet, nous avons trouvé que le terme <strong>Button</strong> est celui qui est utilisé dans Emacs pour créer nos liens. Nous avons donc ouvert notre emacs et dans le menu <code>Help -&gt; More manuals -&gt; Lookup Subject in all Manuals...</code> nous avons tapé le mot clef <code>Button</code>.
+Cela nous a amené à la section <strong>37.18</strong> du manuel de référence de <strong>elisp</strong>. Et voici ce que nous y avons appris.</p>
+<p>La fonction de création de boutons est la suivante :</p>
+<pre class="custom highlight js">(make<span class="operator">-</span>button beg end <span class="operator">&amp;</span>rest properties)</pre>
+
+<p>Nous spécifierons une fonction à appeler quand l&#39;utilisateur cliquera sur le bouton. Cette fonction ne peut attendre qu&#39;un seul paramètre : BUTTON. La fonciton suivante nous permet de récupérer le texte du bouton :</p>
+<ul>
+<li><code>(button-label BUTTON)</code>: retourne le texte du bouton.</li>
+</ul>
+<h3 id="ajouter-des-liens-un-fichier-vbg">Ajouter des liens à un fichier VBG</h3>
+<p><code>find-file-other-window</code></p>
+<h2 id="r-alisation">Réalisation</h2>
+<pre class="custom highlight js">(defun vb6<span class="operator">-</span>on<span class="operator">-</span>file<span class="operator">-</span><span class="function">click</span> (button)
+  <span class="string">"Open a file when a button is clicked.
+The button's label is the file name relatively to the current buffer path."</span>
+  (interactive)
+  <span class="keyword">(let</span> ((<span class="function">path</span>
+         (<span class="function">concat</span>
+          (file<span class="operator">-</span>name<span class="operator">-</span>as<span class="operator">-</span><span class="function">directory</span> (file<span class="operator">-</span>name<span class="operator">-</span>directory buffer<span class="operator">-</span>file<span class="operator">-</span>name))
+          (button<span class="keyword">-label</span> button))))
+    (print path)
+    (find<span class="operator">-</span>file<span class="operator">-</span>other<span class="keyword2">-window</span> path)))
+
+(defun <span class="function">xxx</span> (begin end)
+  <span class="string">"Test function..."</span>
+  (<span class="function">interactive</span> (<span class="function">list</span> (mark) (point)))
+  (make<span class="operator">-</span><span class="function">button</span> (min begin end) (max begin end)
+               'action 'vb6<span class="operator">-</span>on<span class="operator">-</span>file<span class="operator">-</span>click))</pre>
+
+<div style="height:1rem"></div></article></section></body></html>
