@@ -1,6 +1,33 @@
 "use strict";
 var Widget = require("wdg");
 
+var registeredAnimations = [];
+
+function animate(time) {
+    if (registeredAnimations.length > 0) {
+        registeredAnimations.forEach(function (item) {
+            item.render( time );
+        });
+        window.requestAnimationFrame( animate );
+    }
+}
+
+function Register(anim) {
+    if (registeredAnimations.indexOf(anim) == -1) {
+        registeredAnimations.push(anim);
+        if (registeredAnimations.length == 1) {
+            window.requestAnimationFrame( animate );
+        }
+    }
+}
+
+function Unregister(anim) {
+    var pos = registeredAnimations.indexOf(anim);
+    if (pos > -1) {
+        registeredAnimations.splice(pos, 1);
+    }
+}
+
 /**
  * @example
  * var Canvas = require("three.canvas");
@@ -21,8 +48,13 @@ var Canvas = function(options) {
 
     this.W = options.width;
     this.H = options.height;
+    this.css({
+        width: this.W + "px",
+        height: this.H + "px"
+    });
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera( 75, this.W / this.H, 0.1, 1000 );
+    this.camera.position.z = 1.4;
     this.renderer = new THREE.WebGLRenderer({ alpha: true });
     this.renderer.setClearColor( 0xffffff, 0);
     this.renderer.setSize( this.W, this.H );
@@ -48,6 +80,20 @@ Canvas.prototype.render = function(time) {
  * @return void
  */
 Canvas.prototype.onRender = function(time, delta) {};
+
+/**
+ * @return void
+ */
+Canvas.prototype.start = function() {
+    Register(this);
+};
+
+/**
+ * @return void
+ */
+Canvas.prototype.stop = function() {
+    Unregister(this);
+};
 
 
 Canvas.create = function(options) {

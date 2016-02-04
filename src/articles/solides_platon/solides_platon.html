@@ -4,6 +4,26 @@
     </head>
     
     <page>
-<x-widget name="platon.solide"></x-widget>
+<x-widget name="platon.solide">{faces: 4}</x-widget>
+<x-widget name="platon.solide">{faces: 6}</x-widget>
+
+Pour dessiner les polyèdres réguliers de Platon, on utilisera un système de coordonnées centré sur le barycentre des solides. De plus, on utilisera un rayon de __1__. C'est-à-dire que la distance de chaque sommet au centre de gravité sera égal à __1__.
+
+# Le tétraèdre régulier
+
+Plaçons le sommet `A` en `(0,1,0)` et `B` dans le plan XY. XY est, par ailleurs, un plan de symétrie pour le tétraèdre.
+On obtient les coordonnées suivantes :
+
+* A : <x-latex>(0, 1, 0)</x-latex>
+* B : <x-latex>(B_x, B_y, 0)</x-latex>
+* C : <x-latex>(C_x, B_y, C_z)</x-latex>
+* D : <x-latex>(C_x, B_y, -C_z)</x-latex>
+
+Il reste 4 inconnues que l'on peut trouver en remarquant que les arrêtes ont toutes la même longueur :
+
+* <x-latex>AB = AC = AD = BC = BD = CD</x-latex>
+* <x-latex>AB = B_x^2 + {(1 - B_y)}^2</x-latex>
+* <x-latex>AC = C_x^2 + {(1 - B_y)}^2 + C_z^2</x-latex>
+
     </page>
 </x-article>
