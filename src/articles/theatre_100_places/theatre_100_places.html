@@ -1,6 +1,6 @@
 <x-article title="Au théâtre, chacun sa place !">
     <page>
-Un beau jour, je tombe sur cette énigme :
+Un beau jour, ou peut-être une nuit, je tombe sur cette énigme :
 
 > Un théâtre pouvant accueillir 100 personnes affiche complet. Les 100 sièges numérotés sont affectés à 100 spectateurs qui entrent chacun à leur tour prendre leur place attitrée.
 > Le premier est un peu distrait et il s'assoit à une place quelconque, sans regarder son billet.
@@ -15,6 +15,7 @@ Je vous laisse y réfléchir deux minutes avant de [tourner la page](#solution).
 
     <page>
 <a name="solution"></a>
+
 
 Devant une énigme, de deux choses l'une : soit on a une intuition génial, soit on reste pantois...
 
@@ -41,7 +42,7 @@ Ah ! Il semble bien qu'on puisse conjecturer que la réponse sera 50%, non ?
 Ça oriente déjà pas mal mes recherches. Il faut que j'essaie de prouver cette conjecture.
 
 
-Regardons maintenant ce qu'il se passe sur les premières étape d'une configuration choisie au hasard pour un théâtre de 100 places.
+Regardons maintenant ce qu'il se passe sur les premières étapes d'une configuration choisie au hasard pour un théâtre de 100 places.
 
 * Le premier spectateur entre dans la salle et s'assoit à la place 27.
 * Les spectateurs 2 à 26 peuvent prendre leur place attitrée.
@@ -109,7 +110,7 @@ Il m'écoute attentivement, réfléchit deux minutes et me sort :
 
 Goulp ! Une soirée de travail anéantie... Moi qui était si fier de ma récurrence. Pourquoi l'intuition frappe-t-elle toujours mes potes et pas moi ?
 
-Je rentre tout penau chez moi et oublie ce maudit problème quelques temps.
+Je rentre tout penaud chez moi et oublie ce maudit problème quelques temps.
 
 
 Et puis une nuit, je me réveille.
@@ -117,11 +118,11 @@ Ce n'était pas un peu fallacieux l'argument du Thomas ?
 Le dernier spectateur n'a-t-il vraiment que deux possibilités ?
 
 Certes, dans tous les cas, il finira en place 1 ou 100. Là dessus, pas de problème.
-Mais la question la plus importante est de savoir si dans toutes les configurations, on en a bien autant avec la place __1__ libre qu'avec la place __100__. Si ce n'est pas le cas, on n'est pas à 50%.
+Mais la question la plus importante est de savoir s'il y a bien autant de configurations avec la place __1__ libre qu'avec la place __100__. Si ce n'est pas le cas, on n'est pas à 50%.
 
 
-Du coup je reviens à mes calculs que j'avais laissés en plan au moment de calculer les cas favorables. 
-Ces cas favorables sont ceux où personne n'a pris la dernière place.
+Du coup je reviens à mes calculs que j'avais laissés en plan au moment de rechercher les cas favorables. 
+Ces derniers sont ceux où personne n'a pris la dernière place.
 C'est-à-dire les cas où 99 spectateurs ont pris 99 places dans un théâtre. Je reconnais <x-latex>C_{99}</x-latex> et c'est justement la moitié de <x-latex>C_{100}</x-latex>.
 
 
@@ -129,6 +130,16 @@ Ce calcul me rassure. J'ai trouvé la solution et elle me semble indiscutable.
 Mais Thomas m'a mis le doute. Il y a peut-être moyen de ne pas faire de calcul finalement.
 
 
+En effet, aussi bien dans le cas où le dernier spectateur prend la place 1 que dans le cas où il prend la place 100, on se retrouve dans une situation ou 99 spectateurs se sont installés dans un théâtre de 99 places. Pour le cas de la place 100 qui reste libre, c'est évident. Pour l'autre, il suffit de considérer que le premier spectateur a un billet pour la place 100 et non pour la 1.
 
+
+Pourquoi l'intuition frappe-t-elle toujours mes potes et pas moi ?
+
+Peut-être parce qu'ils ne disposent pas de l'arsenal mathématique conventionnel.
+Peut-être qu'ils ne sont pas aiguillés par des réflexes aiguisés par des milliers d'exercices orientés.
+
+Ai-je reçu une mauvaise formation ? Je ne pense pas.
+
+Faut-il de la diversité intellectuelle et culturelle pour résoudres les problèmes ? Sans aucun doute.
     </page>
 </x-article>
