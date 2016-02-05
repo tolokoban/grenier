@@ -34,9 +34,9 @@ addListener(
     function() {
         document.body.parentNode.$data = {};
         // Attach controllers.
-        try{require('x-widget')('platon.solide94','platon.solide',{faces: 6})}catch(x){console.error('Unable to initialize platon.solide!', x)}
-try{require('x-widget')('platon.solide95','platon.solide',{faces: 4})}catch(x){console.error('Unable to initialize platon.solide!', x)}
-try{require('x-widget')('platon.solide96','platon.solide',{faces: 8})}catch(x){console.error('Unable to initialize platon.solide!', x)}
+        try{require('x-widget')('platon.solide0','platon.solide',{faces: 6})}catch(x){console.error('Unable to initialize platon.solide!', x)}
+try{require('x-widget')('platon.solide1','platon.solide',{faces: 4})}catch(x){console.error('Unable to initialize platon.solide!', x)}
+try{require('x-widget')('platon.solide2','platon.solide',{faces: 8})}catch(x){console.error('Unable to initialize platon.solide!', x)}
     }
 );
 

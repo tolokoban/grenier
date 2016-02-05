@@ -9,7 +9,7 @@ En effet, pour afficher des polyèdres, il faut que je connaisse pour chacun les
 Mais, comme par malchance, une terrible tempête haut-savoyarde s&#39;abat sur ma petit maison et me coupe tout moyen de comminiquer avec l&#39;extérieur. Il va falloir que je trouve ces coordonnées tout seul...</p>
 <p>Pour qu&#39;on puisse voir les solides de Platon sur tous les angles, je décide de fixer en (0,0,0) le centre de gravité et pour qu&#39;ils aient tous la même taille j&#39;ajoute comme contrainte la fait que la distance d&#39;un sommet au centre de gravité vaut toujours <strong>1</strong>.</p>
 <h1 id="le-cube-6-faces-">Le cube (6 faces)</h1>
-<div id="platon.solide94" style="display:none"></div>
+<div id="platon.solide0" style="display:none"></div>
 
 <p>On commence par lui car il est relativement simple. Il possède 8 sommets et de nombreux axes de symétrie. Donc s&#39;il existe un point <code>(h,h,h)</code>, il existe aussi toutes les combinaisons de symétries planaires : <code>(h,h,-h)</code>, <code>(h,-h,h)</code>, <code>(h,-h,-h)</code>, <code>(-h,h,h)</code>, <code>(-h,h,-h)</code>, <code>(-h,-h,h)</code> et <code>(-h,-h,-h)</code>.</p>
 <p>Ça ressemble beaucoup à  du binaire tout ça. Remplaçons <code>h</code> par <code>0</code> et <code>-h</code> par <code>1</code>, les coordonnées ci-dessus deviennent 000, 001, 010, 011, 100, 101, 110 et 111.</p>
@@ -18,16 +18,18 @@ Mais, comme par malchance, une terrible tempête haut-savoyarde s&#39;abat sur m
 <math><mrow><msup><mi>h</mi><mn>2</mn></msup><mo>+</mo><msup><mi>h</mi><mn>2</mn></msup><mo>+</mo><msup><mi>h</mi><mn>2</mn></msup><mo>=</mo><mn>1</mn><mo>&hArr;</mo><mi>h</mi><mo>=</mo><mfrac><mrow><mn>1</mn></mrow><mrow><msqrt><mn>3</mn></msqrt></mrow></mfrac></mrow></math>
 
 <h1 id="le-t-tra-dre-4-faces-">Le tétraèdre (4 faces)</h1>
-<div id="platon.solide95" style="display:none"></div>
+<div id="platon.solide1" style="display:none"></div>
 
 <p>Pour le tétraèdre, on peut utiliser le cube. En effet, si on prend un sous-ensemble des sommets du cube, on satisfait la contrainte sur la distance au centre. Et comme toutes les faces d&#39;un cube sont identiques, on peut définir l&#39;arête d&#39;un tétraèdre comme étant la diagonale d&#39;une face du cube.</p>
 <p>Sur la face du cube <math><mrow><mi>y</mi><mo>=</mo><mi>h</mi></mrow></math>, on peut choisir les points <code>(h,h,h)</code> et <code>(-h,h,-h)</code>.
 Pour la face opposée (<math><mrow><mi>y</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow></math>), on croise la diagonale et on prend les points <code>(h,-h,-h)</code> et <code>(-h,-h,h)</code>.</p>
 <h1 id="l-octo-dre-8-faces-">L&#39;octoèdre (8 faces)</h1>
-<div id="platon.solide96" style="display:none"></div>
+<div id="platon.solide2" style="display:none"></div>
 
 <p>En voilà de nouveau un facile. Plus facile encore que le cube. Il suffit de placer deux points par axe à distance 1 du centre.</p>
 <p><code>(1,0,0)</code>, <code>(-1,0,0)</code>, <code>(0,1,0)</code>, <code>(0,-1,0)</code>, <code>(0,0,1)</code> et <code>(0,0,-1)</code>.</p>
 <h1 id="le-dod-ca-dre-12-faces-">Le dodécaèdre (12 faces)</h1>
+<p>Hum... 12 faces, c&#39;est un multiple de 3, on peut donc s&#39;attendre à avoir, comme pour le cube, des symétries par rapports aux plans fondamentaux XY, XZ, et YZ. Cela nous donne déjà 6 faces parallèles à ces plans. Mais, dans ce cas, ça nous laisse 8 parties de l&#39;espaces parfaitement symétrique et il ne nous reste que 6 faces. Ça ne joue donc pas...</p>
+<p>Gardons donc deux faces opposées parallèles à un des 3 plans. Pour que ça ressemble vaguement à une sphère, il faut ajouter un bandeau constitué de 10 faces.</p>
 <h1 id="l-icosa-dre-20-faces-">L&#39;icosaèdre (20 faces)</h1>
 <div style="height:1rem"></div></article></section></body></html>
