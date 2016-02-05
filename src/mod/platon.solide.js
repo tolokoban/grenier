@@ -26,7 +26,7 @@ var Solide = function(options) {
     light1.position.set(43,13,5);
     light2.position.set(-20,5,1);
 
-    var cube = createMesh( options.faces );
+    var cube = createSolid( options.faces );
 
     this.scene.add( cube );
     this.scene.add( light1 );
@@ -73,89 +73,53 @@ Solide.create = function() {
 module.exports = Solide;
 
 
-
-function createMesh(faces) {
-    var material = new THREE.MeshPhongMaterial({
-        specular: 0x333333,
-        shininess: 3.14,
-        metal: true,
-        map: null,
-        specularMap: null,
-        normalMap: null
-    });
+function createSolid(nbFaces) {
     var colors = [
         new THREE.Color( 0xaaffaa ),
         new THREE.Color( 0xffaaaa ),
         new THREE.Color( 0xaaaaff ),
-        new THREE.Color( 0xffffaa )
+        new THREE.Color( 0xffffaa ),
+        new THREE.Color( 0xffaaff ),
+        new THREE.Color( 0xaaffff )
     ];
 
-    var geometry = new THREE.Geometry();
+    var mesh;
     var k = 1 / Math.sqrt(3);
-    if (faces == 4) {
-        addVertices(
-            geometry,
-            [ k, k, k],
-            [-k, k,-k],
-            [ k,-k,-k],
-            [-k,-k, k]
+    if (nbFaces == 4) {
+        mesh = createMesh(
+            [ [ k, k, k], [-k, k,-k], [ k,-k,-k], [-k,-k, k] ],
+            [ [0,3,1], [0,1,2], [0,2,3], [1,3,2] ],
+            colors
         );
-        addFace( geometry, [0,3,1], colors[0] );
-        addFace( geometry, [0,1,2], colors[1] );
-        addFace( geometry, [0,2,3], colors[2] );
-        addFace( geometry, [1,3,2], colors[3] );
     }
-    else if (faces == 6) {
-        addVertices(
-            geometry,
-            [ k, k, k],
-            [ k, k,-k],
-            [-k, k,-k],
-            [-k, k, k],
-            [ k,-k, k],
-            [ k,-k,-k],
-            [-k,-k,-k],
-            [-k,-k, k]
+    else if (nbFaces == 6) {
+        mesh = createMesh(
+            [ 
+                [ k, k, k], [ k, k,-k], [-k, k,-k], [-k, k, k],
+                [ k,-k, k], [ k,-k,-k], [-k,-k,-k], [-k,-k, k] 
+            ],
+            [
+                [0,1,2,3], [0,4,5,1], [1,5,6,2],
+                [4,7,6,5], [2,6,7,3], [0,3,7,4],
+            ],
+            colors
         );
-        addFace( geometry, [0,1,2,3], colors[0] );
-        addFace( geometry, [0,4,5,1], colors[1] );
-        addFace( geometry, [1,5,6,2], colors[2] );
-        addFace( geometry, [4,7,6,5], colors[0] );
-        addFace( geometry, [2,6,7,3], colors[1] );
-        addFace( geometry, [0,3,7,4], colors[2] );
     }
-    else if (faces == 8) {
-        addVertices(
-            geometry,
-            [ 0, 1, 0], [ 1, 0, 0], [ 0, 0,-1],
-            [-1, 0, 0], [ 0, 0, 1], [ 0,-1, 0]
+    else if (nbFaces == 8) {
+        mesh = createMesh(
+            [
+                [ 0, 1, 0], [ 1, 0, 0], [ 0, 0,-1],
+                [-1, 0, 0], [ 0, 0, 1], [ 0,-1, 0]
+            ],
+            [
+                [0,1,2], [0,2,3], [0,3,4], [0,4,1],
+                [5,4,3], [5,1,4], [5,2,1], [5,3,2],
+            ],
+            colors, 4
         );
-        addFace( geometry, [0,1,2], colors[0] );
-        addFace( geometry, [0,2,3], colors[1] );
-        addFace( geometry, [0,3,4], colors[2] );
-        addFace( geometry, [0,4,1], colors[3] );
-        addFace( geometry, [5,4,3], colors[0] );
-        addFace( geometry, [5,1,4], colors[1] );
-        addFace( geometry, [5,2,1], colors[2] );
-        addFace( geometry, [5,3,2], colors[3] );
     }
 
-    material.vertexColors = THREE.VertexColors;
-    material.side = THREE.DoubleSide;
-
-    geometry.computeFaceNormals ();
-    geometry.computeVertexNormals ();
-
-    return new THREE.Mesh( geometry, material );
-}
-
-
-function addVertices(geometry) {
-    var i, arg;
-    for (i = 1 ; i < arguments.length ; i++) {
-        arg = arguments[i];
-        geometry.vertices.push( new THREE.Vector3( arg[0], arg[1], arg[2] ) );
-    }
+    return mesh;
 }
 
 
@@ -189,7 +153,7 @@ function addFace(geometry, vertices, color) {
 
         var i;
         for( i=0 ; i<k ; i++ ) {
-            faces.push( new THREE.Faces3( i, (i + 1) % k, k ) );
+            faces.push( new THREE.Face3( i, (i + 1) % k, k ) );
         }
     }
 
@@ -204,3 +168,58 @@ function addFace(geometry, vertices, color) {
         geometry.faces.push(face);
     });
 }
+
+
+function createMesh(vertices, faces, colors, nbColors) {
+    if (typeof nbColors === 'undefined') nbColors = colors.length;
+
+    var grp = new THREE.Group();
+    var mat = new THREE.MeshPhongMaterial({
+        specular: 0x333333,
+        shininess: 3.14,
+        metal: true,
+        vertexColors: THREE.VertexColors,
+        side: THREE.DoubleSide
+    });
+    var geo = new THREE.Geometry();
+    vertices.forEach(function (vertex) {
+        geo.vertices.push( new THREE.Vector3( vertex[0], vertex[1], vertex[2] ) );        
+    });
+    faces.forEach(function (face, idxFace) {
+        addFace( geo, face, colors[idxFace % nbColors] );
+    });
+    geo.computeFaceNormals ();
+    geo.computeVertexNormals ();
+    grp.add( new THREE.Mesh( geo, mat ) );
+
+    mat = new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 2 });
+    var cache = [];
+    faces.forEach(function (face) {
+        var line;
+        var key, a, b, tmp;
+        for( var i=0 ; i<face.length ; i++ ) {
+            a = face[i];
+            b = face[(i + 1) % face.length];
+            if (b < a) {
+                tmp = a;
+                a = b;
+                b = tmp;
+            }
+            key = a + "," + b;
+            if (cache.indexOf( key ) == -1) {
+                cache.push( key );
+                line = new THREE.Geometry();
+                line.vertices.push( 
+                    new THREE.Vector3( vertices[a][0], vertices[a][1], vertices[a][2] ),
+                    new THREE.Vector3( vertices[b][0], vertices[b][1], vertices[b][2] )
+                );
+                line.type = THREE.Lines;
+                grp.add( new THREE.Line( line, mat ) );
+            }
+        }
+    });
+
+    return grp;
+}
+
+
