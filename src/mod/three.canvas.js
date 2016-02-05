@@ -53,7 +53,7 @@ var Canvas = function(options) {
         height: this.H + "px"
     });
     this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera( 75, this.W / this.H, 0.1, 1000 );
+    this.camera = new THREE.PerspectiveCamera( 45, this.W / this.H, 0.1, 1000 );
     this.camera.position.z = 1.4;
     this.renderer = new THREE.WebGLRenderer({ alpha: true });
     this.renderer.setClearColor( 0xffffff, 0);

@@ -1,0 +1,7 @@
+div.platon-solide {
+    position: relative;
+    float: right;
+    display: inline-block;
+    margin: 0;
+    z-index: 2;
+}
