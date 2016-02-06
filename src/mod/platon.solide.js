@@ -11,11 +11,11 @@ var TreeCanvas = require("three.canvas");
 var Solide = function(options) {
     if (typeof options === 'undefined') options = {};
     if (typeof options.faces === 'undefined') options.faces = 4;
-    if (typeof options.width === 'undefined') options.width = 128;
-    if (typeof options.height === 'undefined') options.height = 128;
+    if (typeof options.width === 'undefined') options.width = 150;
+    if (typeof options.height === 'undefined') options.height = 150;
 
 
-    TreeCanvas.call(this, {width: 128, height: 128});
+    TreeCanvas.call(this, {width: options.width, height: options.height});
     this.addClass("platon-solide");
 
     this.camera.position.z = 2.7;
@@ -26,22 +26,22 @@ var Solide = function(options) {
     light1.position.set(43,13,5);
     light2.position.set(-20,5,1);
 
-    var cube = createSolid( options.faces );
+    var cube = this.createSolid( options.faces );
 
     this.scene.add( cube );
     this.scene.add( light1 );
     this.scene.add( light2 );
     this.scene.add( light );
-    
+
     this.cube = cube;
 
-    this._speedX = 1600 + 2000 * Math.random();
-    this._speedY = 1600 + 2000 * Math.random();
-    this._speedZ = 1600 + 2000 * Math.random();
+    this._speedX = 2500 + 300 * Math.random();
+    this._speedY = 2500 + 300 * Math.random();
+    this._speedZ = 2500 + 300 * Math.random();
     if (Math.random() < .5) this._speedX = -this._speedX;
-    if (Math.random() < .5) this._speedY = -this._speedY;    
+    if (Math.random() < .5) this._speedY = -this._speedY;
     if (Math.random() < .5) this._speedZ = -this._speedZ;
-    
+
     this.start();
 };
 
@@ -60,20 +60,77 @@ Solide.prototype.onRender = function(time, delta) {
     this.cube.rotation.y = time / sy;
     this.cube.rotation.y = time / sz;
 
+    if (this._blinker) {
+        var opacity = Math.cos(time * 0.0001 * Math.PI);
+        if (opacity > 0.2) {
+            opacity = Math.min( 1, (opacity - .2) * 5 );
+            this._blinker.visible = true;
+            this._blinker.children.forEach(function (line) {
+                line.material.opacity = opacity;
+            });
+        } else {
+            this._blinker.visible = false;
+        }
+    }
+
     var x = 20 * Math.abs(Math.cos(time / (sx + sy + sz)));
     var y = 2 * Math.cos(3 * time / (sx + sy + sz));
     this.css('transform', 'translate(-' + x + 'em,' + y + 'em)');
 };
 
+/**
+ * @return void
+ */
+Solide.prototype.getTetrahedronGeometry = function(radius) {
+    if (typeof radius === 'undefined') radius = 1;
 
-
-Solide.create = function() {
-    return new Solide();
+    var k = radius / Math.sqrt(3);
+    return {
+        vertices: [ [ k, k, k], [-k, k,-k], [ k,-k,-k], [-k,-k, k] ],
+        faces: [ [0,1,3], [0,2,1], [0,3,2], [1,2,3] ]
+    };
 };
-module.exports = Solide;
+
+/**
+ * @return void
+ */
+Solide.prototype.getCubeGeometry = function(radius) {
+    if (typeof radius === 'undefined') radius = 1;
+
+    var k = radius / Math.sqrt(3);
+    return {
+        vertices: [
+            [ k, k, k], [ k, k,-k], [-k, k,-k], [-k, k, k],
+            [ k,-k, k], [ k,-k,-k], [-k,-k,-k], [-k,-k, k]
+        ],
+        faces: [
+            [0,1,2,3], [0,4,5,1], [1,5,6,2],
+            [4,7,6,5], [2,6,7,3], [0,3,7,4],
+        ]
+    };
+};
+
+Solide.prototype.getDodecahedronGeometry = function(radius) {
+    if (typeof radius === 'undefined') radius = 1;
+
+    var k = radius;
+    return {
+        vertices: [
+            [ 0, k, 0], [ k, 0, 0], [ 0, 0,-k],
+            [-k, 0, 0], [ 0, 0, k], [ 0,-k, 0]
+        ],
+        faces: [
+            [0,1,2], [0,2,3], [0,3,4], [0,4,1],
+            [5,4,3], [5,1,4], [5,2,1], [5,3,2],
+        ]
+    };
+};
 
 
-function createSolid(nbFaces) {
+/**
+ * @return void
+ */
+Solide.prototype.createSolid = function(nbFaces) {
     var colors = [
         new THREE.Color( 0xaaffaa ),
         new THREE.Color( 0xffaaaa ),
@@ -83,143 +140,43 @@ function createSolid(nbFaces) {
         new THREE.Color( 0xaaffff )
     ];
 
-    var mesh;
+    var mesh, opt;
     var k = 1 / Math.sqrt(3);
     if (nbFaces == 4) {
-        mesh = createMesh(
-            [ [ k, k, k], [-k, k,-k], [ k,-k,-k], [-k,-k, k] ],
-            [ [0,3,1], [0,1,2], [0,2,3], [1,3,2] ],
-            colors
-        );
+        mesh = new THREE.Group();
+        opt = this.getTetrahedronGeometry();
+        opt.colors = colors;
+        mesh.add( this.createMesh( opt ) );
+        opt = this.getCubeGeometry();
+        opt.solid = false;
+        this._blinker = this.createMesh( opt );
+        mesh.add( this._blinker );
     }
     else if (nbFaces == 6) {
-        mesh = createMesh(
-            [ 
-                [ k, k, k], [ k, k,-k], [-k, k,-k], [-k, k, k],
-                [ k,-k, k], [ k,-k,-k], [-k,-k,-k], [-k,-k, k] 
-            ],
-            [
-                [0,1,2,3], [0,4,5,1], [1,5,6,2],
-                [4,7,6,5], [2,6,7,3], [0,3,7,4],
-            ],
-            colors
-        );
+        mesh = new THREE.Group();
+        opt = this.getCubeGeometry();
+        opt.colors = colors;
+        mesh.add( this.createMesh( opt ) );
     }
     else if (nbFaces == 8) {
-        mesh = createMesh(
-            [
-                [ 0, 1, 0], [ 1, 0, 0], [ 0, 0,-1],
-                [-1, 0, 0], [ 0, 0, 1], [ 0,-1, 0]
-            ],
-            [
-                [0,1,2], [0,2,3], [0,3,4], [0,4,1],
-                [5,4,3], [5,1,4], [5,2,1], [5,3,2],
-            ],
-            colors, 4
-        );
+        mesh = new THREE.Group();
+        opt = this.getDodecahedronGeometry();
+        opt.colors = colors;
+        opt.nbColors = 4;
+        mesh.add( this.createMesh( opt ) );
+        opt = this.getCubeGeometry(.59);
+        opt.solid = false;
+        opt.colors = colors;
+        this._blinker = this.createMesh( opt );
+        mesh.add( this._blinker );        
     }
 
     return mesh;
-}
+};
 
 
-function addFace(geometry, vertices, color) {
-    var faces = [];
-    if (vertices.length == 3) {
-        faces.push(
-            new THREE.Face3( vertices[0], vertices[1], vertices[2] )
-        );
-    }
-    else if (vertices.length == 4) {
-        faces.push(
-            new THREE.Face3( vertices[0], vertices[1], vertices[2] ),
-            new THREE.Face3( vertices[0], vertices[2], vertices[3] )
-        );
-    }
-    else {
-        // We use the fan method.
-        var x = 0, y = 0, z = 0;
-        vertices.forEach(function (vertex) {
-            x += vertex.x;
-            y += vertex.y;
-            z += vertex.z;
-        });
-        x /= vertices.length;
-        y /= vertices.length;
-        z /= vertices.length;
-
-        var k = vertices.length;
-        vertices.push( new THREE.Vector3( x, y, z ) );
-
-        var i;
-        for( i=0 ; i<k ; i++ ) {
-            faces.push( new THREE.Face3( i, (i + 1) % k, k ) );
-        }
-    }
-
-    if (typeof color !== 'undefined') {
-        // Apply a color to this face.
-        faces.forEach(function (face) {
-            face.vertexColors[0] = face.vertexColors[1] = face.vertexColors[2] = color;
-        });
-    }
-
-    faces.forEach(function (face) {
-        geometry.faces.push(face);
-    });
-}
-
-
-function createMesh(vertices, faces, colors, nbColors) {
-    if (typeof nbColors === 'undefined') nbColors = colors.length;
-
-    var grp = new THREE.Group();
-    var mat = new THREE.MeshPhongMaterial({
-        specular: 0x333333,
-        shininess: 3.14,
-        metal: true,
-        vertexColors: THREE.VertexColors,
-        side: THREE.DoubleSide
-    });
-    var geo = new THREE.Geometry();
-    vertices.forEach(function (vertex) {
-        geo.vertices.push( new THREE.Vector3( vertex[0], vertex[1], vertex[2] ) );        
-    });
-    faces.forEach(function (face, idxFace) {
-        addFace( geo, face, colors[idxFace % nbColors] );
-    });
-    geo.computeFaceNormals ();
-    geo.computeVertexNormals ();
-    grp.add( new THREE.Mesh( geo, mat ) );
-
-    mat = new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 2 });
-    var cache = [];
-    faces.forEach(function (face) {
-        var line;
-        var key, a, b, tmp;
-        for( var i=0 ; i<face.length ; i++ ) {
-            a = face[i];
-            b = face[(i + 1) % face.length];
-            if (b < a) {
-                tmp = a;
-                a = b;
-                b = tmp;
-            }
-            key = a + "," + b;
-            if (cache.indexOf( key ) == -1) {
-                cache.push( key );
-                line = new THREE.Geometry();
-                line.vertices.push( 
-                    new THREE.Vector3( vertices[a][0], vertices[a][1], vertices[a][2] ),
-                    new THREE.Vector3( vertices[b][0], vertices[b][1], vertices[b][2] )
-                );
-                line.type = THREE.Lines;
-                grp.add( new THREE.Line( line, mat ) );
-            }
-        }
-    });
-
-    return grp;
-}
-
+Solide.create = function() {
+    return new Solide();
+};
+module.exports = Solide;
 

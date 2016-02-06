@@ -96,6 +96,130 @@ Canvas.prototype.stop = function() {
 };
 
 
+/**
+ * @return void
+ */
+Canvas.prototype.createMesh = function(opt) {
+    if (typeof opt === 'undefined') throw Error("[three.canvas.createMesh] Missing optument!");
+    if (typeof opt.colors === 'undefined') opt.colors = [
+        new THREE.Color( .5 + Math.random() * .5, .5 + Math.random() * .5, .5 + Math.random() * .5 )
+    ];
+    if (typeof opt.nbColors === 'undefined') opt.nbColors = opt.colors.length;
+    if (typeof opt.solid === 'undefined') opt.solid = true;
+    if (typeof opt.wireframe === 'undefined') opt.wireframe = true;
+    if (typeof opt.wirecolor === 'undefined') opt.wirecolor = new THREE.Color( 0x333333 );
+    if (typeof opt.wirewidth === 'undefined') opt.wirewidth = 2;
+    if (typeof opt.doublesided === 'undefined') opt.doublesided = false;
+
+    if (typeof opt.mat === 'undefined') opt.mat = new THREE.MeshPhongMaterial({
+        specular: 0x333333,
+        shininess: 3.14,
+        metal: true,
+        vertexColors: THREE.VertexColors,
+        side: opt.doublesided ? THREE.DoubleSide : THREE.FrontSide,
+        transparent: true,
+        opacity: .9
+    });;
+
+    var grp = new THREE.Group();
+
+    if (opt.solid) {
+        var geo = new THREE.Geometry();
+        opt.vertices.forEach(function (vertex) {
+            geo.vertices.push( new THREE.Vector3( vertex[0], vertex[1], vertex[2] ) );
+        });
+        opt.faces.forEach(function (face, idxFace) {
+            addFace( geo, face, opt.colors[idxFace % opt.nbColors] );
+        });
+        geo.computeFaceNormals ();
+        geo.computeVertexNormals ();
+        grp.add( new THREE.Mesh( geo, opt.mat ) );
+    }
+
+    if (opt.wireframe) {
+        var mat = new THREE.LineBasicMaterial({ color: opt.wirecolor, linewidth: opt.wirewidth });
+        var cache = [];
+        opt.faces.forEach(function (face) {
+            var line;
+            var key, a, b, tmp;
+            for( var i=0 ; i<face.length ; i++ ) {
+                a = face[i];
+                b = face[(i + 1) % face.length];
+                if (b < a) {
+                    tmp = a;
+                    a = b;
+                    b = tmp;
+                }
+                key = a + "," + b;
+                if (cache.indexOf( key ) == -1) {
+                    cache.push( key );
+                    line = new THREE.Geometry();
+                    line.vertices.push(
+                        new THREE.Vector3( 
+                            opt.vertices[a][0], opt.vertices[a][1], opt.vertices[a][2] ),
+                        new THREE.Vector3( 
+                            opt.vertices[b][0], opt.vertices[b][1], opt.vertices[b][2] )
+                    );
+                    line.type = THREE.Lines;
+                    grp.add( new THREE.Line( line, mat ) );
+                }
+            }
+        });
+    }
+
+console.info("[three.canvas] grp=", grp);
+    return grp;
+};
+
+
+function addFace(geometry, vertices, color) {
+    var faces = [];
+    if (vertices.length == 3) {
+        faces.push(
+            new THREE.Face3( vertices[0], vertices[1], vertices[2] )
+        );
+    }
+    else if (vertices.length == 4) {
+        faces.push(
+            new THREE.Face3( vertices[0], vertices[1], vertices[2] ),
+            new THREE.Face3( vertices[0], vertices[2], vertices[3] )
+        );
+    }
+    else {
+        // We use the fan method.
+        var x = 0, y = 0, z = 0;
+        vertices.forEach(function (idx) {
+            var vertex = geometry.vertices[vertices[idx]];
+            x += vertex.x;
+            y += vertex.y;
+            z += vertex.z;
+        });
+        x /= vertices.length;
+        y /= vertices.length;
+        z /= vertices.length;
+
+        var k = vertices.length;
+        geometry.vertices.push( new THREE.Vector3( x, y, z ) );
+
+        var i;
+        for( i=0 ; i<k ; i++ ) {
+            faces.push( new THREE.Face3( i, (i + 1) % k, k ) );
+        }
+    }
+
+    if (typeof color !== 'undefined') {
+        // Apply a color to this face.
+        faces.forEach(function (face) {
+            face.vertexColors[0] = face.vertexColors[1] = face.vertexColors[2] = color;
+        });
+    }
+
+    faces.forEach(function (face) {
+        geometry.faces.push(face);
+    });
+}
+
+
 Canvas.create = function(options) {
     return new Canvas(options);
 };
