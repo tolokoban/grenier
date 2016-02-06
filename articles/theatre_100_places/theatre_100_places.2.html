@@ -1,0 +1,26 @@
+<!DOCTYPE HTML><html><head><title>Au théâtre, chacun sa place !</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><link rel="stylesheet" type="text/css" href="../../css/articles/theatre_100_places/@theatre_100_places.2.css"><script src="../../js/articles/theatre_100_places/@theatre_100_places.2.js"></script></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>Au théâtre, chacun sa place !</header><article><p><a name="lendemain"></a>
+Le lendemain, je parle de mes résultats à mon pote Thomas.
+Je lui dis que j&#39;ai réussi à trouver le nombre de combinaisons en fonction des places dans le théâtre et qu&#39;il ne me reste qu&#39;à trouver le nombre de cas où la dernière place est libre.
+J&#39;ai déjà une idée, mais je n&#39;ai pas eu le temps de la rédiger.</p>
+<p>Il m&#39;écoute attentivement, réfléchit deux minutes et me sort :</p>
+<p>&quot;<em>Dans ton algorithme récursif, on voit clairement que le dernier n&#39;a que deux possibilités : soit son siège, soit celui du premier spectateur.</em>&quot;</p>
+<p>&quot;<em>Il a donc 50% de chance d&#39;être à sa place, non ?</em>&quot;</p>
+<p>Goulp ! Une soirée de travail anéantie... Moi qui était si fier de ma récurrence. Pourquoi l&#39;intuition frappe-t-elle toujours mes potes et pas moi ?</p>
+<p>Je rentre tout penaud chez moi et oublie ce maudit problème quelques temps.</p>
+<p>Et puis une nuit, je me réveille.
+Ce n&#39;était pas un peu fallacieux l&#39;argument du Thomas ?
+Le dernier spectateur n&#39;a-t-il vraiment que deux possibilités ?</p>
+<p>Certes, dans tous les cas, il finira en place 1 ou 100. Là dessus, pas de problème.
+Mais la question la plus importante est de savoir s&#39;il y a bien autant de configurations avec la place <strong>1</strong> libre qu&#39;avec la place <strong>100</strong>. Si ce n&#39;est pas le cas, on n&#39;est pas à 50%.</p>
+<p>Du coup je reviens à mes calculs que j&#39;avais laissés en plan au moment de rechercher les cas favorables. 
+Ces derniers sont ceux où personne n&#39;a pris la dernière place.
+C&#39;est-à-dire les cas où 99 spectateurs ont pris 99 places dans un théâtre. Je reconnais <math><mrow><msub><mo>C</mo><mrow><mn>99</mn></mrow></msub></mrow></math> et c&#39;est justement la moitié de <math><mrow><msub><mo>C</mo><mrow><mn>100</mn></mrow></msub></mrow></math>.</p>
+<p>Ce calcul me rassure. J&#39;ai trouvé la solution et elle me semble indiscutable.
+Mais Thomas m&#39;a mis le doute. Il y a peut-être moyen de ne pas faire de calcul finalement.</p>
+<p>En effet, aussi bien dans le cas où le dernier spectateur prend la place 1 que dans le cas où il prend la place 100, on se retrouve dans une situation ou 99 spectateurs se sont installés dans un théâtre de 99 places. Pour le cas de la place 100 qui reste libre, c&#39;est évident. Pour l&#39;autre, il suffit de considérer que le premier spectateur a un billet pour la place 100 et non pour la 1.</p>
+<p>Pourquoi l&#39;intuition frappe-t-elle toujours mes potes et pas moi ?</p>
+<p>Peut-être parce qu&#39;ils ne disposent pas de l&#39;arsenal mathématique conventionnel.
+Peut-être qu&#39;ils ne sont pas aiguillés par des réflexes aiguisés par des milliers d&#39;exercices orientés.</p>
+<p>Ai-je reçu une mauvaise formation ? Je ne pense pas.</p>
+<p>Faut-il de la diversité intellectuelle et culturelle pour résoudres les problèmes ? Sans aucun doute.</p>
+<div style="height:1rem"></div><footer>Pages : <span><a href="theatre_100_places.html">1</a></span><span><a href="theatre_100_places.1.html">2</a></span><span><span class="selected">3</span></span></footer></article></section></body></html>

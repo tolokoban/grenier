@@ -29,11 +29,11 @@ window['#$']=function(exports,module){  exports.config={
     name:"grenier",
     description:"Articles concernant majoritairement l'algorithmie",
     author:"Tolokoban",
-    version:"1.0.511",
+    version:"1.0.515",
     major:1,
     minor:0,
-    revision:511,
-    date:new Date(2016,0,26,16,11,16)
+    revision:515,
+    date:new Date(2016,1,4,18,34,34)
 };
 var currentLang = null;
 exports.lang = function(lang) {
