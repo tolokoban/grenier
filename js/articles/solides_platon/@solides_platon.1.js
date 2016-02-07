@@ -1518,7 +1518,7 @@ module.exports = function(id, modName, args) {
 
 //########################################
 window['#platon.solide']=function(exports,module){  "use strict";
-var TreeCanvas = require("three.canvas");
+var ThreeCanvas = require("three.canvas");
 var Rotator = require("three.rotator");
 
 
@@ -1535,7 +1535,7 @@ var Solide = function(options) {
     if (typeof options.height === 'undefined') options.height = 150;
 
 
-    TreeCanvas.call(this, {width: options.width, height: options.height});
+    ThreeCanvas.call(this, {width: options.width, height: options.height});
     this.addClass("platon-solide");
 
     this.camera.position.z = 2.7;
@@ -1559,14 +1559,14 @@ var Solide = function(options) {
 };
 
 // Extension of Widget.
-Solide.prototype = Object.create(TreeCanvas.prototype);
+Solide.prototype = Object.create(ThreeCanvas.prototype);
 Solide.prototype.constructor = Solide;
 
 /**
  * @return void
  */
 Solide.prototype.onRender = function(time, delta) {
-    TreeCanvas.prototype.onRender.call( this, time, delta );
+    ThreeCanvas.prototype.onRender.call( this, time, delta );
 
     this._rotator.rotate( time );
 
