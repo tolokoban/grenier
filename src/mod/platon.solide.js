@@ -1,5 +1,6 @@
 "use strict";
-var TreeCanvas = require("three.canvas");
+var ThreeCanvas = require("three.canvas");
+var Rotator = require("three.rotator");
 
 
 /**
@@ -15,7 +16,7 @@ var Solide = function(options) {
     if (typeof options.height === 'undefined') options.height = 150;
 
 
-    TreeCanvas.call(this, {width: options.width, height: options.height});
+    ThreeCanvas.call(this, {width: options.width, height: options.height});
     this.addClass("platon-solide");
 
     this.camera.position.z = 2.7;
@@ -33,32 +34,22 @@ var Solide = function(options) {
     this.scene.add( light2 );
     this.scene.add( light );
 
-    this.cube = cube;
-
-    this._speedX = 2500 + 300 * Math.random();
-    this._speedY = 2500 + 300 * Math.random();
-    this._speedZ = 2500 + 300 * Math.random();
-    if (Math.random() < .5) this._speedX = -this._speedX;
-    if (Math.random() < .5) this._speedY = -this._speedY;
-    if (Math.random() < .5) this._speedZ = -this._speedZ;
+    this._rotator = new Rotator( cube );    
 
     this.start();
 };
 
 // Extension of Widget.
-Solide.prototype = Object.create(TreeCanvas.prototype);
+Solide.prototype = Object.create(ThreeCanvas.prototype);
 Solide.prototype.constructor = Solide;
 
 /**
  * @return void
  */
 Solide.prototype.onRender = function(time, delta) {
-    var sx = this._speedX;
-    var sy = this._speedY;
-    var sz = this._speedZ;
-    this.cube.rotation.x = time / sx;
-    this.cube.rotation.y = time / sy;
-    this.cube.rotation.y = time / sz;
+    ThreeCanvas.prototype.onRender.call( this, time, delta );
+
+    this._rotator.rotate( time );
 
     if (this._blinker) {
         var opacity = Math.cos(time * 0.0001 * Math.PI);
@@ -72,10 +63,11 @@ Solide.prototype.onRender = function(time, delta) {
             this._blinker.visible = false;
         }
     }
-
+/*
     var x = 20 * Math.abs(Math.cos(time / (sx + sy + sz)));
     var y = 2 * Math.cos(3 * time / (sx + sy + sz));
     this.css('transform', 'translate(-' + x + 'em,' + y + 'em)');
+*/
 };
 
 /**
@@ -127,6 +119,82 @@ Solide.prototype.getDodecahedronGeometry = function(radius) {
 };
 
 
+Solide.prototype.getIcosahedronGeometryA = function(radius) {
+    if (typeof radius === 'undefined') radius = 1;
+
+    var k = radius;
+    var vertices = [[0,k,0]];
+    var faces = [];
+    var i, ang;
+    var r = .3 * k;
+    var y = .2;
+
+    for ( i=0 ; i<5 ; i++ ) {
+        ang = i * 2 * Math.PI / 5;
+        vertices.push( [r * Math.cos( ang ), y, r * Math.sin( ang )] );
+        if (i < 4) {
+            faces.push( [0, i + 2, i + 1] );
+        } else {
+            faces.push( [0, 1, 5] );
+        }
+    }
+
+    for ( i=0 ; i<5 ; i++ ) {
+        ang = Math.PI / 5 + i * 2 * Math.PI / 5;
+        vertices.push( [r * Math.cos( ang ), -y, r * Math.sin( ang )] );
+        if (i < 4) {
+            faces.push( [11, i + 6, i + 7] );
+        } else {
+            faces.push( [11, 10, 6] );
+        }
+    }
+    vertices.push( [0,-k,0] );
+
+    return {
+        vertices: vertices,
+        faces: faces
+    };
+};
+
+
+Solide.prototype.getIcosahedronGeometryB = function(radius) {
+    if (typeof radius === 'undefined') radius = 1;
+
+    var k = radius;
+    var vertices = [[0,k,0]];
+    var faces = [];
+    var i, ang;
+    var r = .9 * k;
+    var y = 1 - r * Math.sqrt( 4 * Math.sin(Math.PI / 5) * Math.sin(Math.PI / 5) - 1 );
+
+    for ( i=0 ; i<5 ; i++ ) {
+        ang = i * 2 * Math.PI / 5;
+        vertices.push( [r * Math.cos( ang ), y, r * Math.sin( ang )] );
+        if (i < 4) {
+            faces.push( [0, i + 2, i + 1] );
+        } else {
+            faces.push( [0, 1, 5] );
+        }
+    }
+
+    for ( i=0 ; i<5 ; i++ ) {
+        ang = Math.PI / 5 + i * 2 * Math.PI / 5;
+        vertices.push( [r * Math.cos( ang ), -y, r * Math.sin( ang )] );
+        if (i < 4) {
+            faces.push( [11, i + 6, i + 7] );
+        } else {
+            faces.push( [11, 10, 6] );
+        }
+    }
+    vertices.push( [0,-k,0] );
+
+    return {
+        vertices: vertices,
+        faces: faces
+    };
+};
+
+
 /**
  * @return void
  */
@@ -169,6 +237,27 @@ Solide.prototype.createSolid = function(nbFaces) {
         opt.colors = colors;
         this._blinker = this.createMesh( opt );
         mesh.add( this._blinker );        
+    }
+    else if (nbFaces == '20a') {
+        mesh = new THREE.Group();
+        opt = this.getIcosahedronGeometryA();
+        opt.colors = colors;
+        opt.nbColors = 5;
+        mesh.add( this.createMesh( opt ) );
+    }
+    else if (nbFaces == '20b') {
+        mesh = new THREE.Group();
+        opt = this.getIcosahedronGeometryB();
+        opt.colors = colors;
+        opt.nbColors = 5;
+        mesh.add( this.createMesh( opt ) );
+    }
+    else if (nbFaces == 20) {
+        mesh = new THREE.Group();
+        opt = this.getIcosahedronGeometry();
+        opt.colors = colors;
+        opt.nbColors = 5;
+        mesh.add( this.createMesh( opt ) );
     }
 
     return mesh;

@@ -79,7 +79,24 @@ Bien. On dirait que ça joue, je gribouille un petit schéma dans la marge.
 
 # L'icosaèdre (20 faces)
 
+Celui-ci est composé de triangles équilatéraux. Ça doit fonctionner comme le dodécaèdre, non ?
+Hum... Oui, on peut commencer par une pyramide à base pentagonale, comme ça on a déjà utilisé cinq triangles. Par symétrie, on doit avoir la même pyramide à l'envers et pour joindre les deux, il nous faut un bande composée de 10 triangles. Le compte y est !
 
+<x-widget name="platon.solide">{faces: "20a"}</x-widget>
+
+Arg ! Ce n'est pas suffisant pour que mon icosaèdre soit régulier. Il faut que je m'assure que chaque face est un triangle équilatéral. Et qu'ils aitent tous la même taille. Ce n'est visiblement pas le cas pour l'instant.
+
+Pour commencer, je calcule la longueur <x-latex>a</x-latex> de l'arrête d'un pentagone sachant son rayon <x-latex>r</x-latex> (c'est-à-dire la distance d'un sommet à son centre de gravité).
+
+Bon, si je me souviens de ma trigonométrie, ça doit faire : <x-latex>a = 2r\sin {\pi\over 5}</x-latex>.
+
+<x-widget name="platon.solide">{faces: "20b"}</x-widget>
+
+Ensuite, sachant que ce pentagone est la base d'une pyramide, on peut trouver le sommet grace à Pythagore. Si on a <x-latex>h</x-latex> la hauteur de ce sommet, il faut vérifier <x-latex>h^2 + r^2 = a^2</x-latex>.
+
+Ah ! C'est déjà beaucoup mieux. Il reste à trouver le bon écartement entre les pyramides, donc la hauteur du bandeau de 10 triangles.
+
+Les triangles du bandeau ne sont pas verticaux. Ceux qui ont la pointe en haut, par exemple, penchent légèrement vers l'extérieur.
 
 
     </page>
