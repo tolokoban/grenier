@@ -3,33 +3,35 @@
          
     <title>Les solides de Platon</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><link rel="stylesheet" type="text/css" href="../../css/articles/solides_platon/@solides_platon.css"><script src="../../js/articles/solides_platon/@solides_platon.js"></script></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>Les solides de Platon</header><article><p><strong>Attention ! Les formules ne s&#39;affichent que sur Firefox, car il est le seul à supporter le MathML.</strong></p>
 <hr>
-<p>Je croise, par hasard, mon pote Thomas dans un sex-shop. Alors, pour détourner l&#39;attention, il me parle de son cours qu&#39;il a donné le matin même sur les solides de Platon. Il me demande si je pourrais faire une petite animation 3D de ces cinq polyèdres réguliers pour illuster sont argument auprès de ses élèves.</p>
+<p>Je croise, par hasard, mon pote Thomas dans un sex-shop. Alors, pour dissiper la gène, on parle de son cours qu&#39;il a donné le matin même sur les solides de Platon. Il me demande si je pourrais faire une petite animation 3D de ces cinq polyèdres réguliers pour illuster sont argument auprès de ses élèves.</p>
 <p>Je lui promet d&#39;y réfléchir et à peine rentré chez moi, me voilà bien embêté.
 En effet, pour afficher des polyèdres, il faut que je connaisse pour chacun les coordonnées des sommets en trois dimensions.
-Mais, comme par malchance, une terrible tempête haut-savoyarde s&#39;abat sur ma petit maison et me coupe tout moyen de comminiquer avec l&#39;extérieur. Il va falloir que je trouve ces coordonnées tout seul...</p>
-<p>Pour qu&#39;on puisse voir les solides de Platon sur tous les angles, je décide de fixer en (0,0,0) le centre de gravité et pour qu&#39;ils aient tous la même taille j&#39;ajoute comme contrainte la fait que la distance d&#39;un sommet au centre de gravité vaut toujours <strong>1</strong>.</p>
+Mais, comme par malchance, une terrible tempête haut-savoyarde s&#39;abat sur ma petite maison et me coupe tout moyen de communiquer avec l&#39;extérieur. Il va falloir que je trouve ces coordonnées tout seul...</p>
+<p>Pour qu&#39;on puisse voir les solides de Platon sur tous les angles, je décide de fixer en (0,0,0) leur centre de gravité. Et pour qu&#39;ils aient tous la même taille j&#39;ajoute comme contrainte la fait que la distance d&#39;un sommet au centre de gravité vaut toujours <strong>1</strong>.</p>
 <h1 id="le-cube-6-faces-">Le cube (6 faces)</h1>
-<div id="platon.solide0" style="display:none"></div>
+<div id="platon.solide14" style="display:none"></div>
 
-<p>On commence par lui car il est relativement simple. Il possède 8 sommets et de nombreux axes de symétrie. Donc s&#39;il existe un point <code>(h,h,h)</code>, il existe aussi toutes les combinaisons de symétries planaires : <code>(h,h,-h)</code>, <code>(h,-h,h)</code>, <code>(h,-h,-h)</code>, <code>(-h,h,h)</code>, <code>(-h,h,-h)</code>, <code>(-h,-h,h)</code> et <code>(-h,-h,-h)</code>.</p>
-<p>Ça ressemble beaucoup à  du binaire tout ça. Remplaçons <code>h</code> par <code>0</code> et <code>-h</code> par <code>1</code>, les coordonnées ci-dessus deviennent 000, 001, 010, 011, 100, 101, 110 et 111.</p>
-<p>Cela nous donne une idée pour <em>construire</em> les coordonnées d&#39;un hypercube ! Par exemple, pour le tesseract (4 dimensions), on aura <math><mrow><msup><mn>2</mn><mn>4</mn></msup><mn>0</mn><mn>16</mn></mrow></math> sommets. Et ça marche aussi pour le carré en 2D, c&#39;est magnifique.</p>
-<p>Il ne nous reste plus qu&#39;à déterminer <code>h</code> pour que la distance de tout sommet au centre de gravité soit égal à <strong>1</strong>.</p>
-<math><mrow><msup><mi>h</mi><mn>2</mn></msup><mo>+</mo><msup><mi>h</mi><mn>2</mn></msup><mo>+</mo><msup><mi>h</mi><mn>2</mn></msup><mo>=</mo><mn>1</mn><mo>&hArr;</mo><mi>h</mi><mo>=</mo><mfrac><mrow><mn>1</mn></mrow><mrow><msqrt><mn>3</mn></msqrt></mrow></mfrac></mrow></math>
+<p>On commence par lui car il est relativement simple. Il possède 8 sommets et de nombreux axes de symétrie. Donc s&#39;il existe un point <code>(h,h,h)</code>, il existe aussi toutes les combinaisons de symétries par rapport aux plans axiaux : <code>(h,h,-h)</code>, <code>(h,-h,h)</code>, <code>(h,-h,-h)</code>, <code>(-h,h,h)</code>, <code>(-h,h,-h)</code>, <code>(-h,-h,h)</code> et <code>(-h,-h,-h)</code>.</p>
+<p>Ça ressemble beaucoup à du binaire tout ça. Remplaçons <code>h</code> par <code>0</code> et <code>-h</code> par <code>1</code>, les coordonnées ci-dessus deviennent 000, 001, 010, 011, 100, 101, 110 et 111.</p>
+<p>Cela me donne une idée pour <em>construire</em> les coordonnées d&#39;un hypercube ! Par exemple, pour le tesseract (4 dimensions), on aura <math><mrow><msup><mn>2</mn><mn>4</mn></msup><mo>=</mo><mn>16</mn></mrow></math> sommets. Et ça marche aussi pour le carré en 2D, c&#39;est magnifique, non ?</p>
+<p>Il ne me reste plus qu&#39;à déterminer <code>h</code> pour que la distance de tout sommet au centre de gravité soit égal à <strong>1</strong>. Bon, jusque là, ce n&#39;est pas trop difficile :</p>
+<math><mrow><msup><mi>h</mi><mn>2</mn></msup><mo>+</mo><msup><mi>h</mi><mn>2</mn></msup><mo>+</mo><msup><mi>h</mi><mn>2</mn></msup><mo>=</mo><mn>1</mn><mo>&iif;</mo><mi>h</mi><mo>=</mo><mfrac><mrow><mn>1</mn></mrow><mrow><mo>&sqrt;</mo><mn>3</mn></mrow></mfrac></mrow></math>
+
 
 <h1 id="le-t-tra-dre-4-faces-">Le tétraèdre (4 faces)</h1>
-<div id="platon.solide1" style="display:none"></div>
+<div id="platon.solide15" style="display:none"></div>
 
 <p>Pour le tétraèdre, on peut utiliser le cube. En effet, si on prend un sous-ensemble des sommets du cube, on satisfait la contrainte sur la distance au centre. Et comme toutes les faces d&#39;un cube sont identiques, on peut définir l&#39;arête d&#39;un tétraèdre comme étant la diagonale d&#39;une face du cube.</p>
 <p>Sur la face du cube <math><mrow><mi>y</mi><mo>=</mo><mi>h</mi></mrow></math>, on peut choisir les points <code>(h,h,h)</code> et <code>(-h,h,-h)</code>.
 Pour la face opposée (<math><mrow><mi>y</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow></math>), on croise la diagonale et on prend les points <code>(h,-h,-h)</code> et <code>(-h,-h,h)</code>.</p>
 <h1 id="l-octo-dre-8-faces-">L&#39;octoèdre (8 faces)</h1>
-<div id="platon.solide2" style="display:none"></div>
+<div id="platon.solide16" style="display:none"></div>
 
 <p>En voilà de nouveau un facile. Plus facile encore que le cube. Il suffit de placer deux points par axe à distance 1 du centre.</p>
 <p><code>(1,0,0)</code>, <code>(-1,0,0)</code>, <code>(0,1,0)</code>, <code>(0,-1,0)</code>, <code>(0,0,1)</code> et <code>(0,0,-1)</code>.</p>
-<h1 id="le-dod-ca-dre-12-faces-">Le dodécaèdre (12 faces)</h1>
-<p>Hum... 12 faces, c&#39;est un multiple de 3, on peut donc s&#39;attendre à avoir, comme pour le cube, des symétries par rapports aux plans fondamentaux XY, XZ, et YZ. Cela nous donne déjà 6 faces parallèles à ces plans. Mais, dans ce cas, ça nous laisse 8 parties de l&#39;espaces parfaitement symétrique et il ne nous reste que 6 faces. Ça ne joue donc pas...</p>
-<p>Gardons donc deux faces opposées parallèles à un des 3 plans. Pour que ça ressemble vaguement à une sphère, il faut ajouter un bandeau constitué de 10 faces.</p>
-<h1 id="l-icosa-dre-20-faces-">L&#39;icosaèdre (20 faces)</h1>
-<div style="height:1rem"></div></article></section></body></html>
+<p>J&#39;en profite pour introduire la notion de <strong>dual</strong> ça plaira surement à Thomas, lui qui aime bien les gros mots. Il s&#39;agit du solide que l&#39;on peut créer en prenant comme sommets de l&#39;enfant, les centres des faces du parent.</p>
+<p>Pour l&#39;octoèdre, le dual est un cube. Et pour le cube... le dual est l&#39;octoèdre.</p>
+<p>Cette symétrie n&#39;est pas toujours la règle : le tétraèdre, en gros narcissique, est son propre dual.</p>
+<hr>
+<p>Pour les suivants, ça va se compliquer, alors je prends une nouvelle feuille.</p>
+<div style="height:1rem"></div><footer>Pages : <span><span class="selected">1</span></span><span><a href="solides_platon.1.html">2</a></span></footer></article></section></body></html>
