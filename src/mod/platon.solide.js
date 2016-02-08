@@ -157,6 +157,57 @@ Solide.prototype.getIcosahedronGeometryA = function(radius) {
 };
 
 
+Solide.prototype.getIcosahedronGeometry = function(radius) {
+    if (typeof radius === 'undefined') radius = 1;
+
+    var k = radius;
+    var vertices = [[0,k,0]];
+    var faces = [];
+    var i, ang;
+    var r = .9 * k;
+    var y = 1 - r * Math.sqrt( 4 * Math.sin(Math.PI / 5) * Math.sin(Math.PI / 5) - 1 );
+
+    for ( i=0 ; i<5 ; i++ ) {
+        ang = i * 2 * Math.PI / 5;
+        vertices.push( [r * Math.cos( ang ), y, r * Math.sin( ang )] );
+        if (i < 4) {
+            faces.push( [0, i + 2, i + 1] );
+        } else {
+            faces.push( [0, 1, 5] );
+        }
+    }
+
+    for ( i=0 ; i<5 ; i++ ) {
+        ang = Math.PI / 5 + i * 2 * Math.PI / 5;
+        vertices.push( [r * Math.cos( ang ), -y, r * Math.sin( ang )] );
+        if (i < 4) {
+            faces.push( [11, i + 6, i + 7] );
+        } else {
+            faces.push( [11, 10, 6] );
+        }
+    }
+    vertices.push( [0,-k,0] );
+
+    var j, a1, a2, b6, b7;
+    for ( i=0 ; i<5 ; i++ ) {
+        j = (i + 2) % 5;
+        a1 = j + 1;
+        a2 = (j + 1) % 5 + 1;
+        b6 = j + 6;
+        b7 = (j + 1) % 5 + 6;
+        faces.push( [a1, a2, b6] );
+        faces.push( [a2, b7, b6] );
+    }
+
+    this.css('float', 'none');
+
+    return {
+        vertices: vertices,
+        faces: faces
+    };
+};
+
+
 Solide.prototype.getIcosahedronGeometryB = function(radius) {
     if (typeof radius === 'undefined') radius = 1;
 

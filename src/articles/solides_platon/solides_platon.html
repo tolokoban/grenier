@@ -61,24 +61,32 @@ Cette symétrie n'est pas toujours la règle : le tétraèdre, en gros narcissiq
 
 ----
 
-Pour les suivants, ça va se compliquer, alors je prends une nouvelle feuille.
+Pour les suivants, ça va se compliquer, alors je prends une [nouvelle feuille](#dodecaedre).
 
     </page>
 
     <page>
 
-<x-widget name="platon.dodeca1">{width: 320, height: 320}</x-widget>
-
 # Le dodécaèdre (12 faces)
 
+<a name="dodecaedre"></a>
 On a deux faces opposées parallèles à un des 3 plans. Pour que ça ressemble vaguement à une sphère, il faut ajouter un bandeau constitué de 10 faces. Si je prends des pentagones, alors je peux faire deux bandeaux avec 5 pentagones à chaque fois et je les emboîte.
 
 Bien. On dirait que ça joue, je gribouille un petit schéma dans la marge.
 
+<center><x-widget name="platon.dodeca1">{width: 600, height: 600}</x-widget></center>
 
+----
+
+ALors hop ! On passe à la [page suivante](#icosaedre).
+
+    </page>
+
+    <page>
 
 # L'icosaèdre (20 faces)
 
+<a name="icosaedre"></a>
 Celui-ci est composé de triangles équilatéraux. Ça doit fonctionner comme le dodécaèdre, non ?
 Hum... Oui, on peut commencer par une pyramide à base pentagonale, comme ça on a déjà utilisé cinq triangles. Par symétrie, on doit avoir la même pyramide à l'envers et pour joindre les deux, il nous faut un bande composée de 10 triangles. Le compte y est !
 
@@ -98,6 +106,24 @@ Ah ! C'est déjà beaucoup mieux. Il reste à trouver le bon écartement entre l
 
 Les triangles du bandeau ne sont pas verticaux. Ceux qui ont la pointe en haut, par exemple, penchent légèrement vers l'extérieur.
 
+<x-widget name="platon.icosaedre">{width: 200, height: 200}</x-widget>
+
+Notons
+* <x-latex>a</x-latex> la longueur d'une arête du triangle équilatéral rouge,
+* <x-latex>h</x-latex> la hauteur de ce triangle (<x-latex>h = {\sqrt 3 \over 2}a</x-latex>),
+* <x-latex>f</x-latex> la longueur du segment vertical vert,
+* et <x-latex>g</x-latex> la longueur du segment horizonzal rouge.
+
+
+On a : <x-latex>f^2 + g^2 = h^2 \iif f^2 = {3\over 4}a^2 - g^2</x-latex>.
+
+Il faut donc trouver <x-latex>g</x-latex>. Pour cela, il faut calculer la hauteur du triangle isocèle jaune. Sa base vaut <x-latex>a</x-latex>, ses deux côtés égaux valent __1__ et son angle au sommet est de <x-latex>{2\pi \over 5}</x-latex>.
+
+On en déduit que <x-latex>a = 2\sin{\pi\over 5}</x-latex> et que <x-latex>g = 1 - \cos{\pi\over 5}</x-latex>.
+
+<x-latex>f = \sqrt{3\sin^2{\pi\over 5}-{1-\cos{\pi\over 5}}^2}</x-latex>.
+
+<x-widget name="platon.solide">{faces: 20}</x-widget>
 
     </page>
 </x-article>

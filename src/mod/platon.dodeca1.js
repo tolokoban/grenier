@@ -44,7 +44,6 @@ var Dodeca1 = function(options) {
 
     this.start();
 
-    this.css('float', 'right');
 };
 
 // Extension of Widget.
@@ -57,9 +56,9 @@ Dodeca1.prototype.constructor = Dodeca1;
 Dodeca1.prototype.onRender = function(time, delta) {
     //this.root.rotation.set(-.3,.1,0);
     //return;
-    this._rotator.rotate( time * .3 );
+    this._rotator.rotate( time );
 
-    var threshold = 1.1;
+    var threshold = 1.11;
     
     var pentagons2 = this.pentagons2;
     var Ta = 5000;

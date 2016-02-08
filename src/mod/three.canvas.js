@@ -42,6 +42,7 @@ var Canvas = function(options) {
     Widget.call(this);
     this.addClass("three-canvas");
 
+    if (typeof options !== 'object') options = {};
     if (typeof options === 'undefined') options = {};
     if (typeof options.width === 'undefined') options.width = window.innerWidth;
     if (typeof options.height === 'undefined') options.height = window.innerHeight;
@@ -166,6 +167,12 @@ Canvas.prototype.createMesh = function(opt) {
         transparent: true,
         opacity: .9
     });;
+
+    opt.colors.forEach(function (color, idx) {
+        if (typeof color === 'number') {
+            opt.colors[idx] = new THREE.Color( color );
+        }
+    });
 
     var grp = new THREE.Group();
 
