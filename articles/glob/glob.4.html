@@ -103,23 +103,18 @@
   }
  <span class="keyword"> return</span> null;
 }
-
 <span class="keyword">
 function</span> <span class="function">h0</span>(s) {<span class="keyword"> return</span> 0; }
-
 <span class="keyword">
-var</span> a, b, c, state, states <span class="operator">=</span> [];
-<span class="keyword">
+var</span> a, b, c, state, states <span class="operator">=</span> [];<span class="keyword">
 var</span> goalFunc <span class="operator">=</span><span class="keyword"> function</span>(aa, bb, cc) {
  <span class="keyword"> return</span><span class="keyword"> function</span>(s) {
    <span class="keyword"> var</span> cnt <span class="operator">=</span> s.containers;
    <span class="keyword"> return</span> cnt[0] <span class="operator">==</span> aa <span class="operator">&amp;</span><span class="operator">&amp;</span> cnt[1] <span class="operator">==</span> bb <span class="operator">&amp;</span><span class="operator">&amp;</span> cnt[2] <span class="operator">==</span> cc;
   };
 };
-
 <span class="keyword">
 var</span> Ca, Cb, Cc;
-
 <span class="keyword">
 for</span> (Ca <span class="operator">=</span> 2 ; Ca <span class="operator">&lt;</span><span class="operator">=</span> 9 ; Ca<span class="operator">+</span><span class="operator">+</span>) {
  <span class="keyword"> for</span> (Cb <span class="operator">=</span> Ca <span class="operator">+</span> 1 ; Cb <span class="operator">&lt;</span><span class="operator">=</span> 9 ; Cb<span class="operator">+</span><span class="operator">+</span>) {
@@ -163,12 +158,9 @@ states.<span class="function">forEach</span>(
     state.<span class="function">print</span>();
   }
 );
-
 <span class="keyword">
-var</span> key <span class="operator">=</span> <span class="string">""</span>;
-<span class="keyword">
-var</span> alphabet <span class="operator">=</span> <span class="string">"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"</span>;
-<span class="keyword">
+var</span> key <span class="operator">=</span> <span class="string">""</span>;<span class="keyword">
+var</span> alphabet <span class="operator">=</span> <span class="string">"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"</span>;<span class="keyword">
 function</span> <span class="function">encode</span>(a, b, c) {
  <span class="keyword"> var</span> v <span class="operator">=</span> a <span class="operator">*</span> 100 <span class="operator">+</span> b <span class="operator">*</span> 10 <span class="operator">+</span> c;
  <span class="keyword"> var</span> L <span class="operator">=</span> v <span class="operator">%</span> alphabet.length;
@@ -189,4 +181,4 @@ console.<span class="function">log</span>(<span class="string">"Nb games: "</spa
 console.<span class="function">log</span>();
 console.<span class="function">log</span>(key);</pre>
 
-<div style="height:1rem"></div><footer>Pages : <span><a href="glob.html">1</a></span><span><a href="glob.1.html">2</a></span><span><a href="glob.2.html">3</a></span><span><a href="glob.3.html">4</a></span><span><span class="selected">5</span></span></footer></article></section></body></html>
+<div style="height:1rem"></div></article><footer><div><div><a href="glob.html">1</a></div><div><a href="glob.1.html">2</a></div><div><a href="glob.2.html">3</a></div><div><a href="glob.3.html">4</a></div><div><div class="selected">5</div></div></div></footer></section></body></html>

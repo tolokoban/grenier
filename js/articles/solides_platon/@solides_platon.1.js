@@ -34,12 +34,21 @@ addListener(
     function() {
         document.body.parentNode.$data = {};
         // Attach controllers.
+<<<<<<< HEAD
         try{require('x-widget')('platon.solide14','platon.solide',{faces: 6})}catch(x){console.error('Unable to initialize platon.solide!', x)}
 try{require('x-widget')('platon.solide15','platon.solide',{faces: 4})}catch(x){console.error('Unable to initialize platon.solide!', x)}
 try{require('x-widget')('platon.solide16','platon.solide',{faces: 8})}catch(x){console.error('Unable to initialize platon.solide!', x)}
 try{require('x-widget')('platon.dodeca117','platon.dodeca1',{width: 320, height: 320})}catch(x){console.error('Unable to initialize platon.dodeca1!', x)}
 try{require('x-widget')('platon.solide18','platon.solide',{faces: "20a"})}catch(x){console.error('Unable to initialize platon.solide!', x)}
 try{require('x-widget')('platon.solide19','platon.solide',{faces: "20b"})}catch(x){console.error('Unable to initialize platon.solide!', x)}
+=======
+        try{require('x-widget')('platon.solide46','platon.solide',{faces: 6})}catch(x){console.error('Unable to initialize platon.solide!', x)}
+try{require('x-widget')('platon.solide47','platon.solide',{faces: 4})}catch(x){console.error('Unable to initialize platon.solide!', x)}
+try{require('x-widget')('platon.solide48','platon.solide',{faces: 8})}catch(x){console.error('Unable to initialize platon.solide!', x)}
+try{require('x-widget')('platon.dodeca149','platon.dodeca1',{})}catch(x){console.error('Unable to initialize platon.dodeca1!', x)}
+try{require('x-widget')('platon.solide50','platon.solide',{faces: "20a"})}catch(x){console.error('Unable to initialize platon.solide!', x)}
+try{require('x-widget')('platon.solide51','platon.solide',{faces: "20b"})}catch(x){console.error('Unable to initialize platon.solide!', x)}
+>>>>>>> a1601a20b1a2a3b9f06f7a047ab3ad29eb328f29
     }
 );
 
@@ -120,7 +129,11 @@ exports.intl = function(words, params) {
 
 //########################################
 window['#platon.dodeca1']=function(exports,module){  "use strict";
+<<<<<<< HEAD
 var ThreeCanvas = require("three.canvas");
+=======
+var TreeCanvas = require("three.canvas");
+>>>>>>> a1601a20b1a2a3b9f06f7a047ab3ad29eb328f29
 var Rotator = require("three.rotator");
 
 
@@ -136,10 +149,14 @@ var Dodeca1 = function(options) {
     if (typeof options.width === 'undefined') options.width = 280;
     if (typeof options.height === 'undefined') options.height = 280;
 
+<<<<<<< HEAD
     this._params1 = [[0,1], [0,1], [0,1], [0,1], [0,1]];
     this._params2 = [[0,1], [0,1], [0,1], [0,1], [0,1]];
     
     ThreeCanvas.call(this, {width: options.width, height: options.height});
+=======
+    TreeCanvas.call(this, {width: options.width, height: options.height});
+>>>>>>> a1601a20b1a2a3b9f06f7a047ab3ad29eb328f29
     this.addClass("platon-dodeca1");
 
     var grp = new THREE.Group();
@@ -147,10 +164,16 @@ var Dodeca1 = function(options) {
     grp.add( this.createPentagon() );
     this.addChildren( grp );
 
+<<<<<<< HEAD
     this.camera.position.z = 9;
 
     this.scene.add( grp );
     this.root = grp;
+=======
+    this.camera.position.z = 7;
+
+    this.scene.add( grp );
+>>>>>>> a1601a20b1a2a3b9f06f7a047ab3ad29eb328f29
     this._rotator = new Rotator(grp);
 
     var light = new THREE.HemisphereLight( 0xcceeff, 0x990000, 3.6 ); // soft white light
@@ -169,13 +192,18 @@ var Dodeca1 = function(options) {
 };
 
 // Extension of Widget.
+<<<<<<< HEAD
 Dodeca1.prototype = Object.create(ThreeCanvas.prototype);
+=======
+Dodeca1.prototype = Object.create(TreeCanvas.prototype);
+>>>>>>> a1601a20b1a2a3b9f06f7a047ab3ad29eb328f29
 Dodeca1.prototype.constructor = Dodeca1;
 
 /**
  * @return void
  */
 Dodeca1.prototype.onRender = function(time, delta) {
+<<<<<<< HEAD
     //this.root.rotation.set(-.3,.1,0);
     //return;
     this._rotator.rotate( time * .3 );
@@ -272,6 +300,28 @@ Dodeca1.prototype.onRender = function(time, delta) {
 
     this._lastStep = this._step;
     this._step = step;
+=======
+    this._rotator.rotate( time );
+
+    this.pentagons.forEach(function (pentagon, idx) {
+        var t = time + 500 * idx;
+        var threshold = 1.095;
+        var bound = .25;
+        var alpha = Math.cos(t / 3600);
+        if (alpha > bound) {
+            alpha = threshold;
+        }
+        else if (alpha < -bound) {
+            alpha = -threshold;
+        }
+        else {
+            alpha = threshold * alpha / bound;
+        }
+        pentagon.rotation.y = alpha;
+    });
+
+    
+>>>>>>> a1601a20b1a2a3b9f06f7a047ab3ad29eb328f29
 };
 
 
@@ -302,7 +352,11 @@ Dodeca1.prototype.createPentagon = function(radius) {
 };
 
 
+<<<<<<< HEAD
 Dodeca1.prototype.createPentagon2 = function(radius, material) {
+=======
+Dodeca1.prototype.createPentagon2 = function(radius) {
+>>>>>>> a1601a20b1a2a3b9f06f7a047ab3ad29eb328f29
     if (typeof radius === 'undefined') radius = 1;
 
     var angle = 4 * Math.PI / 5;
@@ -320,6 +374,7 @@ Dodeca1.prototype.createPentagon2 = function(radius, material) {
         ]);
         face.push( i );
     }
+<<<<<<< HEAD
     var grp = new THREE.Group();
 
     grp.add(
@@ -332,6 +387,13 @@ Dodeca1.prototype.createPentagon2 = function(radius, material) {
     );
     // grp.add( this.createAxis() );
     return grp;
+=======
+    return this.createMesh({
+        vertices: vertices,
+        faces: [face],
+        doublesided: true
+    });
+>>>>>>> a1601a20b1a2a3b9f06f7a047ab3ad29eb328f29
 };
 
 /**
@@ -344,6 +406,7 @@ Dodeca1.prototype.addChildren = function(parent, radius) {
     var x;
     var y;
     var pentagons = [];
+<<<<<<< HEAD
     var pentagons2 = [];
     var container;
     var pentagon;
@@ -360,10 +423,17 @@ Dodeca1.prototype.addChildren = function(parent, radius) {
     for( i=0 ; i<5 ; i++ ) {
         container = new THREE.Group();
 
+=======
+    var pentagon;
+    var grp;
+    var i;
+    for( i=0 ; i<5 ; i++ ) {
+>>>>>>> a1601a20b1a2a3b9f06f7a047ab3ad29eb328f29
         angle = i * 2 * Math.PI / 5;
         x = radius * Math.cos( angle );
         y = radius * Math.sin( angle );
         pentagon = this.createPentagon2( radius );
+<<<<<<< HEAD
         pentagons.push( container );
         container.add( pentagon );
         grp = new THREE.Group();
@@ -385,6 +455,17 @@ Dodeca1.prototype.addChildren = function(parent, radius) {
     }
     this.pentagons = pentagons;
     this.pentagons2 = pentagons2;
+=======
+        pentagons.push( pentagon );
+        grp = new THREE.Group();
+        grp.add( pentagon );
+        grp.position.x = x;
+        grp.position.y = y;
+        grp.rotation.z = angle - 0.2 * Math.PI;
+        parent.add( grp );
+    }
+    this.pentagons = pentagons;
+>>>>>>> a1601a20b1a2a3b9f06f7a047ab3ad29eb328f29
 };
 
 
@@ -529,6 +610,7 @@ Canvas.prototype.stop = function() {
     Unregister(this);
 };
 
+<<<<<<< HEAD
 /**
  * @return void
  */
@@ -575,6 +657,8 @@ Canvas.prototype.createLine = function(opt) {
 
     return new THREE.Line( geo, mat );
 };
+=======
+>>>>>>> a1601a20b1a2a3b9f06f7a047ab3ad29eb328f29
 
 /**
  * @return void

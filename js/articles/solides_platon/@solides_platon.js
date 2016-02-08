@@ -34,12 +34,21 @@ addListener(
     function() {
         document.body.parentNode.$data = {};
         // Attach controllers.
+<<<<<<< HEAD
         try{require('x-widget')('platon.solide14','platon.solide',{faces: 6})}catch(x){console.error('Unable to initialize platon.solide!', x)}
 try{require('x-widget')('platon.solide15','platon.solide',{faces: 4})}catch(x){console.error('Unable to initialize platon.solide!', x)}
 try{require('x-widget')('platon.solide16','platon.solide',{faces: 8})}catch(x){console.error('Unable to initialize platon.solide!', x)}
 try{require('x-widget')('platon.dodeca117','platon.dodeca1',{width: 320, height: 320})}catch(x){console.error('Unable to initialize platon.dodeca1!', x)}
 try{require('x-widget')('platon.solide18','platon.solide',{faces: "20a"})}catch(x){console.error('Unable to initialize platon.solide!', x)}
 try{require('x-widget')('platon.solide19','platon.solide',{faces: "20b"})}catch(x){console.error('Unable to initialize platon.solide!', x)}
+=======
+        try{require('x-widget')('platon.solide46','platon.solide',{faces: 6})}catch(x){console.error('Unable to initialize platon.solide!', x)}
+try{require('x-widget')('platon.solide47','platon.solide',{faces: 4})}catch(x){console.error('Unable to initialize platon.solide!', x)}
+try{require('x-widget')('platon.solide48','platon.solide',{faces: 8})}catch(x){console.error('Unable to initialize platon.solide!', x)}
+try{require('x-widget')('platon.dodeca149','platon.dodeca1',{})}catch(x){console.error('Unable to initialize platon.dodeca1!', x)}
+try{require('x-widget')('platon.solide50','platon.solide',{faces: "20a"})}catch(x){console.error('Unable to initialize platon.solide!', x)}
+try{require('x-widget')('platon.solide51','platon.solide',{faces: "20b"})}catch(x){console.error('Unable to initialize platon.solide!', x)}
+>>>>>>> a1601a20b1a2a3b9f06f7a047ab3ad29eb328f29
     }
 );
 
@@ -120,7 +129,11 @@ exports.intl = function(words, params) {
 
 //########################################
 window['#platon.dodeca1']=function(exports,module){  "use strict";
+<<<<<<< HEAD
 var ThreeCanvas = require("three.canvas");
+=======
+var TreeCanvas = require("three.canvas");
+>>>>>>> a1601a20b1a2a3b9f06f7a047ab3ad29eb328f29
 var Rotator = require("three.rotator");
 
 
@@ -136,10 +149,14 @@ var Dodeca1 = function(options) {
     if (typeof options.width === 'undefined') options.width = 280;
     if (typeof options.height === 'undefined') options.height = 280;
 
+<<<<<<< HEAD
     this._params1 = [[0,1], [0,1], [0,1], [0,1], [0,1]];
     this._params2 = [[0,1], [0,1], [0,1], [0,1], [0,1]];
     
     ThreeCanvas.call(this, {width: options.width, height: options.height});
+=======
+    TreeCanvas.call(this, {width: options.width, height: options.height});
+>>>>>>> a1601a20b1a2a3b9f06f7a047ab3ad29eb328f29
     this.addClass("platon-dodeca1");
 
     var grp = new THREE.Group();
@@ -147,10 +164,16 @@ var Dodeca1 = function(options) {
     grp.add( this.createPentagon() );
     this.addChildren( grp );
 
+<<<<<<< HEAD
     this.camera.position.z = 9;
 
     this.scene.add( grp );
     this.root = grp;
+=======
+    this.camera.position.z = 7;
+
+    this.scene.add( grp );
+>>>>>>> a1601a20b1a2a3b9f06f7a047ab3ad29eb328f29
     this._rotator = new Rotator(grp);
 
     var light = new THREE.HemisphereLight( 0xcceeff, 0x990000, 3.6 ); // soft white light
@@ -169,13 +192,18 @@ var Dodeca1 = function(options) {
 };
 
 // Extension of Widget.
+<<<<<<< HEAD
 Dodeca1.prototype = Object.create(ThreeCanvas.prototype);
+=======
+Dodeca1.prototype = Object.create(TreeCanvas.prototype);
+>>>>>>> a1601a20b1a2a3b9f06f7a047ab3ad29eb328f29
 Dodeca1.prototype.constructor = Dodeca1;
 
 /**
  * @return void
  */
 Dodeca1.prototype.onRender = function(time, delta) {
+<<<<<<< HEAD
     //this.root.rotation.set(-.3,.1,0);
     //return;
     this._rotator.rotate( time * .3 );
@@ -198,8 +226,113 @@ Dodeca1.prototype.onRender = function(time, delta) {
     }
     else if ( time < Ta + Tb + Tc ) {
         step = 2;
-    }
+=======
+    this._rotator.rotate( time );
 
+    this.pentagons.forEach(function (pentagon, idx) {
+        var t = time + 500 * idx;
+        var threshold = 1.095;
+        var bound = .25;
+        var alpha = Math.cos(t / 3600);
+        if (alpha > bound) {
+            alpha = threshold;
+        }
+        else if (alpha < -bound) {
+            alpha = -threshold;
+        }
+        else {
+            alpha = threshold * alpha / bound;
+        }
+        pentagon.rotation.y = alpha;
+    });
+
+    
+};
+
+
+/**
+ * @return void
+ */
+Dodeca1.prototype.createPentagon = function(radius) {
+    if (typeof radius === 'undefined') radius = 1;
+
+    var vertices = [];
+    var face = [];
+    var angle;
+    var i;
+    for( i=0 ; i<5 ; i++ ) {
+        angle = i * 2 * Math.PI / 5;
+        vertices.push([
+            radius * Math.cos( angle ),
+            radius * Math.sin( angle ),
+            0
+        ]);
+        face.push( i );
+    }
+    return this.createMesh({
+        vertices: vertices,
+        faces: [face],
+        doublesided: true
+    });
+};
+
+
+Dodeca1.prototype.createPentagon2 = function(radius) {
+    if (typeof radius === 'undefined') radius = 1;
+
+    var angle = 4 * Math.PI / 5;
+    var dx = radius * Math.cos( angle );
+    var dy = radius * Math.sin( angle );
+    var vertices = [];
+    var face = [];
+    var i;
+    for( i=0 ; i<5 ; i++ ) {
+        angle = i * 2 * Math.PI / 5;
+        vertices.push([
+            radius * Math.cos( angle ) - dx,
+            radius * Math.sin( angle ) - dy,
+            0
+        ]);
+        face.push( i );
+    }
+    return this.createMesh({
+        vertices: vertices,
+        faces: [face],
+        doublesided: true
+    });
+};
+
+/**
+ * @return void
+ */
+Dodeca1.prototype.addChildren = function(parent, radius) {
+    if (typeof radius === 'undefined') radius = 1;
+
+    var angle;
+    var x;
+    var y;
+    var pentagons = [];
+    var pentagon;
+    var grp;
+    var i;
+    for( i=0 ; i<5 ; i++ ) {
+        angle = i * 2 * Math.PI / 5;
+        x = radius * Math.cos( angle );
+        y = radius * Math.sin( angle );
+        pentagon = this.createPentagon2( radius );
+        pentagons.push( pentagon );
+        grp = new THREE.Group();
+        grp.add( pentagon );
+        grp.position.x = x;
+        grp.position.y = y;
+        grp.rotation.z = angle - 0.2 * Math.PI;
+        parent.add( grp );
+>>>>>>> a1601a20b1a2a3b9f06f7a047ab3ad29eb328f29
+    }
+    this.pentagons = pentagons;
+};
+
+<<<<<<< HEAD
     console.info("[platon.dodeca1] step=...", step);
     if ( typeof this._lastStep === 'undefined' || this._lastStep > step ) {
         // One more loop. Let's initialize random attributes.
@@ -300,8 +433,16 @@ Dodeca1.prototype.createPentagon = function(radius) {
         doublesided: true
     });
 };
+=======
+>>>>>>> a1601a20b1a2a3b9f06f7a047ab3ad29eb328f29
 
+Dodeca1.create = function(opt) {
+    return new Dodeca1(opt);
+};
+module.exports = Dodeca1;
+ }
 
+<<<<<<< HEAD
 Dodeca1.prototype.createPentagon2 = function(radius, material) {
     if (typeof radius === 'undefined') radius = 1;
 
@@ -424,6 +565,38 @@ Rotator.prototype.rotate = function(time, obj) {
     obj.rotation.y = time / this.sz;   
 };
 
+=======
+
+//########################################
+window['#three.rotator']=function(exports,module){  /**
+ * @example
+ * var Rotator = require("three.rotator");
+ * var instance = new Rotator();
+ * @class Rotator
+ */
+var Rotator = function(obj, sx, sy, sz) {
+    if (typeof sx === 'undefined') sx = 2500 + Math.random() * 500;
+    if (typeof sy === 'undefined') sy = 2500 + Math.random() * 500;
+    if (typeof sz === 'undefined') sz = 2500 + Math.random() * 500;
+
+    this.obj = obj;
+    this.sx = sx;
+    this.sy = sy;
+    this.sz = sz;
+};
+
+/**
+ * @return void
+ */
+Rotator.prototype.rotate = function(time, obj) {
+    if (typeof obj === 'undefined') obj = this.obj;
+
+    obj.rotation.x = time / this.sx;
+    obj.rotation.y = time / this.sy;
+    obj.rotation.y = time / this.sz;   
+};
+
+>>>>>>> a1601a20b1a2a3b9f06f7a047ab3ad29eb328f29
 Rotator.create = function() {
     return new Rotator();
 };
@@ -575,6 +748,130 @@ Canvas.prototype.createLine = function(opt) {
 
     return new THREE.Line( geo, mat );
 };
+
+/**
+ * @return void
+ */
+Canvas.prototype.createMesh = function(opt) {
+    if (typeof opt === 'undefined') throw Error("[three.canvas.createMesh] Missing optument!");
+    if (typeof opt.colors === 'undefined') opt.colors = [
+        new THREE.Color( .5 + Math.random() * .5, .5 + Math.random() * .5, .5 + Math.random() * .5 )
+    ];
+    if (typeof opt.nbColors === 'undefined') opt.nbColors = opt.colors.length;
+    if (typeof opt.solid === 'undefined') opt.solid = true;
+    if (typeof opt.wireframe === 'undefined') opt.wireframe = true;
+    if (typeof opt.wirecolor === 'undefined') opt.wirecolor = new THREE.Color( 0x333333 );
+    if (typeof opt.wirewidth === 'undefined') opt.wirewidth = 2;
+    if (typeof opt.doublesided === 'undefined') opt.doublesided = false;
+
+    if (typeof opt.mat === 'undefined') opt.mat = new THREE.MeshPhongMaterial({
+        specular: 0x333333,
+        shininess: 3.14,
+        metal: true,
+        vertexColors: THREE.VertexColors,
+        side: opt.doublesided ? THREE.DoubleSide : THREE.FrontSide,
+        transparent: true,
+        opacity: .9
+    });;
+
+    var grp = new THREE.Group();
+
+    if (opt.solid) {
+        var geo = new THREE.Geometry();
+        opt.vertices.forEach(function (vertex) {
+            geo.vertices.push( new THREE.Vector3( vertex[0], vertex[1], vertex[2] ) );
+        });
+        opt.faces.forEach(function (face, idxFace) {
+            addFace( geo, face, opt.colors[idxFace % opt.nbColors] );
+        });
+        geo.computeFaceNormals ();
+        geo.computeVertexNormals ();
+        grp.add( new THREE.Mesh( geo, opt.mat ) );
+    }
+
+    if (opt.wireframe) {
+        var mat = new THREE.LineBasicMaterial({ color: opt.wirecolor, linewidth: opt.wirewidth });
+        var cache = [];
+        opt.faces.forEach(function (face) {
+            var line;
+            var key, a, b, tmp;
+            for( var i=0 ; i<face.length ; i++ ) {
+                a = face[i];
+                b = face[(i + 1) % face.length];
+                if (b < a) {
+                    tmp = a;
+                    a = b;
+                    b = tmp;
+                }
+                key = a + "," + b;
+                if (cache.indexOf( key ) == -1) {
+                    cache.push( key );
+                    line = new THREE.Geometry();
+                    line.vertices.push(
+                        new THREE.Vector3( 
+                            opt.vertices[a][0], opt.vertices[a][1], opt.vertices[a][2] ),
+                        new THREE.Vector3( 
+                            opt.vertices[b][0], opt.vertices[b][1], opt.vertices[b][2] )
+                    );
+                    line.type = THREE.Lines;
+                    grp.add( new THREE.Line( line, mat ) );
+                }
+            }
+        });
+    }
+
+console.info("[three.canvas] grp=", grp);
+    return grp;
+};
+
+
+function addFace(geometry, vertices, color) {
+    var faces = [];
+    if (vertices.length == 3) {
+        faces.push(
+            new THREE.Face3( vertices[0], vertices[1], vertices[2] )
+        );
+    }
+    else if (vertices.length == 4) {
+        faces.push(
+            new THREE.Face3( vertices[0], vertices[1], vertices[2] ),
+            new THREE.Face3( vertices[0], vertices[2], vertices[3] )
+        );
+    }
+    else {
+        // We use the fan method.
+        var x = 0, y = 0, z = 0;
+        vertices.forEach(function (idx) {
+            var vertex = geometry.vertices[vertices[idx]];
+            x += vertex.x;
+            y += vertex.y;
+            z += vertex.z;
+        });
+        x /= vertices.length;
+        y /= vertices.length;
+        z /= vertices.length;
+
+        var k = vertices.length;
+        geometry.vertices.push( new THREE.Vector3( x, y, z ) );
+
+        var i;
+        for( i=0 ; i<k ; i++ ) {
+            faces.push( new THREE.Face3( i, (i + 1) % k, k ) );
+        }
+    }
+
+    if (typeof color !== 'undefined') {
+        // Apply a color to this face.
+        faces.forEach(function (face) {
+            face.vertexColors[0] = face.vertexColors[1] = face.vertexColors[2] = color;
+        });
+    }
+
+    faces.forEach(function (face) {
+        geometry.faces.push(face);
+    });
+}
+
 
 /**
  * @return void

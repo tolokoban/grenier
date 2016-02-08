@@ -34,6 +34,7 @@ addListener(
     function() {
         document.body.parentNode.$data = {};
         // Attach controllers.
+<<<<<<< HEAD
         try{require('x-widget')('theatre1007','theatre100',"")}catch(x){console.error('Unable to initialize theatre100!', x)}
 try{require('x-widget')('theatre100.main8','theatre100.main',{size: 2})}catch(x){console.error('Unable to initialize theatre100.main!', x)}
 try{require('x-widget')('theatre100.main9','theatre100.main',{size: 3})}catch(x){console.error('Unable to initialize theatre100.main!', x)}
@@ -41,6 +42,15 @@ try{require('x-widget')('theatre100.main10','theatre100.main',{size: 4})}catch(x
 try{require('x-widget')('theatre100.main11','theatre100.main',{size: 5})}catch(x){console.error('Unable to initialize theatre100.main!', x)}
 try{require('x-widget')('theatre100.main12','theatre100.main',{size: 6})}catch(x){console.error('Unable to initialize theatre100.main!', x)}
 try{require('x-widget')('theatre100.main13','theatre100.main',{size: 7})}catch(x){console.error('Unable to initialize theatre100.main!', x)}
+=======
+        try{require('x-widget')('theatre1001','theatre100',"")}catch(x){console.error('Unable to initialize theatre100!', x)}
+try{require('x-widget')('theatre100.main2','theatre100.main',{size: 2})}catch(x){console.error('Unable to initialize theatre100.main!', x)}
+try{require('x-widget')('theatre100.main3','theatre100.main',{size: 3})}catch(x){console.error('Unable to initialize theatre100.main!', x)}
+try{require('x-widget')('theatre100.main4','theatre100.main',{size: 4})}catch(x){console.error('Unable to initialize theatre100.main!', x)}
+try{require('x-widget')('theatre100.main5','theatre100.main',{size: 5})}catch(x){console.error('Unable to initialize theatre100.main!', x)}
+try{require('x-widget')('theatre100.main6','theatre100.main',{size: 6})}catch(x){console.error('Unable to initialize theatre100.main!', x)}
+try{require('x-widget')('theatre100.main7','theatre100.main',{size: 7})}catch(x){console.error('Unable to initialize theatre100.main!', x)}
+>>>>>>> a1601a20b1a2a3b9f06f7a047ab3ad29eb328f29
     }
 );
 
