@@ -95,6 +95,52 @@ Canvas.prototype.stop = function() {
     Unregister(this);
 };
 
+/**
+ * @return void
+ */
+Canvas.prototype.createAxis = function() {
+    var grp = new THREE.Group();
+    grp.add(
+        this.createLine({
+            vertices: [[0,0,0], [1,0,0]],
+            color: 0xff0000
+        }),
+        this.createLine({
+            vertices: [[0,0,0], [0,1,0]],
+            color: 0x00ff00
+        }),
+        this.createLine({
+            vertices: [[0,0,0], [0,0,1]],
+            color: 0x0000ff
+        })
+    );
+    return grp;
+};
+
+
+/**
+ * @return void
+ */
+Canvas.prototype.createLine = function(opt) {
+    if (typeof opt === 'undefined') opt = { vertices: [] };
+    if (typeof opt.color === 'undefined') opt.color = 0xff0000;
+    if (typeof opt.linewidth === 'undefined') opt.linewidth = 1;
+
+
+    var mat = new THREE.LineBasicMaterial({
+        color: opt.color,
+        linewidth: opt.linewidth
+    });
+
+    var geo = new THREE.Geometry();
+    opt.vertices.forEach(function (vertex) {
+        geo.vertices.push(
+            new THREE.Vector3( vertex[0], vertex[1], vertex[2] )
+        );
+    });
+
+    return new THREE.Line( geo, mat );
+};
 
 /**
  * @return void
