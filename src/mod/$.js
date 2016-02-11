@@ -2,11 +2,11 @@ exports.config={
     name:"grenier",
     description:"Articles concernant majoritairement l'algorithmie",
     author:"Tolokoban",
-    version:"1.0.515",
+    version:"1.0.516",
     major:1,
     minor:0,
-    revision:515,
-    date:new Date(2016,1,4,18,34,34)
+    revision:516,
+    date:new Date(2016,1,10,12,45,46)
 };
 var currentLang = null;
 exports.lang = function(lang) {
