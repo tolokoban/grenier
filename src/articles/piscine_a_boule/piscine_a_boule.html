@@ -1,0 +1,114 @@
+<x-article title="La piscine à boules">
+    <head>
+        <script src="../../three.min.js"></script>
+        <x-vertex-shader id="vertex1">vertex1.c</x-vertex-shader>
+        <x-fragment-shader id="fragment1">fragment1.c</x-fragment-shader>
+        <x-vertex-shader id="vertex2">vertex2.c</x-vertex-shader>
+        <x-fragment-shader id="fragment2">fragment2.c</x-fragment-shader>
+        <x-fragment-shader id="fragment3">fragment3.c</x-fragment-shader>
+    </head>
+
+    <page>
+Un jour, que je m'étais égaré chez IKEA, je tombe sur mon pote Thomas qui barbotte dans la piscine à boule des enfants.
+
+- Salut vieux ! Que fais-tu dans cette piscine ? N'as-tu pas dépassé la limite d'age ?
+- Ah ! Salut Tolokoban, tu tombes bien justement. Je me suis mis récemment à la 3D et du coup j'étudie de près les sphères.
+- Hum...
+- Ça ne te parait pas étrange qu'un objet aussi simple que la sphère soit si mal représenté en 3D ?
+- C'est-à-dire ?
+- Regarde cette boule rouge là. Elle est sympa à première vue, mais si tu t'attardes sur les bords, tu vois un hideux polygone en lieu et place d'un magnifique cercle.
+
+<center><x-widget name="piscine.lowres-sphere">{width: 300, height: 250}</x-widget></center>
+
+Il a raison le bougre ! La plupart du temps, on représente des sphères en trichant : on utilise un polyèdre (en bleu sur le dessin ci-dessus) et on applique un astucieux procédé de lissage pour faire illusion. Mais, évidemment, ça ne marche pas sur les bords...
+
+
+Ok. Je me retrousse les manches et j'essaie de faire un piscine à _belles_ boules.
+Je commence par faire rebondir des carrés, c'est plus facile. Et en plus c'est rapide à calculer, même pour un téléphone.
+
+<center><x-widget name="piscine.bouncing-squares">{width: 300, height: 300, radius: 30}</x-widget></center>
+        
+Pas mal, mais ça fait un peu plat. En plus, quand les carrés nous tournent le dos, on ne les voit plus !
+Je peux toutefois ruser en forçant les carrés à faire face à la caméra.
+Voyons ça sur la [page suivante](#page2).
+    </page>
+
+    <page>
+        
+<a name="page2"></a>
+        
+<!-- <center><x-widget name="piscine.bouncing-squares.face-me">{width: 300, height: 300}</x-widget></center> -->
+<center><x-widget name="piscine.bouncing-squares.face-me">{width: 300, height: 300, radius: 5}</x-widget></center>
+
+J'en ai profité pour rentrer à l'intérieur de la piscine et mieux observer les détails de près.
+Il ne me reste plus qu'à dessiner de jolis sphères sur ces carrés et je pourrai mystifier le Thom'.
+Mais attention, il a l'oeil le bougre ! Alors pas question de plaquer une texture avec un photo de sphère : les images pixelisent quand on les regarde de trop près. Non, il va falloir y aller à grands coups de [shaders](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Adding_2D_content_to_a_WebGL_context#The_shaders).
+
+En gros, les shaders permettent de déterminer la couleur d'un pixel à l'écran. Les jolis effets de lumière sur les faces d'un chouette polyèdre, c'est grâce aux shaders. Il en existe des tonnes que l'on peut utiliser sans savoir comment ça fonctionne, mais dans notre cas, il va falloir plonger dans la théorie.
+
+Il existe deux types de shaders :
+* __vertex shader__ : associe tout un tas d'attributs à un sommet (vertex en anglais).
+* __fragment_shader__ : associe une couleur à un pixel donné déterminé par les attributs des sommets environnants.
+
+Ensuite, le maître mot est [__interpolation__](https://fr.wikipedia.org/wiki/Interpolation_lin%C3%A9aire).
+
+Supposons que le _vertex-shader_ associe un couleur différente à chaque sommet d'un triangle.
+Alors, quand le _fragment-shader_ devra déterminer la couleur d'un pixel au beau milieu de ce triangle, il recevra comme attribut de couleur une interpolation des couleurs des trois sommets.
+
+Voici le code du _vertex-shader_ :
+<x-code src="vertex1.c"></x-code>
+
+Et voici celui du _fragment-shader_ :
+<x-code src="fragment1.c"></x-code>
+
+Avec ces deux, je crée un _Material_ comme ceci (avec `three.js`) :
+<x-code>
+new THREE.ShaderMaterial({
+    vertexShader: document.getElementById( 'vertex1' ).textContent,
+    fragmentShader: document.getElementById( 'fragment1' ).textContent,
+    transparent: true
+})
+</x-code>
+
+<center><x-widget name="piscine.shader">{width: 300, height: 300, radius: 5}</x-widget></center>
+
+Ok, mais j'aimerais avoir des boules de différentes couleurs moi.
+Voyons cela sur la [page suivante](#page3).
+    </page>
+
+    <page>
+<a name="page3"></a>
+
+Rien à changer du côté du _vertex-shader_, en revanche, il faut passer l'information de couleur au _fragment-shader_ :
+
+<x-code>
+new THREE.ShaderMaterial({
+    uniforms: {
+        // Les variables de type `uniform` sont constantes
+        // pour tous les pixels et vertex.
+        uni_Color: {type: "v3", value: THREE.Vector3(1,0,0);}
+    },
+    ...
+})
+</x-code>
+
+Il faut donc aussi déclarer cette couleur dans le _fragment-shader_ :
+<x-code src="fragment2.c"></x-code>    
+
+Et voilà le travail !
+<center><x-widget name="piscine.shader2">{width: 300, height: 300, radius: 4}</x-widget></center>
+
+Même près de la caméra, les sphères ont des bords qui ressemblent à des cercles et pas à des polygones.
+Mais je trouve que c'est un peu plat. Je rajoute donc du relief en assombrissant la couleur au fur et à mesure qu'on s'éloigne du centre du cercle.
+
+<x-code>gl_FragColor = vec4( (1.0 - 0.5 * r) * uni_Color, 1.0 );</x-code>
+
+<center><x-widget name="piscine.shader2">
+{width: 300, height: 300, radius: 4, vertex: 2, fragment: 3}
+</x-widget></center>
+
+Hey ! C'est quand même plus chouette, non ?
+
+
+    </page>
+</x-article>

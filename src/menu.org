@@ -1,5 +1,6 @@
 * 3D
-[!solides_platon] Les 5 solides de Platon (4 février 2016)
+[solides_platon] Les 5 solides de Platon (4 février 2016)
+[!piscine_a_boule] La piscine à boules (12 février 2016)
 * Énigme
 [depiler_par_les_deux_bouts] Un jeu de pièces (25 janvier 2015)
 [theatre_100_places] Au théâtre, chacun sa place ! (29 janvier 2015)

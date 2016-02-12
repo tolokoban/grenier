@@ -166,7 +166,7 @@ Canvas.prototype.createMesh = function(opt) {
         side: opt.doublesided ? THREE.DoubleSide : THREE.FrontSide,
         transparent: true,
         opacity: .9
-    });;
+    });    
 
     opt.colors.forEach(function (color, idx) {
         if (typeof color === 'number') {
@@ -219,8 +219,6 @@ Canvas.prototype.createMesh = function(opt) {
             }
         });
     }
-
-console.info("[three.canvas] grp=", grp);
     return grp;
 };
 
