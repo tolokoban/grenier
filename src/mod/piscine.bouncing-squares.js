@@ -202,9 +202,10 @@ function moveCamera( time, delta ) {
 
     var cam = this.motion.camera;
 
-    var r = cam.radius * Math.cos( cam.beta );
+    var R = cam.radius * Math.abs(Math.sin( time / 1500 )) + 1;
+    var r = R * Math.cos( cam.beta );
     var x = r * Math.cos( cam.alpha );
-    var y = cam.radius * Math.sin( cam.beta );
+    var y = R * Math.sin( cam.beta );
     var z = r * Math.sin( cam.alpha );
 
     this.camera.position.x = x + this.center.x;
