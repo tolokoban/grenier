@@ -1,0 +1,22 @@
+<x-article title="Notions d'immutable en Javascript">
+    <page>
+Comment créer des constantes en Javascript ?
+
+# Pour une propriété
+
+En utilisant __[defineProperty](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty)__.
+
+<x-code src="ex1.js"></x-code>
+
+Ce code retournera deux fois `3.14159265358979`. L'affectation n'aura aucun effet.
+
+Si vous ajoutez la directive `"use strict"` une exception sera soulevée pour vous avertir que la valeur est en lecture seule.
+
+# Pour tout un objet
+
+En utilisant __[Object.freeze](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze)__.
+
+<x-code src="ex2.js"></x-code>
+
+    </page>
+</x-article>

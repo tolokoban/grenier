@@ -1,0 +1,43 @@
+<x-article title="Le mot clef 'this' en Javascript">
+    <page>
+Savez-vous exactement ce qu'est le mot clef __`this`__ en Javascript ?
+Pour vous en assurer, essayez de deviner le résultat des petits codes suivants.
+
+<x-code src="ex1.js"></x-code>
+<x-code src="ex2.js"></x-code>
+<x-code src="ex3.js"></x-code>
+
+    </page>
+    <page>
+# Réponses et explications
+
+Ce mot clef sert à préciser le contexte d'appel d'une fonction. Par défaut, il s'agit de __l'objet dont cette fonction est un attribut__.
+
+<x-code src="ex1.js"></x-code>
+
+Ainsi, dans l'exemple ci-dessus, quand on écrit `obj.log()`, Javascript va affecter `obj` à l'objet `this` avant d'appeler la fonction `log()`. C'est pourquoi le résultat sera __`Yop!`__.
+
+----
+
+D'après cette définition, pour `A.b()` l'objet `this` vaudra `A`. Et pour `A.b.c()`, il vaudra `A.b`.
+
+<x-code src="ex2.js"></x-code>
+
+Le résultat sera donc :
+<pre>
+Albert
+Bertrand
+</pre>
+
+----
+
+Mais alors, que se passe-t-il quand personne ne semble être l'objet dont la fonction est un attribut ?
+
+<x-code src="ex3.js"></x-code>
+
+Et bien ça dépend des cas : par défaut, tout objet que vous déclarez (et les fonctions sont des objets) est attribut d'un autre objet. Quand ce n'est pas spécifié, il s'agit de l'objet global,  __`window`__ dans un navigateur.
+Mais si vous utilisez la directive `"use strict"`, alors `this` vaudra `undefined`.
+
+
+    </page>
+</x-article>
