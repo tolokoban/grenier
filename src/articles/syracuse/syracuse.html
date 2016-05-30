@@ -1,0 +1,96 @@
+<x-article title="Promenade à Syracuse">
+    <page>
+L'autre soir, je prends une bière au génépi avec le bon vieux Thomas. Il me demande tout de go si je connais la conjecture de Syracuse ?
+
+Oui, il s'agit d'une suite de nombres dont on conjecture qu'elle retombe toujours sur 1. Une sorte d'algorithme qui ne rentre pas en boucle infinie. Du moins, c'est ce que personne n'a pu démontrer. Mais on a quand même essayé sur des milliards de nombres de départ et ça a toujours marché.
+
+Comme souvent, il me dit que je ne suis pas très clair et veut que je lui décrive concrètement cet algorithme.
+
+Pour créer la suite, on transforme nombre par son successeur grâce à l'algorithme suivant :
+* Tant que le nombre est pair, on le divise par deux.
+* Si on tombe sur 1, on s'arrête.
+* Sinon, on multiplie par 3 et on ajoute 1.
+
+En javascript, ça donne ça :
+        <x-code>
+function next( n ) {
+    while ( n % 2 == 0 ) n >>= 1;
+    if ( n == 1 ) return 1;
+    return 3 * n + 1;
+}
+        </x-code>
+
+        
+Thomas est sceptique sur le fait qu'on trouve un jour une démonstration à cette conjecture. Il pense qu'elle est trop célèbre et que le nombre de démonstrations erronées est tel que cela finira par décourager toute nouvelle tentative. Pourquoi faire de la recherche sur la conjecture de Syracuse dans ces conditions ?
+
+Il me semble qu'on peut simplement faire de la recherche pour la beauté du geste, sans forcément vouloir aboutir : juste pour la promenade. Je lui propose donc un voyage dans le __monde binaire de Syracuse__.
+    </page>
+    <page>
+Tout nombre entier peut être représenté sous forme binaire, c'est-à-dire avec uniquement les chiffres 1 et 0.
+Par exemple 845125 en décimal, vaut 11001110010101000101 en binaire. C'est tout de suite plus verbeux.
+
+Pour connaître la valeur d'un nombre écrit en base <i>B</i>, il faut numéroter les chiffres à partir de 0 de la droite vers la gauche. Puis on utilise la formule suivante :
+<x-latex>v = \sum_{i=0}^{N-1}c_i B^i</x-latex>
+
+Avec <x-latex>c_i</x-latex> le chiffre numéroté <i>i</i>, et <x-latex>N</x-latex> le nombre de chiffres du nombre.
+
+Essayons de voir ce que vaut 247 en base 10 :
+<x-latex>v("247") = \sum_{i=0}^{N-1}c_i 10^i = 10^0 c_0 + 10^1 c_1 + 10^2 c_2 = 7 + 40 + 200 = 247</x-latex>
+
+Et en base 2, ça marche aussi :
+<x-latex>v("11010111") = 2^0 + 2^1 + 2^2 + 0 + 2^4 + 0 + 2^6 + 2^7 = 1 + 2 + 4 + 16 + 64 + 128 = 215</x-latex>
+
+Thomas me remercie pour ce cours, mais il ne voit pas bien le rapport avec la choucroute.
+Quel est l'intérêt d'étudier Syracuse en base 2 ?
+
+
+Pour la beauté pardi !
+
+
+En base 2, multiplier par 2 revient à ajouter un zéro à droite. Par exemple, <code>11101 + 11101 = 11101<b>0</b></code>.
+Du coup, la phrase <i>"tant que le nombre est pair, le diviser par 2"</i> revient à <i>"retirer tous les zéros consécutifs à partir de la droite"</i>.
+
+De même, la multiplication par 3 revient à ajouter le double. Et ajouter <b style="color:red">1</b> au triple de 101011 se fait comme ceci :
+<pre>
+   101011
++ 101011<b style="color:red">1</b>
+---------
+ 10000010
+</pre>
+
+En transformant nos 0 et 1 par des carrés vides ou pleins, on obtient de jolis dessins pour nos suites.
+
+<!-- <x-widget name="syracuse" $value="137" />  -->
+
+    </page>
+
+    <page>
+# Règles remarquables
+
+En regardant ces dessins, on voit de jolis motifs apparaître. On peut même en déduire des règles.
+
+## `1(01)+ => 1`
+
+Tout nombre dont l'écriture est un "1" suivi d'un nombre quelconque de répétitions de "01" a comme successeur le "1" terminal.
+Par exemple : <code>101, 10101, 1010101010101, </code>...
+
+De tels nombres ont un nombre impair <x-latex>N</x-latex> de chiffres et ont la formule suivante :
+<x-latex>n = \sum_{i=0}^{N-1\over 2}2^{2i}</x-latex>
+
+Ainsi, on a :
+<x-latex>3n+1 = 1 + n + 2n = 1 + \sum_{i=0}^{N-1\over 2}2^{2i} + \sum_{i=1}^{1 + N-1\over 2}2^{2i}</x-latex>
+<x-latex>= 1 + \sum_{i=0}^{N+1} 2^i = 1 + 2^{N+2} - 1 = 2^{N+2}</x-latex>
+
+On démontre ainsi la conjecture pour tous les nombres de la forme `1(01)+`. Même s'il y a un nombre infini de tels nombres, on est encore très loin d'avoir démontré la conjecture pour tous les nombres possibles.
+
+## `A0(1){n} => B0(1){n - 1}`
+
+Quand on fait des essais avec des nombres quelconques, on finit toujours par apercevoir des triangles rectangles isocèles sur la droite. Ils correspondent à des séries de 1 qui décroissent régulièrement de ligne en ligne.
+
+Ainsi, tout nombre qui se termine par un 0 suivi de <i>n</i> 1 donnera un nombre se terminant par un 0 suivi de <i>n - 1</i> 1.
+
+## `f( A1(01)* ) = f( A1 )`
+
+Si le successeur d'un nombre <i>n</i> est <i>s</i>, alors tout nombre obtenu en ajoutant un nombre quelconque de fois <code>01</code> à sa droite aura aussi <i>s</i> comme successeur.
+    </page>
+</x-article>
