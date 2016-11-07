@@ -21,19 +21,8 @@ Shader.prototype.constructor = Shader;
  */
 Shader.prototype.createMat = function() {
     return new THREE.ShaderMaterial({
-/*
-        uniforms: {
-            time: { type: "f", value: 1.0 },
-            resolution: { type: "v2", value: new THREE.Vector2() }
-        },
-        attributes: {
-            vertexOpacity: { type: 'f', value: [] }
-        },
-*/
         vertexShader: document.getElementById( 'vertex1' ).textContent,
-        fragmentShader: document.getElementById( 'fragment1' ).textContent,
-        transparent: true
-
+        fragmentShader: document.getElementById( 'fragment1' ).textContent
     });
 };
 

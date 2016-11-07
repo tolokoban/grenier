@@ -1,7 +1,16 @@
 div.x-carmag {
+    vertical-align: middle;
     display: inline-table;
     border-collapse: collapse;
     box-shadow: 0 6px 12px rgba(0,0,0,.3);
+}
+
+div.x-carmag.right {
+    float: right;
+}
+
+div.x-carmag.left {
+    float: left;
 }
 
 div.x-carmag > div {

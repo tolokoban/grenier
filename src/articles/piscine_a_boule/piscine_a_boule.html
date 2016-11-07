@@ -6,6 +6,10 @@
         <x-vertex-shader id="vertex2">vertex2.c</x-vertex-shader>
         <x-fragment-shader id="fragment2">fragment2.c</x-fragment-shader>
         <x-fragment-shader id="fragment3">fragment3.c</x-fragment-shader>
+        <x-fragment-shader id="fragment4">fragment4.c</x-fragment-shader>
+        <x-fragment-shader id="fragment5">fragment5.c</x-fragment-shader>
+        <x-vertex-shader id="vertex3">vertex3.c</x-vertex-shader>
+        <x-fragment-shader id="fragment6">fragment6.c</x-fragment-shader>
     </head>
 
     <page>
@@ -38,7 +42,10 @@ Voyons ça sur la [page suivante](#page2).
 <a name="page2"></a>
         
 <!-- <center><x-widget name="piscine.bouncing-squares.face-me">{width: 300, height: 300}</x-widget></center> -->
-<center><x-widget name="piscine.bouncing-squares.face-me">{width: 300, height: 300, radius: 5}</x-widget></center>
+Je donne donc une rotation à chaque carré pour qu'il s'oriente vers la caméra.
+<center>
+<x-widget name="piscine.bouncing-squares.face-me">{width: 300, height: 300, radius: 5}</x-widget>
+</center>
 
 J'en ai profité pour rentrer à l'intérieur de la piscine et mieux observer les détails de près.
 Il ne me reste plus qu'à dessiner de jolis sphères sur ces carrés et je pourrai mystifier le Thom'.
@@ -47,7 +54,7 @@ Mais attention, il a l'oeil le bougre ! Alors pas question de plaquer une textur
 En gros, les shaders permettent de déterminer la couleur d'un pixel à l'écran. Les jolis effets de lumière sur les faces d'un chouette polyèdre, c'est grâce aux shaders. Il en existe des tonnes que l'on peut utiliser sans savoir comment ça fonctionne, mais dans notre cas, il va falloir plonger dans la théorie.
 
 Il existe deux types de shaders :
-* __vertex shader__ : associe tout un tas d'attributs à un sommet (vertex en anglais).
+* __vertex shader__ : associe tout un tas d'attributs à un sommet (vertex en anglais), et convertit les coordonnées dans le référentiel de la caméra.
 * __fragment_shader__ : associe une couleur à un pixel donné déterminé par les attributs des sommets environnants.
 
 Ensuite, le maître mot est [__interpolation__](https://fr.wikipedia.org/wiki/Interpolation_lin%C3%A9aire).
@@ -70,9 +77,22 @@ new THREE.ShaderMaterial({
 })
 </x-code>
 
-<center><x-widget name="piscine.shader">{width: 300, height: 300, radius: 5}</x-widget></center>
+<center>
+<x-widget name="piscine.shader">{width: 300, height: 300, radius: 5}</x-widget>
+<x-widget name="piscine.shader2">
+{width: 300, height: 300, radius: 5, fragment: 1, vertex: 2}
+</x-widget>
+</center>
 
-Ok, mais j'aimerais avoir des boules de différentes couleurs moi.
+En y regardant de plus près, je m'apreçois que la technique de faire tourner les carrés pour qu'ils me fassent face n'est pas très bonne. En effet, par moment, ils ont tendance à tourner un peu autour de l'axe Z. Ce que je veux, moi, c'est que leurs côtés soient toujours parallèles aux bords de l'écran.
+
+Je dois pouvoir utiliser le _vertex-shader_ pour cela, mais oui !
+
+<x-code src="vertex2.c"></x-code>
+
+<hr/>
+
+Ok, mais j'aimerais maintenant avoir des boules de différentes couleurs et sans le fond vert.
 Voyons cela sur la [page suivante](#page3).
     </page>
 
@@ -115,5 +135,55 @@ Tout fier, je montre mes résultats à Thomas sur mon FirefoxOS Phone.
 
 Il a raison ce gounafier !! J'ai choisi la facilité, mais ça ne lui a pas échappé. J'enrage...
 Je retourne à l'atelier et je m'y remets dare-dare.
+    </page>
+
+    <page>
+
+Cette fois on va considérer une lumière qui arrive sur le côté et non directement depuis la caméra.
+<x-code src="fragment4.c"></x-code>
+
+Et voici la comparaison par rapport à la version précédente :
+<center>
+<x-widget name="piscine.shader2">
+{width: 300, height: 300, radius: 10, vertex: 2, fragment: 3}
+</x-widget>
+<x-widget name="piscine.shader2">
+{width: 300, height: 300, radius: 10, vertex: 2, fragment: 4}
+</x-widget>
+</center>
+
+Esthétiquement, c'est pas terrible. Essayons de modifier un peu les couleurs de la lumière et leur intensité.
+    </page>
+
+    <page>
+Un peu moins d'éclat pour la lumière.
+<x-code src="fragment5.c"></x-code>
+
+Et voici la comparaison par rapport à la version précédente :
+<center>
+<x-widget name="piscine.shader2">
+{width: 300, height: 300, radius: 10, vertex: 2, fragment: 4}
+</x-widget>
+<x-widget name="piscine.shader2">
+{width: 300, height: 300, radius: 10, vertex: 2, fragment: 5}
+</x-widget>
+</center>
+
+Un poil mieux, mais ça manque toujours de contraste.
+    </page>
+
+    <page>
+<x-code src="fragment6.c"></x-code>
+
+<center>
+<x-widget name="piscine.shader2">
+{width: 400, height: 400, radius: 15, vertex: 2, fragment: 5}
+</x-widget>
+<x-widget name="piscine.shader2">
+{width: 400, height: 400, radius: 15, vertex: 3, fragment: 6}
+</x-widget>
+</center>
+
+J'ai ajouté des ombres sur l'extérieur avec la Le liseré renforce le contraste et donne un petit côté cartoon que j'aime bien.
     </page>
 </x-article>

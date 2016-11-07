@@ -14,7 +14,7 @@ void main(void) {
   float r = x*x + y*y;
   if (r < 1.0) {
     // Si on est dans le cercle, on met un pixel `uni_Color`.
-    gl_FragColor = vec4( (1.0 - 0.5 * r) * uni_Color, 1.0 );
+    gl_FragColor = vec4( (1.0 - 0.75 * r) * uni_Color, 1.0 );
   } else {
     // Si on est hors du cercle, on met un pixel transparent.
     gl_FragColor = vec4( 0.0, 1.0, 0.0, 0.0 );

@@ -9,7 +9,7 @@ Je lui ai donc parlé des __carrés magiques__.
 Un carré magique d'ordre _n_ est une grille carrée de _n_ x _n_ cases dans lesquelles on place des nombres de telle sorte que la somme de ces derniers sur une ligne, une colonne ou une grande diagonale soit toujours la même.
 
 Voici deux exemples de carrés magiques d'ordre 3
-<x-carmag>3,13,11 ; 17,9,1 ; 7,5,15</x-carmag> <x-carmag>1,6,5 ; 8,4,0 ; 3,2,7</x-carmag>
+<x-carmag>3,13,11 ; 17,9,1 ; 7,5,15</x-carmag> <x-carmag>3,8,1 ; 2,4,6 ; 7,0,5</x-carmag>
 
 Le deuxième est dit __parfait__ parce qu'il est composé de nombres consécutifs commençant par 0.
 
@@ -30,9 +30,166 @@ Notons cette somme <x-latex>x</x-latex> et notons <x-latex>a, b, c, d, e, f, g, 
 Et donc <x-latex>a+b+c+d+e+f+g+h+i=3x=0+1+2+3+4+5+6+7+8=36</x-latex>.
 La somme vaut donc <x-latex>{36\over 3}=12</x-latex>.
 
-De façon générale, pour un carré parfait d'ordre <x-latex>n</x-latex>, la somme de ses lignes, colonnes ou diagonales vaudra la somme de ses nombres divisé par le nombre de lignes (c'est-à-dire <x-latex>m</x-latex>):  
+De façon générale, pour un carré parfait d'ordre <x-latex>n</x-latex>, la somme de ses lignes, colonnes ou diagonales vaudra la somme de ses nombres divisée par le nombre de lignes (c'est-à-dire <x-latex>n</x-latex>):  
 <x-latex>S_n = {\sum_{i=0}^{n^2-1}i\over n} = {(n-1)n(n+1)\over 2}</x-latex>
 
+## Résolution
+
+On commence par chercher où peut se trouver le plus grand nombre, c'est-à-dire le __8__.
+On sait qu'il sera aligné avec deux autres nombres et que la somme des trois vaudra 12.
+Dans combien de triplet va-t-il apparaître ?
+Faisons la liste :
+* <x-latex>8 + 4 + 0 = 12</x-latex>
+* <x-latex>8 + 3 + 1 = 12</x-latex>
+
+C'est tout ! Le __8__ ne peut apparaître que dans deux lignes.
+Il ne peut donc pas se trouver dans un coin (par lequel passent 3 lignes), et encore moins au centre (par lequel passent 4 lignes).  
+Le même raisonnement nous conduit à placer le __4__ au centre et le __7__ sur un coin, mais pas sur la même ligne que le __8__.
+<x-carmag>,8, ; ,4, ; 7,,</x-carmag>
+
+Il ne reste plus qu'à compléter les lignes où il y a déjà deux nombres :
+<x-carmag>,8, ; ,4, ; 7,0,</x-carmag>
+<x-carmag>,8,1 ; ,4, ; 7,0,</x-carmag>
+<x-carmag>,8,1 ; ,4, ; 7,0,5</x-carmag>
+<x-carmag>,8,1 ; ,4,6 ; 7,0,5</x-carmag>
+<x-carmag>3,8,1 ; ,4,6 ; 7,0,5</x-carmag>
+<x-carmag>3,8,1 ; 2,4,6 ; 7,0,5</x-carmag>
+
+    </page>
+
+    <page>
+# Ordre 4
+
+<x-carmag float="right">00,01,02,03 ; 10,11,12,13 ; 20,21,22,23 ; 30,31,32,33</x-carmag>
+
+Pour les carrés magiques d'ordre 4, nous allons adopter une méthode plus générale. Tout d'abord, on va raisonner en base 4, c'est-à-dire que l'on va écrire nos 16 nombres en n'utilisant que 4 chiffres. Cela donne les valeurs dans le carré ci-contre. 
+
+D'après la formule qu'on a vu plus haut, la somme vaut : <x-latex>3\times 4\times 5\over 2=30</x-latex>. Et en base 4, 30 s'écrit __132__. Et il se trouve (toujours en base 4) que
+<x-latex>(0+0) + (10+1) + (20+2) + (30+3) = 132</x-latex>.
+
+La base 4 est très pratique pour les carrés magiques d'ordre 4 car pour que la somme de 4 nombres à 2 chiffres soit égale à 132, il suffit que le chiffre de leurs unités soient tous différents et que le chiffre de leur dizaine aussi.
+
+<x-carmag float="left">
+0,1,2,3;
+3,2,1,0;
+1,0,3,2;
+2,3,0,1
+</x-carmag>
+
+On doit alors résoudre un problème plus simple dont la première étape consiste à placer les unités de 0 à 3 de sorte qu'il n'y en ait pas deux pareils sur une même ligne de 4 cases.
+
+Dans la solution présentée ci-contre, on remarque qu'on a une particularité supplémentaire : quelque soit le carré 2x2 dans cette figure, on y trouve les 4 chiffres 0, 1, 2 et 3.
+
+Il ne nous reste plus qu'à faire la même chose pour les dixaines et à recombiner les deux résultats de façon à n'avoir jamais deux fois le même nombre dans la grille.
+Une façon d'y arriver est de faire subir une rotation de 90° à notre grille des unité et de multiplier chaque case par 10 (en base 4). On obtient alors :
+
+<x-carmag>
+0,1,2,3;
+3,2,1,0;
+1,0,3,2;
+2,3,0,1
+</x-carmag>
++
+<x-carmag>
+20,10,30,00;
+30,00,20,10;
+00,30,10,20;
+10,20,00,30
+</x-carmag>
+=
+<x-carmag>
+20,11,32,03;
+33,02,21,10;
+01,30,13,22;
+12,23,00,31
+</x-carmag>
+
+Il suffit de revenir à la base 10 pour trouver notre carré magique parfait d'ordre 4.
+On remarque qu'il est __super-magique__ : c'est-à-dire que la somme est respectée aussi dans tout carré extrait de 2x2.
+
+<x-carmag>
+ 8, 5,14, 3;
+15, 2, 9, 4;
+ 1,12, 7,10;
+ 6,11, 0,13
+</x-carmag>
+
+    </page>
+
+    <page>
+# Ordre 5
+
+On utilise le même principe en passant par la base 5. Ici, l'astuce consiste à faire une rotation de 90° plus une symétrie axiale. Je vous laisse repasser en base 10.
+
+<x-carmag>
+0,1,2,3,4;
+2,3,4,0,1;
+4,0,1,2,3;
+1,2,3,4,0;
+3,4,0,1,2
+</x-carmag>
++
+<x-carmag>
+00,20,40,10,30;
+10,30,00,20,40;
+20,40,10,30,00;
+30,00,20,40,10;
+40,10,30,00,20
+</x-carmag>
+=
+<x-carmag>
+00,21,42,13,34;
+12,33,04,20,41;
+24,40,11,32,03;
+31,02,23,44,10;
+43,14,30,01,22
+</x-carmag>
+
+Penchons-nous un peu plus en détail sur la réalisation de la grille des unités :
+<x-carmag>
+0,1,2,3,4;
+2,3,4,0,1;
+4,0,1,2,3;
+1,2,3,4,0;
+3,4,0,1,2
+</x-carmag>
+
+La première ligne est toujours la même : c'est la suite de tous les chiffres rangés par ordre croissant.
+Ensuite, on crée chaque colonne en ajoutant __2__ à la cellule juste au dessus. Cette addition se fait modulo 5, c'est-à-dire que si une dizaine apparait, on la retire. Ainsi, <x-latex>4+2=11</x-latex>, mais on a <x-latex>4+2\equiv_4 1</x-latex>.
+
+Mais pourquoi ça fonctionne ?
+
+Tout d'abord, 4 et 5 sont premiers entre eux, c'est-à-dire que leur PGCD vaut 1. Or il existe un théorème de la théorie des groupes qui nous dit justement que si on part de zéro et que l'on fait 4 additions successives par 4 modulo 2, on obtient tous les résultats (1, 2, 3 et 4) une seule fois chacun.
+
+Bon, c'est quand mieux exprimé dans la théorie, mais si je rentre dans les détails, on en a pour des pages de définitions et on n'est pas vraiment là pour ça...
+
+Mais qu'en est-il de la diagonale qui part du haut à gauche ? Comment être sûr qu'elle contient 5 nombres distincts ?
+
+On remarque que pour passer d'une élément de la diagonale au suivant, il suffit d'ajouter 3 modulo 2. Or 3 est également premier avec 5, donc le même théorème nous sauve la vie.
+
+Et pour l'autre diagonale, alors ?
+
+On voit qu'on ajoute 2 quand on descend d'une case et que l'on soustrait 1 quand on se déplace sur la gauche, donc pour passer à l'élément suivant de la diagonale, il faut simplement ajouter 1. Et, bien entendu, 1 est premier avec 5.
+
+On a donc un système qui fonctionne pour tout ordre <x-latex>n</x-latex> et tout _décalage_ <x-latex>d</x-latex> tel que <x-latex>d-1</x-latex>, <x-latex>d</x-latex> et <x-latex>d+1</x-latex> soient premiers avec <x-latex>n</x-latex>.  
+Il se trouve que c'est toujours le cas si <x-latex>n</x-latex> est un nombre premier.
+
+## Et pour les nombres qui ne sont pas premiers ?
+
+Dans l'exemple du carré magique d'ordre 4, ce système ne fonctionne pas du tout, pourtant on a réussi à trouver une solution :
+
+<x-carmag>
+0,1,2,3;
+3,2,1,0;
+1,0,3,2;
+2,3,0,1
+</x-carmag>
+
+On a utilisé un décalage _non-constant_. Dans la première et troisième colonne, on a décalé de +3, +2 et +1. Dans les autres, on a décalé de +1, +2 et +3.
+
+Pourquoi ça marche ?
+
+Il y a peut-être un théorème pour cela, mais je ne le connais pas. Il va donc falloir se débrouiller tout seul.
 
     </page>
 </x-article>

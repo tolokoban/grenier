@@ -20,6 +20,7 @@ var BouncingSquares = function(opt) {
     var grp = new THREE.Group();
 
     this.scene.add( grp );
+    this.scene.add( this.createAxis() );
 
     var k = 6;
     this.bounds = {
@@ -27,61 +28,14 @@ var BouncingSquares = function(opt) {
         y: 0, Y: 2*k,
         z: -k, Z: k
     };
+    
+    createFloorGrid.call( this );
+    
     this.center = new THREE.Vector3(
             .5 * (this.bounds.x + this.bounds.X),
-            .5 * (this.bounds.y + this.bounds.Y),
+            this.bounds.y + 1,
             .5 * (this.bounds.z + this.bounds.Z)
     );
-    var A = [k,0,k];
-    var B = [k,0,-k];
-    var C = [-k,0,-k];
-    var D = [-k,0,k];
-    var E = [k,2*k,k];
-    var F = [-k,2*k,k];
-    var G = [-k,2*k,-k];
-    var H = [k,2*k,-k];
-    /*
-    var mat = new THREE.MeshPhongMaterial({        
-        specular: 0x333333,
-        shininess: 0.14,
-        vertexColors: THREE.VertexColors,
-        side: THREE.FrontSide,
-        transparent: true
-    });
-    this.scene.add(
-        this.createMesh({
-            colors: [new THREE.Color( .3, .3, .3 )],
-            vertices: [A,B,C,D], faces: [[0,1,2,3]],
-            mat: mat
-        }),
-        this.createMesh({
-            colors: [new THREE.Color( .3, .3, .3 )],
-            vertices: [A,E,H,B], faces: [[0,1,2,3]],
-            mat: mat
-        }),
-        this.createMesh({
-            colors: [new THREE.Color( .3, .3, .3 )],
-            vertices: [B,H,G,C], faces: [[0,1,2,3]],
-            mat: mat
-        }),
-        this.createMesh({
-            colors: [new THREE.Color( .3, .3, .3 )],
-            vertices: [C,G,F,D], faces: [[0,1,2,3]],
-            mat: mat
-        }),
-        this.createMesh({
-            colors: [new THREE.Color( .3, .3, .3 )],
-            vertices: [A,D,F,E], faces: [[0,1,2,3]],
-            mat: mat
-        }),
-        this.createMesh({
-            colors: [new THREE.Color( .3, .3, .3 )],
-            vertices: [E,F,G,H], faces: [[0,1,2,3]],
-            mat: mat
-        })
-    );
-    */
-
 
     this.balls = [];
     var ball;
@@ -106,10 +60,10 @@ var BouncingSquares = function(opt) {
     this.motion = {
         camera: {
             radius: opt.radius,
-            alpha: Math.PI / 2,
-            beta: 0,
+            alpha: Math.random() * Math.PI,
+            beta: .3,
             alphaSpeed: -2.5,
-            betaSpeed: rnd(-1, 1)
+            betaSpeed: 0//rnd(-1, 1)
         }
     };
 
@@ -129,6 +83,29 @@ var BouncingSquares = function(opt) {
 // Extension of Widget.
 BouncingSquares.prototype = Object.create(Three.prototype);
 BouncingSquares.prototype.constructor = BouncingSquares;
+
+
+function createFloorGrid() {
+    var x, z;
+    var b = this.bounds;
+
+    for ( x=b.x ; x<=b.X ; x++ ) {
+        this.scene.add(
+            this.createLine({
+                vertices: [[x, b.y, b.z], [x, b.y, b.Z]],
+                color: 0x0000ff
+            })
+        );
+    }
+    for ( z=b.z ; z<=b.Z ; z++ ) {
+        this.scene.add(
+            this.createLine({
+                vertices: [[b.x, b.y, z], [b.X, b.y, z]],
+                color: 0xff0000
+            })
+        );
+    }
+}
 
 /**
  * @return void
@@ -171,6 +148,9 @@ function moveBalls( time, delta ) {
         }
         if (mesh.position.y < by) {
             ball.vy = -ball.vy;
+            if (ball.vy < 0.001) {
+                ball.vy = Math.random() * 5;
+            }
             mesh.position.y = by;
         }
         if (mesh.position.y > bY) {
@@ -202,7 +182,7 @@ function moveCamera( time, delta ) {
 
     var cam = this.motion.camera;
 
-    var R = cam.radius * Math.abs(Math.sin( time / 1500 )) + 1;
+    var R = cam.radius * Math.abs(Math.sin( time / 6500 )) + 1;
     var r = R * Math.cos( cam.beta );
     var x = r * Math.cos( cam.alpha );
     var y = R * Math.sin( cam.beta );
@@ -220,7 +200,7 @@ function moveCamera( time, delta ) {
     cam.beta += speed * cam.betaSpeed;
 
     if (cam.beta < 0) cam.betaSpeed = Math.abs(cam.betaSpeed);
-    if (cam.beta > Math.PI / 3) cam.betaSpeed = -Math.abs(cam.betaSpeed);
+    if (cam.beta > Math.PI / 2.1) cam.betaSpeed = -Math.abs(cam.betaSpeed);
 };
 
 

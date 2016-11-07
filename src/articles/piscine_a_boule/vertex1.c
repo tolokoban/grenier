@@ -25,9 +25,11 @@ void main(void) {
     }
   }
 
-  // Je n'ai pas encore compris cette dernière ligne dans le détail.
-  // Ce qui est sûr, c'est que ça donne les coordonnées finales dans
-  // le monde vu par la caméra et que c'est indispensable au bon
-  // fonctionnement du shader.
+  // `gl_Position` : coordonnées du vertex dans le repère de l'écran.
+  // `position` : coordonnées du vertex dans le repère de son modèle.
+  // `modelViewMatrix` : passage du repère du modèle dans le repère
+  //                     de la caméra.
+  // `projectionMatrix` : passage du repère de la caméra dans celui
+  //                      de l'écran.
   gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
 }

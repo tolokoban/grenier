@@ -12,6 +12,9 @@ exports.compile = function(root, libs) {
     var content = libs.Tree.text( root );
     root.name = 'div';
     root.attribs['class'] = "x-carmag";
+    var float = root.attribs.float || '';
+    if (typeof float === 'string') float = float.toLowerCase();
+    root.attribs['class'] += ' ' + float;
     var cells = parseCells( content );
     root.children = [];
     var order = cells.length;
@@ -25,7 +28,6 @@ exports.compile = function(root, libs) {
         }
         function cell(i, j, style) {
             if( typeof style === 'undefined' ) style = '';
-
             var div = {
                 type: libs.Tree.TAG,
                 name: 'div',
@@ -40,10 +42,11 @@ exports.compile = function(root, libs) {
         function sum(i, j, sI, sJ) {
             var total = 0;
             for (var k=0; k<order; k++) {
-                total += cells[j][i];
+                total += parseFloat(cells[j][i]);
                 i += sI;
                 j += sJ;
             }
+            if (isNaN(total)) total = '';
             return {
                 type: libs.Tree.TAG,
                 name: 'div',
@@ -87,7 +90,7 @@ function parseCells( txt ) {
         var line = [];
         cells.push( line );
         row.split(',').forEach(function (itm) {
-            line.push( parseFloat( itm ) );
+            line.push( itm );
         });
     });
     return cells;
