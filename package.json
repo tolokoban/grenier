@@ -7,13 +7,14 @@
     "colors": "^1.1.2",
     "jasmine": "^2.3.2",
     "readline-sync": "^1.2.21",
-    "toloframework": "^0.30.14"
+    "toloframework": "^0.39"
   },
   "devDependencies": {
-    "toloframework": "^0.30.28"
+    "toloframework": "^0.39"
   },
   "scripts": {
-    "debug": "node node_modules/toloframework/bin/tfw.js build dev watch",
+    "watch": "node node_modules/toloframework/bin/tfw.js build dev watch",
+    "debug": "node node_modules/toloframework/bin/tfw.js build dev",
     "clean": "node node_modules/toloframework/bin/tfw.js clean",
     "release": "node node_modules/toloframework/bin/tfw.js build version clean",
     "test": "jasmine",

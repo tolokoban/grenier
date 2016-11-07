@@ -1,0 +1,38 @@
+<x-article title="Les carrés magiques">
+    <page>
+Mon pote Thomas est une vraie bête de Sodoku. Il est tellement fort qu'ils les fait même en braille avec les mains dans le dos.
+Mais un jour ça a fini par le lasser et il m'a demandé si je ne connaissais pas d'autres jeux de ce style.    
+Je lui ai donc parlé des __carrés magiques__.
+       
+# Les régles du jeu
+
+Un carré magique d'ordre _n_ est une grille carrée de _n_ x _n_ cases dans lesquelles on place des nombres de telle sorte que la somme de ces derniers sur une ligne, une colonne ou une grande diagonale soit toujours la même.
+
+Voici deux exemples de carrés magiques d'ordre 3
+<x-carmag>3,13,11 ; 17,9,1 ; 7,5,15</x-carmag> <x-carmag>1,6,5 ; 8,4,0 ; 3,2,7</x-carmag>
+
+Le deuxième est dit __parfait__ parce qu'il est composé de nombres consécutifs commençant par 0.
+
+On va donc regarder de plus près comment on peut trouver des __carrés magiques parfaits__ de différents ordres.        
+    </page>
+   
+    <page>        
+# Ordre 3
+
+La première question qu'on peut se poser est : "quelle est la valeur de la somme des lignes, colonnes et diagonales ?".
+
+Notons cette somme <x-latex>x</x-latex> et notons <x-latex>a, b, c, d, e, f, g, h, i</x-latex> les nombres de 0 à 9 que l'on souhaite placer (dans cet ordre) dans la grille. Alors, on a :
+
+* <x-latex>a + b + c = x</x-latex>
+* <x-latex>d + e + f = x</x-latex>
+* <x-latex>g + h + i = x</x-latex>
+
+Et donc <x-latex>a+b+c+d+e+f+g+h+i=3x=0+1+2+3+4+5+6+7+8=36</x-latex>.
+La somme vaut donc <x-latex>{36\over 3}=12</x-latex>.
+
+De façon générale, pour un carré parfait d'ordre <x-latex>n</x-latex>, la somme de ses lignes, colonnes ou diagonales vaudra la somme de ses nombres divisé par le nombre de lignes (c'est-à-dire <x-latex>m</x-latex>):  
+<x-latex>S_n = {\sum_{i=0}^{n^2-1}i\over n} = {(n-1)n(n+1)\over 2}</x-latex>
+
+
+    </page>
+</x-article>

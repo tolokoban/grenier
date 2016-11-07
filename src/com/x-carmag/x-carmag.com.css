@@ -1,0 +1,30 @@
+div.x-carmag {
+    display: inline-table;
+    border-collapse: collapse;
+    box-shadow: 0 6px 12px rgba(0,0,0,.3);
+}
+
+div.x-carmag > div {
+    display: table-row;
+}
+
+div.x-carmag > div > div {
+    width: 2em;
+    height: 2em;
+    padding: 0;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid black;
+    background: #fff;
+    color: #000;
+    font-weight: 900;
+}
+
+div.x-carmag > div > div.sum {
+    font-size: 85%;
+    font-weight: normal;
+    color: rgba(0,0,0,.5);
+    border: none;
+    background: transparent;
+}

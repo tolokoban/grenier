@@ -121,3 +121,8 @@ section.x-article blockquote {
     line-height: 150%;
     font-style: oblique;
 }
+
+strong, b {
+    font-weight: 900;
+}
+

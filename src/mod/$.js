@@ -1,17 +1,10 @@
-exports.config={
-    name:"grenier",
-    description:"Articles concernant majoritairement l'algorithmie",
-    author:"Tolokoban",
-    version:"1.0.517",
-    major:1,
-    minor:0,
-    revision:517,
-    date:new Date(2016,4,30,12,48,53)
-};
+exports.config={"name":"\"grenier\"","description":"\"Articles concernant majoritairement l'algorithmie\"","author":"\"Tolokoban\"","version":"\"1.0.517\"","major":"1","minor":"0","revision":"517","date":"2016-11-07T10:42:04.000Z","consts":{}};
 var currentLang = null;
 exports.lang = function(lang) {
     if (lang === undefined) {
-        lang = window.localStorage.getItem("Language");
+        if (window.localStorage) {
+            lang = window.localStorage.getItem("Language");
+        }
         if (!lang) {
             lang = window.navigator.language;
             if (!lang) {
@@ -24,7 +17,9 @@ exports.lang = function(lang) {
         lang = lang.substr(0, 2).toLowerCase();
     }
     currentLang = lang;
-    window.localStorage.setItem("Language", lang);
+    if (window.localStorage) {
+        window.localStorage.setItem("Language", lang);
+    }
     return lang;
 };
 exports.intl = function(words, params) {

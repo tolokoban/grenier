@@ -1,4 +1,5 @@
 "use strict";
+
 var Triangle = require("svg.triangle");
 var Widget = require("wdg");
 var Bulle = require("tp4.bulle");
