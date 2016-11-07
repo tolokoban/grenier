@@ -1,36 +1,37 @@
-<!DOCTYPE HTML><html><head><title>Énumérer les permutations</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><link rel="stylesheet" type="text/css" href="../../css/articles/enumerer_permutations/@enumerer_permutations.1.css"><script src="../../js/articles/enumerer_permutations/@enumerer_permutations.1.js"></script></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>Énumérer les permutations</header><article><p>Pour cela, on doit considérer chaque permutation comme un nombre à <code>n</code> chiffres. Et on doit donner un ordre aux éléments utilisés.
+<!DOCTYPE html><html><head><title>Énumérer les permutations</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><script src="../../js/articles/enumerer_permutations/@enumerer_permutations.1.js"></script><script src="../../js/$.js"></script><link rel="stylesheet" type="text/css" href="../../css/articles/enumerer_permutations/@enumerer_permutations.1.css"></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>Énumérer les permutations</header><article><p>Pour cela, on doit considérer chaque permutation comme un nombre à <code>n</code> chiffres. Et on doit donner un ordre aux éléments utilisés.
 Par exemple, si on cherche les permutations de 5 lettres, on se munit de l&#39;ordre alphabétique et on déclare que A &lt; B &lt; C &lt; D &lt; E. ON peut alors considérer que ABCDE est le plus petit nombre que l&#39;on peut écrire avec ces 5 lettres et EDCBA le plus grand.
 Recherchons, par exemple, le successeur de <strong>ACEDB</strong>.</p>
 <p>On remarque que les trois derniers chiffres sont en ordre décroissant. Ce qui signifie que la valeur de ce triplet est maximale. En effet, n&#39;importe laquelle des 5 autres permutations de ces trois lettres donnerait un nombre plus petit.
 En revanche, la lettre <strong>C</strong> est plus petite que sa voisine de droite. Alors si on la remplace par une lettre supérieure, on aura un plus grand nombre. Or, comme on cherche le plus petit des nombres supérieurs, on va choisir de le remplacer par la lettre <strong>D</strong> (l&#39;autre choix aurait été E).</p>
 <p>La permutation suivante va donc ressemble à ceci : <code>AD---</code>. Les lettres qui restent sont C, E et B. Si on veut minimiser la valeur du nombre qu&#39;ils forment, il faut les ranger par ordre croissant. On obtient donc : <code>ADBCE</code>.</p>
-<p>Voici à quoi cela ressemble en Python :</p>
-<p><pre class="custom highlight js">def <span class="function">Next</span>(perm):
-    idxEnd <span class="operator">=</span> <span class="function">len</span>(perm) <span class="operator">-</span> 1
-    last <span class="operator">=</span> perm[idxEnd]
-    idxCur <span class="operator">=</span> idxEnd <span class="operator">-</span> 1
-   <span class="keyword"> while</span> idxCur  <span class="operator">-</span>1:
-        val <span class="operator">=</span> perm[idxCur]
-       <span class="keyword"> if</span> val  last:
-           <span class="keyword"> break</span>
-        last <span class="operator">=</span> val
-        idxCur <span class="operator">-</span><span class="operator">=</span> 1
-   <span class="keyword"> if</span> idxCur  0:
-       <span class="keyword"> return</span> None
-    out <span class="operator">=</span> perm[:idxCur]
-    idxPivot <span class="operator">=</span> idxCur
-    idxCur <span class="operator">+</span><span class="operator">=</span> 1
-   <span class="keyword"> while</span> idxCur <span class="operator">=</span> idxEnd and perm[idxCur]  val:
+<p>Voici à quoi cela ressemble en Python :
+<pre class="custom highlight js">
+    def <span class="function">Next</span>(perm):
+        idxEnd <span class="operator">=</span> <span class="function">len</span>(perm) <span class="operator">-</span> 1
+        last <span class="operator">=</span> perm[idxEnd]
+        idxCur <span class="operator">=</span> idxEnd <span class="operator">-</span> 1
+       <span class="keyword"> while</span> idxCur  <span class="operator">-</span>1:
+            val <span class="operator">=</span> perm[idxCur]
+           <span class="keyword"> if</span> val  last:
+               <span class="keyword"> break</span>
+            last <span class="operator">=</span> val
+            idxCur <span class="operator">-</span><span class="operator">=</span> 1
+       <span class="keyword"> if</span> idxCur  0:
+           <span class="keyword"> return</span> None
+        out <span class="operator">=</span> perm[:idxCur]
+        idxPivot <span class="operator">=</span> idxCur
         idxCur <span class="operator">+</span><span class="operator">=</span> 1
-    idxFirst <span class="operator">=</span> idxCur <span class="operator">-</span> 1
-    out.<span class="function">append</span>(perm[idxFirst])
-    idxCur <span class="operator">=</span> idxEnd
-   <span class="keyword"> while</span> idxCur  idxPivot:
-       <span class="keyword"> if</span> idxCur <span class="operator">==</span> idxFirst:
-            out.<span class="function">append</span>(val)
-       <span class="keyword"> else</span>:
-            out.<span class="function">append</span>(perm[idxCur])
-        idxCur <span class="operator">-</span><span class="operator">=</span> 1
-   <span class="keyword"> return</span> out</pre>
+       <span class="keyword"> while</span> idxCur <span class="operator">=</span> idxEnd and perm[idxCur]  val:
+            idxCur <span class="operator">+</span><span class="operator">=</span> 1
+        idxFirst <span class="operator">=</span> idxCur <span class="operator">-</span> 1
+        out.<span class="function">append</span>(perm[idxFirst])
+        idxCur <span class="operator">=</span> idxEnd
+       <span class="keyword"> while</span> idxCur  idxPivot:
+           <span class="keyword"> if</span> idxCur <span class="operator">==</span> idxFirst:
+                out.<span class="function">append</span>(val)
+           <span class="keyword"> else</span>:
+                out.<span class="function">append</span>(perm[idxCur])
+            idxCur <span class="operator">-</span><span class="operator">=</span> 1
+       <span class="keyword"> return</span> out</pre>
 Cet algorithme s&#39;arrête quand la liste est triée par ordre décroissant et il commence par une liste triée par ordre croissant. Ainsi, on ignore la fin de la liste si elle est déjà triée par ordre décroissant. Ainsi, si on a [3, 5, 4, 2, 1, 0], on ne s&#39;occuppe que de la sous-liste [3, 5, 4].</p>
 <div style="height:1rem"></div><footer>Pages : <span><a href="enumerer_permutations.html">1</a></span><span><span class="selected">2</span></span></footer></article></section></body></html>

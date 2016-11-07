@@ -1,0 +1,23 @@
+<!DOCTYPE html><html><head><title>Promenade à Syracuse</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><script src="../../js/articles/syracuse/@syracuse.1.js"></script><link rel="stylesheet" type="text/css" href="../../css/polyfill.mathml.css"><script src="../../js/$.js"></script><script src="../../js/polyfill.mathml.js"></script><link rel="stylesheet" type="text/css" href="../../css/articles/syracuse/@syracuse.1.css"></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>Promenade à Syracuse</header><article><p>Tout nombre entier peut être représenté sous forme binaire, c&#39;est-à-dire avec uniquement les chiffres 1 et 0.
+Par exemple 845125 en décimal, vaut 11001110010101000101 en binaire. C&#39;est tout de suite plus verbeux.</p>
+<p>Pour connaître la valeur d&#39;un nombre écrit en base <i>B</i>, il faut numéroter les chiffres à partir de 0 de la droite vers la gauche. Puis on utilise la formule suivante :
+<math display="inline"><mrow><mi>v</mi><mo>=</mo><munderover><mo>&sum;</mo><mrow><mi>i</mi><mo>=</mo><mn>0</mn></mrow><mrow><mo>N</mo><mo>-</mo><mn>1</mn></mrow></munderover><msub><mi>c</mi><mi>i</mi></msub><msup><mo>B</mo><mi>i</mi></msup></mrow></math></p>
+<p>Avec <math display="inline"><mrow><msub><mi>c</mi><mi>i</mi></msub></mrow></math> le chiffre numéroté <i>i</i>, et <math display="inline"><mrow><mo>N</mo></mrow></math> le nombre de chiffres du nombre.</p>
+<p>Essayons de voir ce que vaut 247 en base 10 :
+<math display="inline"><mrow><mi>v</mi><mo>(</mo><mo>"</mo><mn>247</mn><mo>"</mo><mo>)</mo><mo>=</mo><munderover><mo>&sum;</mo><mrow><mi>i</mi><mo>=</mo><mn>0</mn></mrow><mrow><mo>N</mo><mo>-</mo><mn>1</mn></mrow></munderover><msub><mi>c</mi><mi>i</mi></msub><msup><mn>10</mn><mi>i</mi></msup><mo>=</mo><msup><mn>10</mn><mn>0</mn></msup><msub><mi>c</mi><mn>0</mn></msub><mo>+</mo><msup><mn>10</mn><mn>1</mn></msup><msub><mi>c</mi><mn>1</mn></msub><mo>+</mo><msup><mn>10</mn><mn>2</mn></msup><msub><mi>c</mi><mn>2</mn></msub><mo>=</mo><mn>7</mn><mo>+</mo><mn>40</mn><mo>+</mo><mn>200</mn><mo>=</mo><mn>247</mn></mrow></math></p>
+<p>Et en base 2, ça marche aussi :
+<math display="inline"><mrow><mi>v</mi><mo>(</mo><mo>"</mo><mn>11010111</mn><mo>"</mo><mo>)</mo><mo>=</mo><msup><mn>2</mn><mn>0</mn></msup><mo>+</mo><msup><mn>2</mn><mn>1</mn></msup><mo>+</mo><msup><mn>2</mn><mn>2</mn></msup><mo>+</mo><mn>0</mn><mo>+</mo><msup><mn>2</mn><mn>4</mn></msup><mo>+</mo><mn>0</mn><mo>+</mo><msup><mn>2</mn><mn>6</mn></msup><mo>+</mo><msup><mn>2</mn><mn>7</mn></msup><mo>=</mo><mn>1</mn><mo>+</mo><mn>2</mn><mo>+</mo><mn>4</mn><mo>+</mo><mn>16</mn><mo>+</mo><mn>64</mn><mo>+</mo><mn>128</mn><mo>=</mo><mn>215</mn></mrow></math></p>
+<p>Thomas me remercie pour ce cours, mais il ne voit pas bien le rapport avec la choucroute.
+Quel est l&#39;intérêt d&#39;étudier Syracuse en base 2 ?</p>
+<p>Pour la beauté pardi !</p>
+<p>En base 2, multiplier par 2 revient à ajouter un zéro à droite. Par exemple, <code>11101 + 11101 = 11101<b>0</b></code>.
+Du coup, la phrase <i>"tant que le nombre est pair, le diviser par 2"</i> revient à <i>"retirer tous les zéros consécutifs à partir de la droite"</i>.</p>
+<p>De même, la multiplication par 3 revient à ajouter le double. Et ajouter <b style="color:red">1</b> au triple de 101011 se fait comme ceci :
+<pre>
+   101011
++ 101011<b style="color:red">1</b>
+---------
+ 10000010
+</pre></p>
+<p>En transformant nos 0 et 1 par des carrés vides ou pleins, on obtient de jolis dessins pour nos suites.</p>
+<div style="height:1rem"></div><footer>Pages : <span><a href="syracuse.html">1</a></span><span><span class="selected">2</span></span><span><a href="syracuse.2.html">3</a></span></footer></article></section></body></html>

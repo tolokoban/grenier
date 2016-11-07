@@ -1,184 +1,184 @@
-<!DOCTYPE HTML><html><head><title>Les mesures de bières et le baril</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><link rel="stylesheet" type="text/css" href="../../css/articles/glob/@glob.4.css"><script src="../../js/articles/glob/@glob.4.js"></script></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>Les mesures de bières et le baril</header><article><p>Il est plus amusant de résoudre ce problème à la main plutôt que d&#39;utiliser l&#39;ordinateur. Mais l&#39;usage de ce dernier devient particulièrement intéressant quand il s&#39;agit de créer des énigmes basées sur le même principe. Imaginons que l&#39;on souhaite faire un jeu dans lequel vous incarnez un serveur dans une taverne médiévale. La particularité de cette taverne est de proposer aux clients une boissons gratuite s&#39;ils parviennent à mystifier le serveur au jeu suivant : les clients commandent trois verres de bière en spécifiant pour chacun le nombre de décilitres qu&#39;il doit contenir. Cette valeur doit être un nombre entier allant de 1 à 9. Le serveur arrive avec trois verres pleins mais de différentes contenances. En transvasant ou en vidant les verres, le serveur doit se retrouver dans la configuration demandée.</p>
+<!DOCTYPE html><html><head><title>Les mesures de bières et le baril</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><script src="../../js/articles/glob/@glob.4.js"></script><script src="../../js/$.js"></script><link rel="stylesheet" type="text/css" href="../../css/articles/glob/@glob.4.css"></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>Les mesures de bières et le baril</header><article><p>Il est plus amusant de résoudre ce problème à la main plutôt que d&#39;utiliser l&#39;ordinateur. Mais l&#39;usage de ce dernier devient particulièrement intéressant quand il s&#39;agit de créer des énigmes basées sur le même principe. Imaginons que l&#39;on souhaite faire un jeu dans lequel vous incarnez un serveur dans une taverne médiévale. La particularité de cette taverne est de proposer aux clients une boissons gratuite s&#39;ils parviennent à mystifier le serveur au jeu suivant : les clients commandent trois verres de bière en spécifiant pour chacun le nombre de décilitres qu&#39;il doit contenir. Cette valeur doit être un nombre entier allant de 1 à 9. Le serveur arrive avec trois verres pleins mais de différentes contenances. En transvasant ou en vidant les verres, le serveur doit se retrouver dans la configuration demandée.</p>
 <p>Le jeu doit donc proposer des énigmes de ce type avec des difficultés croissantes. L&#39;algorithme suivant crée de telles énigmes et les classe par ordre de difficulté croissante. Il génère 1637 énigmes et les compresse sous forme d&#39;une unique chaîne de 8185 caractères. En effet, chaque énigme est déterminée par son état initial (la capacité de chaque verre), par le nombre minimal de mouvements qui mènent à la solution et à l&#39;état final (le nombre de décilitres dans chaque verre). On peut donc coder un problème avec 5 caractères.</p>
-<pre class="custom highlight js">function <span class="function">solve</span>(CAPACITIES, LABELS, init, goal, heuristic) {
- <span class="keyword"> function</span> <span class="function">State</span>(parent) {
-   <span class="keyword"> if</span> <span class="keyword">(typeof</span> parent <span class="operator">===</span> 'undefined') {
-     <span class="keyword"> this</span>.containers <span class="operator">=</span> init.<span class="function">slice</span>();
-     <span class="keyword"> this</span>.moves <span class="operator">=</span> [];
-     <span class="keyword"> this</span>.keys <span class="operator">=</span> <span class="keyword">[this</span>.<span class="function">key</span>()];
-    }<span class="keyword"> else</span> {
-     <span class="keyword"> this</span>.containers <span class="operator">=</span> parent.containers.<span class="function">slice</span>();
-     <span class="keyword"> this</span>.moves <span class="operator">=</span> parent.moves.<span class="function">slice</span>();
-     <span class="keyword"> this</span>.keys <span class="operator">=</span> parent.keys.<span class="function">slice</span>();
-    }
-  }
-
-  State.prototype.cost <span class="operator">=</span><span class="keyword"> function</span>() {
-   <span class="keyword"> var</span> g <span class="operator">=</span><span class="keyword"> this</span>.moves.length;
-   <span class="keyword"> return</span> g <span class="operator">+</span> <span class="function">heuristic</span><span class="keyword">(this</span>);
-  };
-
-  State.prototype.move <span class="operator">=</span><span class="keyword"> function</span>(src, dst) {
-   <span class="keyword"> var</span> cnt <span class="operator">=</span><span class="keyword"> this</span>.containers;
-   <span class="keyword"> if</span> (src <span class="operator">==</span> dst) {
-      <span class="comment">// Vidage complet.
-</span>      cnt[src] <span class="operator">=</span> 0;
-    }<span class="keyword"> else</span> {
-     <span class="keyword"> var</span> v <span class="operator">=</span> Math.<span class="function">min</span>(cnt[src], CAPACITIES[dst] <span class="operator">-</span> cnt[dst]);
-      cnt[src] <span class="operator">-</span><span class="operator">=</span> v;
-      cnt[dst] <span class="operator">+</span><span class="operator">=</span> v;
-    }
-   <span class="keyword"> var</span> key <span class="operator">=</span><span class="keyword"> this</span>.<span class="function">key</span>();
-   <span class="keyword"> if</span> <span class="keyword">(this</span>.keys.<span class="function">indexOf</span>(key) <span class="operator">&gt;</span> <span class="operator">-</span>1)<span class="keyword"> return</span> false;
-   <span class="keyword"> this</span>.keys.<span class="function">push</span>(key);
-   <span class="keyword"> this</span>.moves.<span class="function">push</span>([src, dst,<span class="keyword"> this</span>.containers.<span class="function">slice</span>()]);
-   <span class="keyword"> return</span> true;
-  };
-
-  State.prototype.key <span class="operator">=</span><span class="keyword"> function</span>() {
-   <span class="keyword"> var</span> key <span class="operator">=</span> <span class="string">""</span>;
-   <span class="keyword"> this</span>.containers.<span class="function">forEach</span>(
-     <span class="keyword"> function</span>(v, idx) {
-       <span class="keyword"> if</span> (idx <span class="operator">&gt;</span> 0) key <span class="operator">+</span><span class="operator">=</span> <span class="string">"-"</span>;
-        key <span class="operator">+</span><span class="operator">=</span> v;
-      }
-    );
-   <span class="keyword"> return</span> key;
-  };
-
-  State.prototype.nextMoves <span class="operator">=</span><span class="keyword"> function</span>(fringe) {
-   <span class="keyword"> var</span> src, dst, state;
-   <span class="keyword"> for</span> (src <span class="operator">=</span> 0 ; src <span class="operator">&lt;</span> CAPACITIES.length ; src<span class="operator">+</span><span class="operator">+</span>) {
-     <span class="keyword"> for</span> (dst <span class="operator">=</span> 0 ; dst <span class="operator">&lt;</span> CAPACITIES.length ; dst<span class="operator">+</span><span class="operator">+</span>) {
-        state <span class="operator">=</span><span class="keyword"> new</span> <span class="function">State</span><span class="keyword">(this</span>);
-       <span class="keyword"> if</span> (state.<span class="function">move</span>(src, dst)) {
-          fringe.<span class="function">push</span>(state);
-        }
-      }
-    }
-  };
-
-  State.prototype.print <span class="operator">=</span><span class="keyword"> function</span>() {
-    console.<span class="function">log</span>(<span class="string">"----------------------------------------"</span>);
-    console.<span class="function">log</span>(<span class="string">"Situation initiale: "</span> <span class="operator">+</span> JSON.<span class="function">stringify</span>(init));
-   <span class="keyword"> this</span>.moves.<span class="function">forEach</span>(
-     <span class="keyword"> function</span>(move) {
-       <span class="keyword"> var</span> src <span class="operator">=</span> move[0];
-       <span class="keyword"> var</span> dst <span class="operator">=</span> move[1];
-       <span class="keyword"> var</span> cnt <span class="operator">=</span> move[2];
-       <span class="keyword"> var</span> txt <span class="operator">=</span> <span class="string">""</span>;
-       <span class="keyword"> if</span> (src <span class="operator">==</span> dst) {
-          txt <span class="operator">=</span> <span class="string">"Vider "</span> <span class="operator">+</span> LABELS[src] <span class="operator">+</span> <span class="string">" sur le sol"</span>;
+<p><pre class="custom highlight js">
+    function <span class="function">solve</span>(CAPACITIES, LABELS, init, goal, heuristic) {
+     <span class="keyword"> function</span> <span class="function">State</span>(parent) {
+       <span class="keyword"> if</span> <span class="keyword">(typeof</span> parent <span class="operator">===</span> 'undefined') {
+         <span class="keyword"> this</span>.containers <span class="operator">=</span> init.<span class="function">slice</span>();
+         <span class="keyword"> this</span>.moves <span class="operator">=</span> [];
+         <span class="keyword"> this</span>.keys <span class="operator">=</span> <span class="keyword">[this</span>.<span class="function">key</span>()];
         }<span class="keyword"> else</span> {
-          txt <span class="operator">=</span> <span class="string">"Remplir "</span> <span class="operator">+</span> LABELS[dst] <span class="operator">+</span> <span class="string">" avec "</span> <span class="operator">+</span> LABELS[src];
+         <span class="keyword"> this</span>.containers <span class="operator">=</span> parent.containers.<span class="function">slice</span>();
+         <span class="keyword"> this</span>.moves <span class="operator">=</span> parent.moves.<span class="function">slice</span>();
+         <span class="keyword"> this</span>.keys <span class="operator">=</span> parent.keys.<span class="function">slice</span>();
         }
-        txt <span class="operator">+</span><span class="operator">=</span> <span class="string">" : "</span> <span class="operator">+</span> JSON.<span class="function">stringify</span>(cnt);
-        console.<span class="function">log</span>(txt);
       }
-    );
-
-  };
-
- <span class="keyword"> var</span> fringe <span class="operator">=</span> <span class="keyword">[new</span> <span class="function">State</span>()];
- <span class="keyword"> var</span> count <span class="operator">=</span> 0;
- <span class="keyword"> var</span> state;
- <span class="keyword"> var</span> cache <span class="operator">=</span> {};
- <span class="keyword"> var</span> key;
- <span class="keyword"> while</span> (fringe.length <span class="operator">&gt;</span> 0) {
-    state <span class="operator">=</span> fringe.<span class="function">pop</span>();
-    count<span class="operator">+</span><span class="operator">+</span>;
-    key <span class="operator">=</span> state.<span class="function">key</span>();
-   <span class="keyword"> if</span> (cache[key])<span class="keyword"> continue</span>;
-    cache[key] <span class="operator">=</span> 1;
-   <span class="keyword"> if</span> (<span class="function">goal</span>(state)) {
-      state.count <span class="operator">=</span> count;
-     <span class="keyword"> return</span> state;
+    
+      State.prototype.cost <span class="operator">=</span><span class="keyword"> function</span>() {
+       <span class="keyword"> var</span> g <span class="operator">=</span><span class="keyword"> this</span>.moves.length;
+       <span class="keyword"> return</span> g <span class="operator">+</span> <span class="function">heuristic</span><span class="keyword">(this</span>);
+      };
+    
+      State.prototype.move <span class="operator">=</span><span class="keyword"> function</span>(src, dst) {
+       <span class="keyword"> var</span> cnt <span class="operator">=</span><span class="keyword"> this</span>.containers;
+       <span class="keyword"> if</span> (src <span class="operator">==</span> dst) {
+          <span class="comment">// Vidage complet.
+    </span>      cnt[src] <span class="operator">=</span> 0;
+        }<span class="keyword"> else</span> {
+         <span class="keyword"> var</span> v <span class="operator">=</span> Math.<span class="function">min</span>(cnt[src], CAPACITIES[dst] <span class="operator">-</span> cnt[dst]);
+          cnt[src] <span class="operator">-</span><span class="operator">=</span> v;
+          cnt[dst] <span class="operator">+</span><span class="operator">=</span> v;
+        }
+       <span class="keyword"> var</span> key <span class="operator">=</span><span class="keyword"> this</span>.<span class="function">key</span>();
+       <span class="keyword"> if</span> <span class="keyword">(this</span>.keys.<span class="function">indexOf</span>(key) <span class="operator">&gt;</span> <span class="operator">-</span>1)<span class="keyword"> return</span> false;
+       <span class="keyword"> this</span>.keys.<span class="function">push</span>(key);
+       <span class="keyword"> this</span>.moves.<span class="function">push</span>([src, dst,<span class="keyword"> this</span>.containers.<span class="function">slice</span>()]);
+       <span class="keyword"> return</span> true;
+      };
+    
+      State.prototype.key <span class="operator">=</span><span class="keyword"> function</span>() {
+       <span class="keyword"> var</span> key <span class="operator">=</span> <span class="string">""</span>;
+       <span class="keyword"> this</span>.containers.<span class="function">forEach</span>(
+         <span class="keyword"> function</span>(v, idx) {
+           <span class="keyword"> if</span> (idx <span class="operator">&gt;</span> 0) key <span class="operator">+</span><span class="operator">=</span> <span class="string">"-"</span>;
+            key <span class="operator">+</span><span class="operator">=</span> v;
+          }
+        );
+       <span class="keyword"> return</span> key;
+      };
+    
+      State.prototype.nextMoves <span class="operator">=</span><span class="keyword"> function</span>(fringe) {
+       <span class="keyword"> var</span> src, dst, state;
+       <span class="keyword"> for</span> (src <span class="operator">=</span> 0 ; src <span class="operator">&lt;</span> CAPACITIES.length ; src<span class="operator">+</span><span class="operator">+</span>) {
+         <span class="keyword"> for</span> (dst <span class="operator">=</span> 0 ; dst <span class="operator">&lt;</span> CAPACITIES.length ; dst<span class="operator">+</span><span class="operator">+</span>) {
+            state <span class="operator">=</span><span class="keyword"> new</span> <span class="function">State</span><span class="keyword">(this</span>);
+           <span class="keyword"> if</span> (state.<span class="function">move</span>(src, dst)) {
+              fringe.<span class="function">push</span>(state);
+            }
+          }
+        }
+      };
+    
+      State.prototype.print <span class="operator">=</span><span class="keyword"> function</span>() {
+        console.<span class="function">log</span>(<span class="string">"----------------------------------------"</span>);
+        console.<span class="function">log</span>(<span class="string">"Situation initiale: "</span> <span class="operator">+</span> JSON.<span class="function">stringify</span>(init));
+       <span class="keyword"> this</span>.moves.<span class="function">forEach</span>(
+         <span class="keyword"> function</span>(move) {
+           <span class="keyword"> var</span> src <span class="operator">=</span> move[0];
+           <span class="keyword"> var</span> dst <span class="operator">=</span> move[1];
+           <span class="keyword"> var</span> cnt <span class="operator">=</span> move[2];
+           <span class="keyword"> var</span> txt <span class="operator">=</span> <span class="string">""</span>;
+           <span class="keyword"> if</span> (src <span class="operator">==</span> dst) {
+              txt <span class="operator">=</span> <span class="string">"Vider "</span> <span class="operator">+</span> LABELS[src] <span class="operator">+</span> <span class="string">" sur le sol"</span>;
+            }<span class="keyword"> else</span> {
+              txt <span class="operator">=</span> <span class="string">"Remplir "</span> <span class="operator">+</span> LABELS[dst] <span class="operator">+</span> <span class="string">" avec "</span> <span class="operator">+</span> LABELS[src];
+            }
+            txt <span class="operator">+</span><span class="operator">=</span> <span class="string">" : "</span> <span class="operator">+</span> JSON.<span class="function">stringify</span>(cnt);
+            console.<span class="function">log</span>(txt);
+          }
+        );
+    
+      };
+    
+     <span class="keyword"> var</span> fringe <span class="operator">=</span> <span class="keyword">[new</span> <span class="function">State</span>()];
+     <span class="keyword"> var</span> count <span class="operator">=</span> 0;
+     <span class="keyword"> var</span> state;
+     <span class="keyword"> var</span> cache <span class="operator">=</span> {};
+     <span class="keyword"> var</span> key;
+     <span class="keyword"> while</span> (fringe.length <span class="operator">&gt;</span> 0) {
+        state <span class="operator">=</span> fringe.<span class="function">pop</span>();
+        count<span class="operator">+</span><span class="operator">+</span>;
+        key <span class="operator">=</span> state.<span class="function">key</span>();
+       <span class="keyword"> if</span> (cache[key])<span class="keyword"> continue</span>;
+        cache[key] <span class="operator">=</span> 1;
+       <span class="keyword"> if</span> (<span class="function">goal</span>(state)) {
+          state.count <span class="operator">=</span> count;
+         <span class="keyword"> return</span> state;
+        }
+        state.<span class="function">nextMoves</span>(fringe);
+        fringe.<span class="function">sort</span>(
+         <span class="keyword"> function</span>(s1, s2) {
+           <span class="keyword"> return</span> s2.<span class="function">cost</span>() <span class="operator">-</span> s1.<span class="function">cost</span>();
+          }
+        );
+      }
+     <span class="keyword"> return</span> null;
     }
-    state.<span class="function">nextMoves</span>(fringe);
-    fringe.<span class="function">sort</span>(
-     <span class="keyword"> function</span>(s1, s2) {
-       <span class="keyword"> return</span> s2.<span class="function">cost</span>() <span class="operator">-</span> s1.<span class="function">cost</span>();
-      }
-    );
-  }
- <span class="keyword"> return</span> null;
-}
-<span class="keyword">
-function</span> <span class="function">h0</span>(s) {<span class="keyword"> return</span> 0; }
-<span class="keyword">
-var</span> a, b, c, state, states <span class="operator">=</span> [];<span class="keyword">
-var</span> goalFunc <span class="operator">=</span><span class="keyword"> function</span>(aa, bb, cc) {
- <span class="keyword"> return</span><span class="keyword"> function</span>(s) {
-   <span class="keyword"> var</span> cnt <span class="operator">=</span> s.containers;
-   <span class="keyword"> return</span> cnt[0] <span class="operator">==</span> aa <span class="operator">&amp;</span><span class="operator">&amp;</span> cnt[1] <span class="operator">==</span> bb <span class="operator">&amp;</span><span class="operator">&amp;</span> cnt[2] <span class="operator">==</span> cc;
-  };
-};
-<span class="keyword">
-var</span> Ca, Cb, Cc;
-<span class="keyword">
-for</span> (Ca <span class="operator">=</span> 2 ; Ca <span class="operator">&lt;</span><span class="operator">=</span> 9 ; Ca<span class="operator">+</span><span class="operator">+</span>) {
- <span class="keyword"> for</span> (Cb <span class="operator">=</span> Ca <span class="operator">+</span> 1 ; Cb <span class="operator">&lt;</span><span class="operator">=</span> 9 ; Cb<span class="operator">+</span><span class="operator">+</span>) {
-   <span class="keyword"> for</span> (Cc <span class="operator">=</span> Cb <span class="operator">+</span> 1 ; Cc <span class="operator">&lt;</span><span class="operator">=</span> 9 ; Cc<span class="operator">+</span><span class="operator">+</span>) {
-     <span class="keyword"> var</span> CAPACITIES <span class="operator">=</span> [Ca, Cb, Cc];
-     <span class="keyword"> var</span> LABELS <span class="operator">=</span> [<span class="string">"V"</span> <span class="operator">+</span> Ca, <span class="string">"V"</span> <span class="operator">+</span> Cb, <span class="string">"V"</span> <span class="operator">+</span> Cc];
-
-     <span class="keyword"> for</span> (a <span class="operator">=</span> 1 ; a <span class="operator">&lt;</span><span class="operator">=</span> Ca ; a<span class="operator">+</span><span class="operator">+</span>) {
-       <span class="keyword"> for</span> (b <span class="operator">=</span> 1 ; b <span class="operator">&lt;</span><span class="operator">=</span> Cb ; b<span class="operator">+</span><span class="operator">+</span>) {
-         <span class="keyword"> for</span> (c <span class="operator">=</span> 1 ; c <span class="operator">&lt;</span><span class="operator">=</span> Cc ; c<span class="operator">+</span><span class="operator">+</span>) {
-           <span class="keyword"> if</span> (a <span class="operator">==</span> Ca <span class="operator">&amp;</span><span class="operator">&amp;</span> b <span class="operator">==</span> Cb <span class="operator">&amp;</span><span class="operator">&amp;</span> c <span class="operator">==</span> Cc)<span class="keyword"> continue</span>;
-            state <span class="operator">=</span> <span class="function">solve</span>(
-              CAPACITIES, LABELS, CAPACITIES,
-              <span class="function">goalFunc</span>(a, b, c), h0
-            );
-           <span class="keyword"> if</span> (state) {
-              console.<span class="function">log</span>(<span class="string">"("</span> <span class="operator">+</span> a <span class="operator">+</span> <span class="string">","</span> <span class="operator">+</span> b <span class="operator">+</span> <span class="string">","</span> <span class="operator">+</span> c <span class="operator">+</span> <span class="string">") -&gt; "</span> <span class="operator">+</span> state.moves.length);
-              state.init <span class="operator">=</span> [a,b,c];
-              states.<span class="function">push</span>(state);
+    <span class="keyword">
+    function</span> <span class="function">h0</span>(s) {<span class="keyword"> return</span> 0; }
+    <span class="keyword">
+    var</span> a, b, c, state, states <span class="operator">=</span> [];<span class="keyword">
+    var</span> goalFunc <span class="operator">=</span><span class="keyword"> function</span>(aa, bb, cc) {
+     <span class="keyword"> return</span><span class="keyword"> function</span>(s) {
+       <span class="keyword"> var</span> cnt <span class="operator">=</span> s.containers;
+       <span class="keyword"> return</span> cnt[0] <span class="operator">==</span> aa <span class="operator">&amp;</span><span class="operator">&amp;</span> cnt[1] <span class="operator">==</span> bb <span class="operator">&amp;</span><span class="operator">&amp;</span> cnt[2] <span class="operator">==</span> cc;
+      };
+    };
+    <span class="keyword">
+    var</span> Ca, Cb, Cc;
+    <span class="keyword">
+    for</span> (Ca <span class="operator">=</span> 2 ; Ca <span class="operator">&lt;</span><span class="operator">=</span> 9 ; Ca<span class="operator">+</span><span class="operator">+</span>) {
+     <span class="keyword"> for</span> (Cb <span class="operator">=</span> Ca <span class="operator">+</span> 1 ; Cb <span class="operator">&lt;</span><span class="operator">=</span> 9 ; Cb<span class="operator">+</span><span class="operator">+</span>) {
+       <span class="keyword"> for</span> (Cc <span class="operator">=</span> Cb <span class="operator">+</span> 1 ; Cc <span class="operator">&lt;</span><span class="operator">=</span> 9 ; Cc<span class="operator">+</span><span class="operator">+</span>) {
+         <span class="keyword"> var</span> CAPACITIES <span class="operator">=</span> [Ca, Cb, Cc];
+         <span class="keyword"> var</span> LABELS <span class="operator">=</span> [<span class="string">"V"</span> <span class="operator">+</span> Ca, <span class="string">"V"</span> <span class="operator">+</span> Cb, <span class="string">"V"</span> <span class="operator">+</span> Cc];
+    
+         <span class="keyword"> for</span> (a <span class="operator">=</span> 1 ; a <span class="operator">&lt;</span><span class="operator">=</span> Ca ; a<span class="operator">+</span><span class="operator">+</span>) {
+           <span class="keyword"> for</span> (b <span class="operator">=</span> 1 ; b <span class="operator">&lt;</span><span class="operator">=</span> Cb ; b<span class="operator">+</span><span class="operator">+</span>) {
+             <span class="keyword"> for</span> (c <span class="operator">=</span> 1 ; c <span class="operator">&lt;</span><span class="operator">=</span> Cc ; c<span class="operator">+</span><span class="operator">+</span>) {
+               <span class="keyword"> if</span> (a <span class="operator">==</span> Ca <span class="operator">&amp;</span><span class="operator">&amp;</span> b <span class="operator">==</span> Cb <span class="operator">&amp;</span><span class="operator">&amp;</span> c <span class="operator">==</span> Cc)<span class="keyword"> continue</span>;
+                state <span class="operator">=</span> <span class="function">solve</span>(
+                  CAPACITIES, LABELS, CAPACITIES,
+                  <span class="function">goalFunc</span>(a, b, c), h0
+                );
+               <span class="keyword"> if</span> (state) {
+                  console.<span class="function">log</span>(<span class="string">"("</span> <span class="operator">+</span> a <span class="operator">+</span> <span class="string">","</span> <span class="operator">+</span> b <span class="operator">+</span> <span class="string">","</span> <span class="operator">+</span> c <span class="operator">+</span> <span class="string">") -&gt; "</span> <span class="operator">+</span> state.moves.length);
+                  state.init <span class="operator">=</span> [a,b,c];
+                  states.<span class="function">push</span>(state);
+                }
+              }
             }
           }
         }
       }
     }
-  }
-}
-
-states.<span class="function">sort</span>(
- <span class="keyword"> function</span>(s1, s2) {
-   <span class="keyword"> return</span> s1.count <span class="operator">-</span> s2.count;
-  }
-);
-
-console.<span class="function">log</span>();
-console.<span class="function">log</span>();
-
-states.<span class="function">forEach</span>(
- <span class="keyword"> function</span>(state) {
-    console.<span class="function">log</span>(<span class="string">"----------------------------------------"</span>);
-    console.<span class="function">log</span>(<span class="string">"Moves: "</span> <span class="operator">+</span> state.moves.length <span class="operator">+</span> <span class="string">", Count: "</span> <span class="operator">+</span> state.count);
-    state.<span class="function">print</span>();
-  }
-);
-<span class="keyword">
-var</span> key <span class="operator">=</span> <span class="string">""</span>;<span class="keyword">
-var</span> alphabet <span class="operator">=</span> <span class="string">"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"</span>;<span class="keyword">
-function</span> <span class="function">encode</span>(a, b, c) {
- <span class="keyword"> var</span> v <span class="operator">=</span> a <span class="operator">*</span> 100 <span class="operator">+</span> b <span class="operator">*</span> 10 <span class="operator">+</span> c;
- <span class="keyword"> var</span> L <span class="operator">=</span> v <span class="operator">%</span> alphabet.length;
- <span class="keyword"> var</span> H <span class="operator">=</span> (v <span class="operator">-</span> L) <span class="operator">/</span> alphabet.length;
- <span class="keyword"> return</span> alphabet.<span class="function">charAt</span>(H) <span class="operator">+</span> alphabet.<span class="function">charAt</span>(L);
-}
-states.<span class="function">forEach</span>(
- <span class="keyword"> function</span>(state) {
-    key <span class="operator">+</span><span class="operator">=</span> <span class="function">encode</span>(state.init[0], state.init[1], state.init[2]);
-    key <span class="operator">+</span><span class="operator">=</span> alphabet.<span class="function">charAt</span>(state.moves.length);
-   <span class="keyword"> var</span> move <span class="operator">=</span> state.moves.<span class="function">pop</span>();
-   <span class="keyword"> var</span> cnt <span class="operator">=</span> move[2];
-    key <span class="operator">+</span><span class="operator">=</span> <span class="function">encode</span>(cnt[0], cnt[1], cnt[2]);
-  }
-);
-
-console.<span class="function">log</span>(<span class="string">"Nb games: "</span> <span class="operator">+</span> states.length);
-console.<span class="function">log</span>();
-console.<span class="function">log</span>(key);</pre>
-
+    
+    states.<span class="function">sort</span>(
+     <span class="keyword"> function</span>(s1, s2) {
+       <span class="keyword"> return</span> s1.count <span class="operator">-</span> s2.count;
+      }
+    );
+    
+    console.<span class="function">log</span>();
+    console.<span class="function">log</span>();
+    
+    states.<span class="function">forEach</span>(
+     <span class="keyword"> function</span>(state) {
+        console.<span class="function">log</span>(<span class="string">"----------------------------------------"</span>);
+        console.<span class="function">log</span>(<span class="string">"Moves: "</span> <span class="operator">+</span> state.moves.length <span class="operator">+</span> <span class="string">", Count: "</span> <span class="operator">+</span> state.count);
+        state.<span class="function">print</span>();
+      }
+    );
+    <span class="keyword">
+    var</span> key <span class="operator">=</span> <span class="string">""</span>;<span class="keyword">
+    var</span> alphabet <span class="operator">=</span> <span class="string">"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"</span>;<span class="keyword">
+    function</span> <span class="function">encode</span>(a, b, c) {
+     <span class="keyword"> var</span> v <span class="operator">=</span> a <span class="operator">*</span> 100 <span class="operator">+</span> b <span class="operator">*</span> 10 <span class="operator">+</span> c;
+     <span class="keyword"> var</span> L <span class="operator">=</span> v <span class="operator">%</span> alphabet.length;
+     <span class="keyword"> var</span> H <span class="operator">=</span> (v <span class="operator">-</span> L) <span class="operator">/</span> alphabet.length;
+     <span class="keyword"> return</span> alphabet.<span class="function">charAt</span>(H) <span class="operator">+</span> alphabet.<span class="function">charAt</span>(L);
+    }
+    states.<span class="function">forEach</span>(
+     <span class="keyword"> function</span>(state) {
+        key <span class="operator">+</span><span class="operator">=</span> <span class="function">encode</span>(state.init[0], state.init[1], state.init[2]);
+        key <span class="operator">+</span><span class="operator">=</span> alphabet.<span class="function">charAt</span>(state.moves.length);
+       <span class="keyword"> var</span> move <span class="operator">=</span> state.moves.<span class="function">pop</span>();
+       <span class="keyword"> var</span> cnt <span class="operator">=</span> move[2];
+        key <span class="operator">+</span><span class="operator">=</span> <span class="function">encode</span>(cnt[0], cnt[1], cnt[2]);
+      }
+    );
+    
+    console.<span class="function">log</span>(<span class="string">"Nb games: "</span> <span class="operator">+</span> states.length);
+    console.<span class="function">log</span>();
+    console.<span class="function">log</span>(key);</pre></p>
 <div style="height:1rem"></div><footer>Pages : <span><a href="glob.html">1</a></span><span><a href="glob.1.html">2</a></span><span><a href="glob.2.html">3</a></span><span><a href="glob.3.html">4</a></span><span><span class="selected">5</span></span></footer></article></section></body></html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html><html><head><title>Le mot clef 'this' en Javascript</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><script src="../../js/articles/this/@this.js"></script><script src="../../js/$.js"></script><link rel="stylesheet" type="text/css" href="../../css/articles/this/@this.css"></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>Le mot clef 'this' en Javascript</header><article><p>Savez-vous exactement ce qu&#39;est le mot clef <strong><code>this</code></strong> en Javascript ?
+Pour vous en assurer, essayez de deviner le résultat des petits codes suivants.</p>
+<p><pre class="custom highlight js">
+    var obj <span class="operator">=</span> {
+        key: <span class="string">"Yop!"</span>,
+        log:<span class="keyword"> function</span>() {
+            console.<span class="function">log</span>(<span class="keyword"> this</span>.key );
+        }
+    };
+    
+    obj.<span class="function">log</span>();</pre>
+<pre class="custom highlight js">
+    var C <span class="operator">=</span><span class="keyword"> function</span>() { console.<span class="function">log</span>(<span class="keyword"> this</span>.id );};<span class="keyword">
+    var</span> B <span class="operator">=</span><span class="keyword"> function</span>() { console.<span class="function">log</span>(<span class="keyword"> this</span>.id );};
+    B.id <span class="operator">=</span> <span class="string">"Bertrand"</span>;
+    B.c <span class="operator">=</span> C;<span class="keyword">
+    var</span> A <span class="operator">=</span> {id: <span class="string">"Albert"</span>, b: B};
+    C.id <span class="operator">=</span> <span class="string">"Charly"</span>;
+    
+    A.<span class="function">b</span>();
+    A.b.<span class="function">c</span>();</pre>
+<pre class="custom highlight js">
+    var e <span class="operator">=</span> <span class="string">"E..."</span>;
+    pi <span class="operator">=</span> <span class="string">"Tarte"</span>;
+    <span class="keyword">
+    function</span> <span class="function">jubinoufa</span>() {
+        console.<span class="function">log</span>(<span class="keyword"> this</span>.e );
+        console.<span class="function">log</span>(<span class="keyword"> this</span>.pi );
+    }
+    
+    <span class="function">jubinoufa</span>();</pre></p>
+<div style="height:1rem"></div><footer>Pages : <span><span class="selected">1</span></span><span><a href="this.1.html">2</a></span></footer></article></section></body></html>

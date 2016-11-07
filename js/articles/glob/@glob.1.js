@@ -1,3 +1,65 @@
-var require=function(){var r={};return function(e,o){var n;if(o=window["#"+e],"undefined"==typeof o){var i=new Error("Required module is missing: "+e);throw console.error(i.stack),i}if(n=r[e],"undefined"==typeof n){n={exports:{}};var t=n.exports;o(t,n),r[e]=n.exports,n=n.exports}return n}}();
-window["#$"]=function(n,r){n.config={name:"grenier",description:"Articles concernant majoritairement l'algorithmie",author:"Tolokoban",version:"1.0.515",major:1,minor:0,revision:515,date:new Date(2016,1,4,18,34,34)};var t=null;n.lang=function(n){return void 0===n&&(n=window.localStorage.getItem("Language"),n||(n=window.navigator.language,n||(n=window.navigator.browserLanguage,n||(n="fr"))),n=n.substr(0,2).toLowerCase()),t=n,window.localStorage.setItem("Language",n),n},n.intl=function(r,t){var a,e,o,i,g,l,u=r[n.lang()],s=t[0];if(!u)return s;if(a=u[s],!a)return s;if(t.length>1){for(e="",g=0,o=0;o<a.length;o++)i=a.charAt(o),"$"===i?(e+=a.substring(g,o),o++,l=a.charCodeAt(o)-48,e+=0>l||l>=t.length?"$"+a.charAt(o):t[l],g=o+1):"\\"===i&&(e+=a.substring(g,o),o++,e+=a.charAt(o),g=o+1);e+=a.substr(g),a=e}return a}};
-//# sourceMappingURL=map/articles/glob/@glob.1.js.map
+/**********************************************************************
+ require( 'require' )
+ -----------------------------------------------------------------------
+ @example
+
+ var Path = require("node://path");  // Only in NodeJS/NW.js environment.
+ var Button = require("tfw.button");
+
+ **********************************************************************/
+
+window.require = function() {
+    var modules = {};
+    var definitions = {};
+    var nodejs_require = typeof window.require === 'function' ? window.require : null;
+
+    var f = function(id, body) {
+        if( id.substr( 0, 7 ) == 'node://' ) {
+            // Calling for a NodeJS module.
+            if( !nodejs_require ) {
+                throw Error( "[require] NodeJS is not available to load module `" + id + "`!" );
+            }
+            return nodejs_require( id.substr( 7 ) );
+        }
+
+        if( typeof body === 'function' ) {
+            definitions[id] = body;
+            return;
+        }
+        var mod;
+        body = definitions[id];
+        if (typeof body === 'undefined') {
+            var err = new Error("Required module is missing: " + id);   
+            console.error(err.stack);
+            throw err;
+        }
+        mod = modules[id];
+        if (typeof mod === 'undefined') {
+            mod = {exports: {}};
+            var exports = mod.exports;
+            body(f, mod, exports);
+            modules[id] = mod.exports;
+            mod = mod.exports;
+            //console.log("Module initialized: " + id);
+        }
+        return mod;
+    };
+    return f;
+}();
+function addListener(e,l) {
+    if (window.addEventListener) {
+        window.addEventListener(e,l,false);
+    } else {
+        window.attachEvent('on' + e, l);
+    }
+};
+
+addListener(
+    'DOMContentLoaded',
+    function() {
+        document.body.parentNode.$data = {};
+        // Attach controllers.
+        
+
+    }
+);

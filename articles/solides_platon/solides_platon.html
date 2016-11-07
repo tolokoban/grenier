@@ -1,7 +1,7 @@
-<!DOCTYPE HTML><html><head>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r73/three.min.js"></script>
-         
-    <title>Les solides de Platon</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><link rel="stylesheet" type="text/css" href="../../css/articles/solides_platon/@solides_platon.css"><script src="../../js/articles/solides_platon/@solides_platon.js"></script></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>Les solides de Platon</header><article><p><strong>Attention ! Les formules ne s&#39;affichent que sur Firefox, car il est le seul à supporter le MathML.</strong></p>
+<!DOCTYPE html><html><head>
+        <script src="../../three.min.js"></script>
+        
+    <title>Les solides de Platon</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><script src="../../js/articles/solides_platon/@solides_platon.js"></script><link rel="stylesheet" type="text/css" href="../../css/three.canvas.css"><link rel="stylesheet" type="text/css" href="../../css/wdg.css"><link rel="stylesheet" type="text/css" href="../../css/polyfill.mathml.css"><link rel="stylesheet" type="text/css" href="../../css/platon.solide.css"><link rel="stylesheet" type="text/css" href="../../css/dom.css"><script src="../../js/$.js"></script><script src="../../js/platon.icosaedre.js"></script><script src="../../js/three.canvas.js"></script><script src="../../js/wdg.js"></script><script src="../../js/platon.dodeca1.js"></script><script src="../../js/three.rotator.js"></script><script src="../../js/polyfill.mathml.js"></script><script src="../../js/platon.solide.js"></script><script src="../../js/x-widget.js"></script><script src="../../js/tfw.data-binding.js"></script><script src="../../js/tfw.listeners.js"></script><script src="../../js/dom.js"></script><script src="../../js/polyfill.classList.js"></script><script src="../../js/polyfill.string.js"></script><link rel="stylesheet" type="text/css" href="../../css/articles/solides_platon/@solides_platon.css"></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>Les solides de Platon</header><article><p><strong>Attention ! En 2016, les formules ne s&#39;affichent que sur Firefox, car il est le seul à supporter le MathML.</strong></p>
 <hr>
 <p>Je croise, par hasard, mon pote Thomas dans un sex-shop. Alors, pour dissiper la gène, on parle de son cours qu&#39;il a donné le matin même sur les solides de Platon. Il me demande si je pourrais faire une petite animation 3D de ces cinq polyèdres réguliers pour illuster sont argument auprès de ses élèves.</p>
 <p>Je lui promet d&#39;y réfléchir et à peine rentré chez moi, me voilà bien embêté.
@@ -9,24 +9,19 @@ En effet, pour afficher des polyèdres, il faut que je connaisse pour chacun les
 Mais, comme par malchance, une terrible tempête haut-savoyarde s&#39;abat sur ma petite maison et me coupe tout moyen de communiquer avec l&#39;extérieur. Il va falloir que je trouve ces coordonnées tout seul...</p>
 <p>Pour qu&#39;on puisse voir les solides de Platon sur tous les angles, je décide de fixer en (0,0,0) leur centre de gravité. Et pour qu&#39;ils aient tous la même taille j&#39;ajoute comme contrainte la fait que la distance d&#39;un sommet au centre de gravité vaut toujours <strong>1</strong>.</p>
 <h1 id="le-cube-6-faces-">Le cube (6 faces)</h1>
-<div id="platon.solide1" style="display:none"></div>
-
+<p><div id="platon.solide14" style="display:none"></div></p>
 <p>On commence par lui car il est relativement simple. Il possède 8 sommets et de nombreux axes de symétrie. Donc s&#39;il existe un point <code>(h,h,h)</code>, il existe aussi toutes les combinaisons de symétries par rapport aux plans axiaux : <code>(h,h,-h)</code>, <code>(h,-h,h)</code>, <code>(h,-h,-h)</code>, <code>(-h,h,h)</code>, <code>(-h,h,-h)</code>, <code>(-h,-h,h)</code> et <code>(-h,-h,-h)</code>.</p>
 <p>Ça ressemble beaucoup à du binaire tout ça. Remplaçons <code>h</code> par <code>0</code> et <code>-h</code> par <code>1</code>, les coordonnées ci-dessus deviennent 000, 001, 010, 011, 100, 101, 110 et 111.</p>
-<p>Cela me donne une idée pour <em>construire</em> les coordonnées d&#39;un hypercube ! Par exemple, pour le tesseract (4 dimensions), on aura <math><mrow><msup><mn>2</mn><mn>4</mn></msup><mo>=</mo><mn>16</mn></mrow></math> sommets. Et ça marche aussi pour le carré en 2D, c&#39;est magnifique, non ?</p>
+<p>Cela me donne une idée pour <em>construire</em> les coordonnées d&#39;un hypercube ! Par exemple, pour le tesseract (4 dimensions), on aura <math display="inline"><mrow><msup><mn>2</mn><mn>4</mn></msup><mo>=</mo><mn>16</mn></mrow></math> sommets. Et ça marche aussi pour le carré en 2D, c&#39;est magnifique, non ?</p>
 <p>Il ne me reste plus qu&#39;à déterminer <code>h</code> pour que la distance de tout sommet au centre de gravité soit égal à <strong>1</strong>. Bon, jusque là, ce n&#39;est pas trop difficile :</p>
-<math><mrow><msup><mi>h</mi><mn>2</mn></msup><mo>+</mo><msup><mi>h</mi><mn>2</mn></msup><mo>+</mo><msup><mi>h</mi><mn>2</mn></msup><mo>=</mo><mn>1</mn><mo>&hArr;</mo><mi>h</mi><mo>=</mo><mfrac><mrow><mn>1</mn></mrow><mrow><msqrt><mn>3</mn></msqrt></mrow></mfrac></mrow></math>
-
-
+<p><math display="inline"><mrow><msup><mi>h</mi><mn>2</mn></msup><mo>+</mo><msup><mi>h</mi><mn>2</mn></msup><mo>+</mo><msup><mi>h</mi><mn>2</mn></msup><mo>=</mo><mn>1</mn><mo>&hArr;</mo><mi>h</mi><mo>=</mo><mfrac><mrow><mn>1</mn></mrow><mrow><msqrt><mn>3</mn></msqrt></mrow></mfrac></mrow></math></p>
 <h1 id="le-t-tra-dre-4-faces-">Le tétraèdre (4 faces)</h1>
-<div id="platon.solide2" style="display:none"></div>
-
+<p><div id="platon.solide15" style="display:none"></div></p>
 <p>Pour le tétraèdre, on peut utiliser le cube. En effet, si on prend un sous-ensemble des sommets du cube, on satisfait la contrainte sur la distance au centre. Et comme toutes les faces d&#39;un cube sont identiques, on peut définir l&#39;arête d&#39;un tétraèdre comme étant la diagonale d&#39;une face du cube.</p>
-<p>Sur la face du cube <math><mrow><mi>y</mi><mo>=</mo><mi>h</mi></mrow></math>, on peut choisir les points <code>(h,h,h)</code> et <code>(-h,h,-h)</code>.
-Pour la face opposée (<math><mrow><mi>y</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow></math>), on croise la diagonale et on prend les points <code>(h,-h,-h)</code> et <code>(-h,-h,h)</code>.</p>
+<p>Sur la face du cube <math display="inline"><mrow><mi>y</mi><mo>=</mo><mi>h</mi></mrow></math>, on peut choisir les points <code>(h,h,h)</code> et <code>(-h,h,-h)</code>.
+Pour la face opposée (<math display="inline"><mrow><mi>y</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow></math>), on croise la diagonale et on prend les points <code>(h,-h,-h)</code> et <code>(-h,-h,h)</code>.</p>
 <h1 id="l-octo-dre-8-faces-">L&#39;octoèdre (8 faces)</h1>
-<div id="platon.solide3" style="display:none"></div>
-
+<p><div id="platon.solide16" style="display:none"></div></p>
 <p>En voilà de nouveau un facile. Plus facile encore que le cube. Il suffit de placer deux points par axe à distance 1 du centre.</p>
 <p><code>(1,0,0)</code>, <code>(-1,0,0)</code>, <code>(0,1,0)</code>, <code>(0,-1,0)</code>, <code>(0,0,1)</code> et <code>(0,0,-1)</code>.</p>
 <p>J&#39;en profite pour introduire la notion de <strong>dual</strong> ça plaira surement à Thomas, lui qui aime bien les gros mots. Il s&#39;agit du solide que l&#39;on peut créer en prenant comme sommets de l&#39;enfant, les centres des faces du parent.</p>

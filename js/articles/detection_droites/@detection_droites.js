@@ -1,4 +1,66 @@
-function addListener(e,t){window.addEventListener?window.addEventListener(e,t,!1):window.attachEvent("on"+e,t)}var require=function(){var e={};return function(t,n){var r;if(n=window["#"+t],"undefined"==typeof n){var o=new Error("Required module is missing: "+t);throw console.error(o.stack),o}if(r=e[t],"undefined"==typeof r){r={exports:{}};var i=r.exports;n(i,r),e[t]=r.exports,r=r.exports}return r}}();addListener("DOMContentLoaded",function(){document.body.parentNode.$data={},APP=require("detection_droites"),setTimeout(function(){"function"==typeof APP.start&&APP.start()})});
-window["#$"]=function(n,r){n.config={name:"grenier",description:"Articles concernant majoritairement l'algorithmie",author:"Tolokoban",version:"1.0.515",major:1,minor:0,revision:515,date:new Date(2016,1,4,18,34,34)};var t=null;n.lang=function(n){return void 0===n&&(n=window.localStorage.getItem("Language"),n||(n=window.navigator.language,n||(n=window.navigator.browserLanguage,n||(n="fr"))),n=n.substr(0,2).toLowerCase()),t=n,window.localStorage.setItem("Language",n),n},n.intl=function(r,t){var a,e,o,i,g,l,u=r[n.lang()],s=t[0];if(!u)return s;if(a=u[s],!a)return s;if(t.length>1){for(e="",g=0,o=0;o<a.length;o++)i=a.charAt(o),"$"===i?(e+=a.substring(g,o),o++,l=a.charCodeAt(o)-48,e+=0>l||l>=t.length?"$"+a.charAt(o):t[l],g=o+1):"\\"===i&&(e+=a.substring(g,o),o++,e+=a.charAt(o),g=o+1);e+=a.substr(g),a=e}return a}};
-window["#detection_droites"]=function(t,e){function i(t){var e=document.createElement("canvas");e.setAttribute("width",t.width),e.setAttribute("height",t.height);var i=e.getContext("2d");i.drawImage(t,0,0);var a,n,o,r=i.getImageData(0,0,t.width,t.height).data,d=[],h=0;for(o=0;o<t.height;o++)for(n=0;n<t.width;n++)a=r[h++]+r[h++]+r[h++],30>a&&d.push([n,o]),h++;return d}function a(t){var e,i=[],a=[],n=0,o=Math.PI/18;for(e=0;36>e;e++)i.push(Math.cos(n)),a.push(Math.cos(n)),n+=o;t.forEach(function(t){var e=t[0],n=t[1];i.forEach(function(i,o){var r=a[o],d=2*Math.floor(.5+(e*i+n*r)/2);t.push(d)})})}t.start=function(){var t=document.getElementById("image");t.onload=function(){var e=document.getElementById("sample"),n="",o=i(t);a(o),n+="<div class='grid'>",o.forEach(function(t){n+="<div>",n+="<div>"+t[0]+","+t[1]+"</div>";for(var e=2;e<t.length;e++)n+="<div>"+t[e]+"</div>";n+="</div>"}),n+="</div>",e.innerHTML=n}}};
-//# sourceMappingURL=map/articles/detection_droites/@detection_droites.js.map
+/**********************************************************************
+ require( 'require' )
+ -----------------------------------------------------------------------
+ @example
+
+ var Path = require("node://path");  // Only in NodeJS/NW.js environment.
+ var Button = require("tfw.button");
+
+ **********************************************************************/
+
+window.require = function() {
+    var modules = {};
+    var definitions = {};
+    var nodejs_require = typeof window.require === 'function' ? window.require : null;
+
+    var f = function(id, body) {
+        if( id.substr( 0, 7 ) == 'node://' ) {
+            // Calling for a NodeJS module.
+            if( !nodejs_require ) {
+                throw Error( "[require] NodeJS is not available to load module `" + id + "`!" );
+            }
+            return nodejs_require( id.substr( 7 ) );
+        }
+
+        if( typeof body === 'function' ) {
+            definitions[id] = body;
+            return;
+        }
+        var mod;
+        body = definitions[id];
+        if (typeof body === 'undefined') {
+            var err = new Error("Required module is missing: " + id);   
+            console.error(err.stack);
+            throw err;
+        }
+        mod = modules[id];
+        if (typeof mod === 'undefined') {
+            mod = {exports: {}};
+            var exports = mod.exports;
+            body(f, mod, exports);
+            modules[id] = mod.exports;
+            mod = mod.exports;
+            //console.log("Module initialized: " + id);
+        }
+        return mod;
+    };
+    return f;
+}();
+function addListener(e,l) {
+    if (window.addEventListener) {
+        window.addEventListener(e,l,false);
+    } else {
+        window.attachEvent('on' + e, l);
+    }
+};
+
+addListener(
+    'DOMContentLoaded',
+    function() {
+        document.body.parentNode.$data = {};
+        // Attach controllers.
+        APP = require('detection_droites');
+setTimeout(function (){if(typeof APP.start==='function')APP.start()});
+
+    }
+);
