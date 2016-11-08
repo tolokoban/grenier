@@ -296,7 +296,7 @@ void main(void) {
     gl_FragColor = vec4( color, 1.0 );
   }
 }//]]></script>
-    <title>La piscine à boules</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><script src="../../js/articles/piscine_a_boule/@piscine_a_boule.js"></script><link rel="stylesheet" type="text/css" href="../../css/three.canvas.css"><link rel="stylesheet" type="text/css" href="../../css/wdg.css"><link rel="stylesheet" type="text/css" href="../../css/dom.css"><script src="../../js/$.js"></script><script src="../../js/piscine.shader2.js"></script><script src="../../js/piscine.bouncing-squares.js"></script><script src="../../js/three.canvas.js"></script><script src="../../js/wdg.js"></script><script src="../../js/piscine.shader.js"></script><script src="../../js/piscine.bouncing-squares.face-me.js"></script><script src="../../js/piscine.lowres-sphere.js"></script><script src="../../js/x-widget.js"></script><script src="../../js/tfw.data-binding.js"></script><script src="../../js/tfw.listeners.js"></script><script src="../../js/dom.js"></script><script src="../../js/polyfill.classList.js"></script><script src="../../js/polyfill.string.js"></script><link rel="stylesheet" type="text/css" href="../../css/articles/piscine_a_boule/@piscine_a_boule.css"></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>La piscine à boules</header><article><p>Un jour, que je m&#39;étais égaré chez IKEA, je tombe sur mon pote Thomas qui barbotte dans la piscine à boule des enfants.</p>
+    <title>La piscine à boules</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><script src="../../js/articles/piscine_a_boule/@piscine_a_boule.js"></script><link rel="stylesheet" type="text/css" href="../../css/articles/piscine_a_boule/@piscine_a_boule.css"></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>La piscine à boules</header><article><p>Un jour, que je m&#39;étais égaré chez IKEA, je tombe sur mon pote Thomas qui barbotte dans la piscine à boule des enfants.</p>
 <ul>
 <li>Salut vieux ! Que fais-tu dans cette piscine ? N&#39;as-tu pas dépassé la limite d&#39;age ?</li>
 <li>Ah ! Salut Tolokoban, tu tombes bien justement. Je me suis mis récemment à la 3D et du coup j&#39;étudie de près les sphères.</li>
@@ -305,11 +305,11 @@ void main(void) {
 <li>C&#39;est-à-dire ?</li>
 <li>Regarde cette boule rouge là. Elle est sympa à première vue, mais si tu t&#39;attardes sur les bords, tu vois un hideux polygone en lieu et place d&#39;un magnifique cercle.</li>
 </ul>
-<p><center><div id="piscine.lowres-sphere1" style="display:none"></div></center></p>
+<p><center><div id="piscine.lowres-sphere2" style="display:none"></div></center></p>
 <p>Il a raison le bougre ! La plupart du temps, on représente des sphères en trichant : on utilise un polyèdre (en bleu sur le dessin ci-dessus) et on applique un astucieux procédé de lissage pour faire illusion. Mais, évidemment, ça ne marche pas sur les bords...</p>
 <p>Ok. Je me retrousse les manches et j&#39;essaie de faire un piscine à <em>belles</em> boules.
 Je commence par faire rebondir des carrés, c&#39;est plus facile. Et en plus c&#39;est rapide à calculer, même pour un téléphone.</p>
-<p><center><div id="piscine.bouncing-squares2" style="display:none"></div></center></p>
+<p><center><div id="piscine.bouncing-squares3" style="display:none"></div></center></p>
 <p>Pas mal, mais ça fait un peu plat. En plus, quand les carrés nous tournent le dos, on ne les voit plus !
 Je peux toutefois ruser en forçant les carrés à faire face à la caméra.
 Voyons ça sur la <a href="piscine_a_boule.1.html#page2">page suivante</a>.        </p>

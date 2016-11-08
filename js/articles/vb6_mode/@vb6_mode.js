@@ -63,3 +63,5 @@ addListener(
 
     }
 );
+require("$",function(n,r,o){o.config={name:'"grenier"',description:'"Articles concernant majoritairement l\'algorithmie"',author:'"Tolokoban"',version:'"1.0.518"',major:"1",minor:"0",revision:"518",date:"2016-11-08T11:53:42.000Z",consts:{}};var t=null;o.lang=function(n){return void 0===n&&(window.localStorage&&(n=window.localStorage.getItem("Language")),n||(n=window.navigator.language,n||(n=window.navigator.browserLanguage,n||(n="fr"))),n=n.substr(0,2).toLowerCase()),t=n,window.localStorage&&window.localStorage.setItem("Language",n),n},o.intl=function(n,r){var t,a,e,i,g,l,u=n[o.lang()],c=r[0];if(!u)return c;if(t=u[c],!t)return c;if(r.length>1){for(a="",g=0,e=0;e<t.length;e++)i=t.charAt(e),"$"===i?(a+=t.substring(g,e),e++,l=t.charCodeAt(e)-48,a+=l<0||l>=r.length?"$"+t.charAt(e):r[l],g=e+1):"\\"===i&&(a+=t.substring(g,e),e++,a+=t.charAt(e),g=e+1);a+=t.substr(g),t=a}return t}});
+//# sourceMappingURL=$.js.map

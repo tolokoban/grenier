@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><title>The Miller's Puzzle (6 août 2015)</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><script src="../../js/articles/millers_puzzle/@millers_puzzle.3.js"></script><link rel="stylesheet" type="text/css" href="../../css/polyfill.mathml.css"><script src="../../js/$.js"></script><script src="../../js/polyfill.mathml.js"></script><link rel="stylesheet" type="text/css" href="../../css/articles/millers_puzzle/@millers_puzzle.3.css"></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>The Miller's Puzzle (6 août 2015)</header><article><p><a name="deduction"/></p>
+<!DOCTYPE html><html><head><title>The Miller's Puzzle (6 août 2015)</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><script src="../../js/articles/millers_puzzle/@millers_puzzle.3.js"></script><link rel="stylesheet" type="text/css" href="../../css/articles/millers_puzzle/@millers_puzzle.3.css"></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>The Miller's Puzzle (6 août 2015)</header><article><p><a name="deduction"/></p>
 <h1 id="la-d-duction">La déduction</h1>
 <p>Nommons A et A&#39; les nombres à 1 chiffre, B et B&#39; ceux à 2 chiffres et C celui à trois chiffres.
 Et posons :</p>
@@ -44,7 +44,6 @@ Et posons :</p>
 <p>La seule preuve que j&#39;ai trouvée est le calcul direct. Il n&#39;y a pas trop de cas à tester si on suit la définition à la lettre.
 Et si vous ne voulez pas le faire à la main, l&#39;algorithme suivant le fera à votre place :</p>
 <p><pre class="custom highlight js">
-<<<<<<< HEAD
     var couples <span class="operator">=</span> [[], [], [], [], [], [], [], [], [], []];<span class="keyword">
     var</span> evens <span class="operator">=</span> [2, 4, 6, 8];
     
@@ -72,35 +71,6 @@ Et si vous ne voulez pas le faire à la main, l&#39;algorithme suivant le fera �
         );
         console.<span class="function">log</span>(text);
       }
-=======
-    var couples <span class="operator">=</span> [[], [], [], [], [], [], [], [], [], []];<span class="keyword">
-    var</span> evens <span class="operator">=</span> [2, 4, 6, 8];
-    
-    evens.<span class="function">forEach</span>(
-     <span class="keyword"> function</span>(even) {
-       <span class="keyword"> for</span> <span class="keyword">(var</span> k <span class="operator">=</span> 2 ; k <span class="operator">&lt;</span> 10 ; k<span class="operator">+</span><span class="operator">+</span>) {
-         <span class="keyword"> if</span> (k <span class="operator">==</span> even)<span class="keyword"> continue</span>;
-         <span class="keyword"> if</span> (k <span class="operator">%</span> 2 <span class="operator">==</span> 0 <span class="operator">&amp;</span> k <span class="operator">&lt;</span> even)<span class="keyword"> continue</span>;
-         <span class="keyword"> var</span> r <span class="operator">=</span> (even <span class="operator">*</span> k) <span class="operator">%</span> 10;
-         <span class="keyword"> if</span> (r <span class="operator">==</span> even <span class="operator">||</span> r <span class="operator">==</span> k)<span class="keyword"> continue</span>;
-          couples[r].<span class="function">push</span>([even, k]);
-        }
-      }
-    );
-    
-    couples.<span class="function">forEach</span>(
-     <span class="keyword"> function</span>(couple, idx) {
-       <span class="keyword"> if</span> (idx <span class="operator">&lt;</span> 1)<span class="keyword"> return</span>;
-       <span class="keyword"> if</span> (couple.length <span class="operator">&lt;</span> 1)<span class="keyword"> return</span>;
-       <span class="keyword"> var</span> text <span class="operator">=</span> <span class="string">"    * class "</span> <span class="operator">+</span> idx <span class="operator">+</span> <span class="string">" :"</span>;
-        couple.<span class="function">forEach</span>(
-         <span class="keyword"> function</span>(item) {
-            text <span class="operator">+</span><span class="operator">=</span> <span class="string">" ("</span> <span class="operator">+</span> item[0] <span class="operator">+</span> <span class="string">","</span> <span class="operator">+</span> item[1] <span class="operator">+</span> <span class="string">")"</span>;
-          }
-        );
-        console.<span class="function">log</span>(text);
-      }
->>>>>>> 4eb20860b319b8532f71fdc09eab0db170b04285
     );</pre></p>
 <h2 id="th-or-me-4">Théorème 4</h2>
 <blockquote>

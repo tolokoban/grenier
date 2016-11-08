@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><title>Dépiler les pièces par les deux bouts</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><script src="../../js/articles/depiler_par_les_deux_bouts/@depiler_par_les_deux_bouts.2.js"></script><link rel="stylesheet" type="text/css" href="../../css/polyfill.mathml.css"><link rel="stylesheet" type="text/css" href="../../css/tfw.grader.css"><link rel="stylesheet" type="text/css" href="../../css/wdg.css"><link rel="stylesheet" type="text/css" href="../../css/depiler2bouts.main.css"><link rel="stylesheet" type="text/css" href="../../css/tp4.bulle.css"><link rel="stylesheet" type="text/css" href="../../css/dom.css"><script src="../../js/$.js"></script><script src="../../js/polyfill.mathml.js"></script><script src="../../js/tfw.grader.js"></script><script src="../../js/wdg.js"></script><script src="../../js/depiler2bouts.main.js"></script><script src="../../js/tp4.bulle.js"></script><script src="../../js/svg.triangle.js"></script><script src="../../js/x-widget.js"></script><script src="../../js/tfw.data-binding.js"></script><script src="../../js/tfw.listeners.js"></script><script src="../../js/dom.js"></script><script src="../../js/polyfill.classList.js"></script><script src="../../js/polyfill.string.js"></script><link rel="stylesheet" type="text/css" href="../../css/articles/depiler_par_les_deux_bouts/@depiler_par_les_deux_bouts.2.css"></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>Dépiler les pièces par les deux bouts</header><article><p><a name="minmax"></a></p>
+<!DOCTYPE html><html><head><title>Dépiler les pièces par les deux bouts</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><script src="../../js/articles/depiler_par_les_deux_bouts/@depiler_par_les_deux_bouts.2.js"></script><link rel="stylesheet" type="text/css" href="../../css/articles/depiler_par_les_deux_bouts/@depiler_par_les_deux_bouts.2.css"></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>Dépiler les pièces par les deux bouts</header><article><p><a name="minmax"></a></p>
 <h1 id="l-algorithme-du-minimax">L&#39;algorithme du Minimax</h1>
 <p>Le <strong>gain</strong> d&#39;une partie est la somme des pièces gagnées par le premier joueur à laquelle on soustrait la somme des pièces gagnées par le second.<br>Si le résultat est positif, le premier joueur est vainqueur.</p>
 <blockquote>
@@ -6,7 +6,6 @@
 </blockquote>
 <p>Si on appelle <strong>MAX</strong> le premier joueur (qui cherche à maximiser le gain) et <strong>MIN</strong> le second, on en déduit l&#39;algorithme suivant :
 <pre class="custom highlight js">
-<<<<<<< HEAD
     function <span class="function">max</span>(values, F, L) {
        <span class="keyword"> if</span> (F <span class="operator">==</span> L)<span class="keyword"> return</span> values[F];
        <span class="keyword"> return</span> Math.<span class="function">max</span>(
@@ -21,22 +20,6 @@
                 <span class="operator">-</span> values[F] <span class="operator">+</span> <span class="function">max</span>(values, F <span class="operator">+</span> 1, L),
                 <span class="operator">-</span> values[L] <span class="operator">+</span> <span class="function">max</span>(values, F, L <span class="operator">-</span> 1)
         );
-=======
-    function <span class="function">max</span>(values, F, L) {
-       <span class="keyword"> if</span> (F <span class="operator">==</span> L)<span class="keyword"> return</span> values[F];
-       <span class="keyword"> return</span> Math.<span class="function">max</span>(
-            values[F] <span class="operator">+</span> <span class="function">min</span>(values, F <span class="operator">+</span> 1, L),
-            values[L] <span class="operator">+</span> <span class="function">min</span>(values, F, L <span class="operator">-</span> 1)
-        );
-    }
-    <span class="keyword">
-    function</span> <span class="function">min</span>(values, F, L) {
-       <span class="keyword"> if</span> (F <span class="operator">==</span> L)<span class="keyword"> return</span> <span class="operator">-</span>values[F];
-       <span class="keyword"> return</span> Math.<span class="function">min</span>(
-                <span class="operator">-</span> values[F] <span class="operator">+</span> <span class="function">max</span>(values, F <span class="operator">+</span> 1, L),
-                <span class="operator">-</span> values[L] <span class="operator">+</span> <span class="function">max</span>(values, F, L <span class="operator">-</span> 1)
-        );
->>>>>>> 4eb20860b319b8532f71fdc09eab0db170b04285
     }</pre></p>
 <p>Le paramètre <code>values</code> est un tableau des valeurs des pièces. Par exemple : <code>[2,3,5,4,6,8,10,1,9,7]</code>.
 <code>F</code> est l&#39;indice de la première pièce (en partant de la gauche) et <code>L</code> est l&#39;indice de la dernière (<code>L</code> = last).</p>

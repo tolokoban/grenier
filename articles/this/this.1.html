@@ -1,7 +1,6 @@
-<!DOCTYPE html><html><head><title>Le mot clef 'this' en Javascript</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><script src="../../js/articles/this/@this.1.js"></script><script src="../../js/$.js"></script><link rel="stylesheet" type="text/css" href="../../css/articles/this/@this.1.css"></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>Le mot clef 'this' en Javascript</header><article><h1 id="r-ponses-et-explications">Réponses et explications</h1>
+<!DOCTYPE html><html><head><title>Le mot clef 'this' en Javascript</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><script src="../../js/articles/this/@this.1.js"></script><link rel="stylesheet" type="text/css" href="../../css/articles/this/@this.1.css"></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>Le mot clef 'this' en Javascript</header><article><h1 id="r-ponses-et-explications">Réponses et explications</h1>
 <p>Ce mot clef sert à préciser le contexte d&#39;appel d&#39;une fonction. Par défaut, il s&#39;agit de <strong>l&#39;objet dont cette fonction est un attribut</strong>.</p>
 <p><pre class="custom highlight js">
-<<<<<<< HEAD
     var obj <span class="operator">=</span> {
         key: <span class="string">"Yop!"</span>,
         log:<span class="keyword"> function</span>() {
@@ -9,21 +8,11 @@
         }
     };
     
-=======
-    var obj <span class="operator">=</span> {
-        key: <span class="string">"Yop!"</span>,
-        log:<span class="keyword"> function</span>() {
-            console.<span class="function">log</span>(<span class="keyword"> this</span>.key );
-        }
-    };
-    
->>>>>>> 4eb20860b319b8532f71fdc09eab0db170b04285
     obj.<span class="function">log</span>();</pre></p>
 <p>Ainsi, dans l&#39;exemple ci-dessus, quand on écrit <code>obj.log()</code>, Javascript va affecter <code>obj</code> à l&#39;objet <code>this</code> avant d&#39;appeler la fonction <code>log()</code>. C&#39;est pourquoi le résultat sera <strong><code>Yop!</code></strong>.</p>
 <hr>
 <p>D&#39;après cette définition, pour <code>A.b()</code> l&#39;objet <code>this</code> vaudra <code>A</code>. Et pour <code>A.b.c()</code>, il vaudra <code>A.b</code>.</p>
 <p><pre class="custom highlight js">
-<<<<<<< HEAD
     var C <span class="operator">=</span><span class="keyword"> function</span>() { console.<span class="function">log</span>(<span class="keyword"> this</span>.id );};<span class="keyword">
     var</span> B <span class="operator">=</span><span class="keyword"> function</span>() { console.<span class="function">log</span>(<span class="keyword"> this</span>.id );};
     B.id <span class="operator">=</span> <span class="string">"Bertrand"</span>;
@@ -37,26 +26,10 @@
 <pre>
 Albert
 Bertrand
-=======
-    var C <span class="operator">=</span><span class="keyword"> function</span>() { console.<span class="function">log</span>(<span class="keyword"> this</span>.id );};<span class="keyword">
-    var</span> B <span class="operator">=</span><span class="keyword"> function</span>() { console.<span class="function">log</span>(<span class="keyword"> this</span>.id );};
-    B.id <span class="operator">=</span> <span class="string">"Bertrand"</span>;
-    B.c <span class="operator">=</span> C;<span class="keyword">
-    var</span> A <span class="operator">=</span> {id: <span class="string">"Albert"</span>, b: B};
-    C.id <span class="operator">=</span> <span class="string">"Charly"</span>;
-    
-    A.<span class="function">b</span>();
-    A.b.<span class="function">c</span>();</pre></p>
-<p>Le résultat sera donc :
-<pre>
-Albert
-Bertrand
->>>>>>> 4eb20860b319b8532f71fdc09eab0db170b04285
 </pre></p>
 <hr>
 <p>Mais alors, que se passe-t-il quand personne ne semble être l&#39;objet dont la fonction est un attribut ?</p>
 <p><pre class="custom highlight js">
-<<<<<<< HEAD
     var e <span class="operator">=</span> <span class="string">"E..."</span>;
     pi <span class="operator">=</span> <span class="string">"Tarte"</span>;
     <span class="keyword">
@@ -65,16 +38,6 @@ Bertrand
         console.<span class="function">log</span>(<span class="keyword"> this</span>.pi );
     }
     
-=======
-    var e <span class="operator">=</span> <span class="string">"E..."</span>;
-    pi <span class="operator">=</span> <span class="string">"Tarte"</span>;
-    <span class="keyword">
-    function</span> <span class="function">jubinoufa</span>() {
-        console.<span class="function">log</span>(<span class="keyword"> this</span>.e );
-        console.<span class="function">log</span>(<span class="keyword"> this</span>.pi );
-    }
-    
->>>>>>> 4eb20860b319b8532f71fdc09eab0db170b04285
     <span class="function">jubinoufa</span>();</pre></p>
 <p>Et bien ça dépend des cas : par défaut, tout objet que vous déclarez (et les fonctions sont des objets) est attribut d&#39;un autre objet. Quand ce n&#39;est pas spécifié, il s&#39;agit de l&#39;objet global,  <strong><code>window</code></strong> dans un navigateur.
 Mais si vous utilisez la directive <code>&quot;use strict&quot;</code>, alors <code>this</code> vaudra <code>undefined</code>.</p>
