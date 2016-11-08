@@ -24,6 +24,7 @@ section.x-article {
     background-color: #f2f2d9;
 }
 
+<<<<<<< HEAD
 section.x-article h1,
 section.x-article h2,
 section.x-article h3 {
@@ -45,6 +46,8 @@ section.x-article h3 {
     font-size: 120%;
 }
 
+=======
+>>>>>>> 4eb20860b319b8532f71fdc09eab0db170b04285
 section.x-article  a[href] {
     color: #a50;
     text-decoration: none;

@@ -21,6 +21,7 @@ section.x-article {
     height: 100%;
     font-size: 12pt;
     font-family: fira;
+<<<<<<< HEAD
     background-color: #d2d2b9;
 }
 
@@ -47,6 +48,9 @@ section.x-article h2 {
 
 section.x-article h3 {
     font-size: 120%;
+=======
+    background-color: #f2f2d9;
+>>>>>>> 4eb20860b319b8532f71fdc09eab0db170b04285
 }
 
 section.x-article  a[href] {
@@ -72,7 +76,11 @@ section.x-article > header {
     text-overflow: ellipsis;
     white-space: nowrap;
     padding: 0 .5em 0 0;
+<<<<<<< HEAD
     box-shadow: 0 12px 24px rgba(0,0,0,.3);
+=======
+    box-shadow: 0 2px 1em #000;
+>>>>>>> 4eb20860b319b8532f71fdc09eab0db170b04285
     border-bottom: 1px solid #000;
 }
 
@@ -106,7 +114,10 @@ section.x-article > article {
     max-width: 60em;
     background-image: url(com/x-article/grain.png);
     margin: 0;
+<<<<<<< HEAD
     background-color: rgba(255,245,200,.5);
+=======
+>>>>>>> 4eb20860b319b8532f71fdc09eab0db170b04285
 }
 
 section.x-article > article p {
