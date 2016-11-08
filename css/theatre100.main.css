@@ -1,0 +1,21 @@
+.theatre100-main {
+
+}
+
+.theatre100-main > span {
+    display: inline;
+    font-family: monospace;
+    span: 1px 2px;;
+}
+
+.theatre100-main > span.ok {
+    color: #080;
+}
+
+.theatre100-main > span.ko {
+    color: #f00;
+}
+
+.theatre100-main > span.last {
+    font-weight: 900;
+}

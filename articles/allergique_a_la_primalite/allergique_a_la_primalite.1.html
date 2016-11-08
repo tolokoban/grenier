@@ -1,45 +1,25 @@
-<!DOCTYPE HTML><html><head><title>Allergique à la primalité</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><link rel="stylesheet" type="text/css" href="../../css/articles/allergique_a_la_primalite/@allergique_a_la_primalite.1.css"><script src="../../js/articles/allergique_a_la_primalite/@allergique_a_la_primalite.1.js"></script></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>Allergique à la primalité</header><article><h1 id="par-tatonnement">Par tatonnement</h1>
-<p>Prenons le nombre produit des 10 premiers nombres premiers : </p>
-<math><mrow><mn>2</mn><mo>&times;</mo><mn>3</mn><mo>&times;</mo><mn>5</mn><mo>&times;</mo><mn>7</mn><mo>&times;</mo><mn>11</mn><mo>&times;</mo><mn>13</mn><mo>&times;</mo><mn>17</mn><mo>&times;</mo><mn>19</mn><mo>&times;</mo><mn>23</mn><mo>=</mo><mn>6469693230</mn></mrow></math>. 
-
-
-Modifier n&#39;importe quel chiffre sauf le dernier (celui des unité) revient à ajouter (ou retrancher) un multiple de 10. Le résultat est forcément un multiple de 10, donc le seul risque d&#39;obtenir un nombre premier est de modifier le chiffre des unités.
-Il n&#39;y a donc plus que 9 candidats et on peut déjà éliminer les nombres pairs. Il ne reste plus qu&#39;à vérifier les nombres suivants : 6469693231, 6469693233, 6469693235, 6469693237 et 6469693239.
-
-
-Par construction, 6469693230 est un multiple de trois. Il en va donc de même pour 6469693233 et 6469693239. Il ne reste plus que 6469693231, 6469693235, et 6469693237.
+<!DOCTYPE html><html><head><title>Allergique à la primalité</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><script src="../../js/articles/allergique_a_la_primalite/@allergique_a_la_primalite.1.js"></script><link rel="stylesheet" type="text/css" href="../../css/polyfill.mathml.css"><script src="../../js/$.js"></script><script src="../../js/polyfill.mathml.js"></script><link rel="stylesheet" type="text/css" href="../../css/articles/allergique_a_la_primalite/@allergique_a_la_primalite.1.css"></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>Allergique à la primalité</header><article><h1 id="par-tatonnement">Par tatonnement</h1>
+<p>Prenons le nombre produit des 10 premiers nombres premiers : 
+<math display="inline"><mrow><mn>2</mn><mo>&times;</mo><mn>3</mn><mo>&times;</mo><mn>5</mn><mo>&times;</mo><mn>7</mn><mo>&times;</mo><mn>11</mn><mo>&times;</mo><mn>13</mn><mo>&times;</mo><mn>17</mn><mo>&times;</mo><mn>19</mn><mo>&times;</mo><mn>23</mn><mo>=</mo><mn>6469693230</mn></mrow></math>. </p>
+<p>Modifier n&#39;importe quel chiffre sauf le dernier (celui des unité) revient à ajouter (ou retrancher) un multiple de 10. Le résultat est forcément un multiple de 10, donc le seul risque d&#39;obtenir un nombre premier est de modifier le chiffre des unités.
+Il n&#39;y a donc plus que 9 candidats et on peut déjà éliminer les nombres pairs. Il ne reste plus qu&#39;à vérifier les nombres suivants : 6469693231, 6469693233, 6469693235, 6469693237 et 6469693239.</p>
+<p>Par construction, 6469693230 est un multiple de trois. Il en va donc de même pour 6469693233 et 6469693239. Il ne reste plus que 6469693231, 6469693235, et 6469693237.
 Bien entendu, 6469693235 est un multiple de 5. Il n&#39;en reste plus que 2.
-Ensuite, on a 6469693237 = 6469693230 <em> 7 = 924241890 </em> 7 + 7 = 7 * 924241891.
-
-
-Il ne reste qu&#39;un seul candidat et il n&#39;est pas aussi évident que les autres puisqu&#39;on peut être sûr qu&#39;il ne peut pas se diviser par l&#39;un des 10 premiers nombres premiers. En effet, le reste de la division de ce nombre par l&#39;un des 10 nombres premiers est toujours 1.
-
-
-En essayant quelques nombres premiers, on obtient <math><mrow><mn>6469693231</mn><mo>=</mo><mn>331</mn><mo>&times;</mo><mn>19545901</mn></mrow></math>.
-
-
-# Par déduction
-
-Notons <math><mrow><mo>N</mo></mrow></math> le nombre composé à dix chiffres que nous cherchons. Pour qu&#39;il soit toujours composé si l&#39;on change l&#39;un quelconque de ses 9 premiers chiffres, il suffit qu&#39;il soit pair. On a donc <math><mrow><mo>N</mo><mo>=</mo><mn>2.</mn><mi>n</mi></mrow></math>. Pour nous simplifier la vie, on peut le forcer à terminer par un zéro, du coup on obtient <math><mrow><mo>N</mo><mo>=</mo><mn>10.</mn><mi>n</mi></mrow></math>. On a donc <math><mrow><mo>N</mo></mrow></math>, <math><mrow><mo>N</mo><mo>+</mo><mn>2</mn></mrow></math>, <math><mrow><mo>N</mo><mo>+</mo><mn>4</mn></mrow></math>, <math><mrow><mo>N</mo><mo>+</mo><mn>5</mn></mrow></math>, <math><mrow><mo>N</mo><mo>+</mo><mn>6</mn></mrow></math> et <math><mrow><mo>N</mo><mo>+</mo><mn>8</mn></mrow></math> qui sont des nombres composés. Pour que <math><mrow><mo>N</mo><mo>+</mo><mn>3</mn></mrow></math>, <math><mrow><mo>N</mo><mo>+</mo><mn>7</mn></mrow></math> et <math><mrow><mo>N</mo><mo>+</mo><mn>9</mn></mrow></math> le soient aussi, il suffit que <math><mrow><mo>N</mo></mrow></math> soit multiple de 3 et 7.
-
-
-Ainsi, <math><mrow><mo>N</mo><mo>=</mo><mn>2</mn><mo>&times;</mo><mn>3</mn><mo>&times;</mo><mn>5</mn><mo>&times;</mo><mn>7</mn><mo>&times;</mo><mi>n</mi><mo>=</mo><mn>210.</mn><mi>n</mi></mrow></math>.
-
-
-Il ne nous reste qu&#39;à factoriser <math><mrow><mo>N</mo><mo>+</mo><mn>1</mn></mrow></math>. Pour cela, on peut remarquer que <math><mrow><mo>(</mo><mi>a</mi><mo>+</mo><mn>1</mn><msup><mo>)</mo><mn>2</mn></msup><mo>=</mo><mi>a</mi><mo>(</mo><mi>a</mi><mo>+</mo><mn>2</mn><mo>)</mo><mo>+</mo><mn>1</mn></mrow></math>. Du coup, si <math><mrow><mo>N</mo><mo>=</mo><mn>210.</mn><mi>n</mi><mo>=</mo><mn>210.</mn><mi>a</mi><mo>(</mo><mn>210.</mn><mi>a</mi><mo>+</mo><mn>2</mn><mo>)</mo></mrow></math>, on a gangné. Il suffit maintenant de trouver un <math><mrow><mi>a</mi></mrow></math> tel que <math><mrow><mo>N</mo></mrow></math> possède 10 chiffres.
-
-
-On constate que <math><mrow><mn>210.</mn><mi>a</mi><mo>(</mo><mn>210.</mn><mi>a</mi><mo>+</mo><mn>2</mn><mo>)</mo><mo>&gt;</mo><msup><mn>10</mn><mn>4</mn></msup><msup><mi>a</mi><mn>2</mn></msup></mrow></math>, ce qui signifie que <math><mrow><mi>a</mi></mrow></math> a moins de 4 chiffres. Il est donc possible de trouver <math><mrow><mi>a</mi></mrow></math> par dichotomie avec un maximum de 10 étapes (<math><mrow><msup><mn>2</mn><mn>10</mn></msup><mo>=</mo><mn>1024</mn></mrow></math>). Posons <math><mrow><mi>f</mi><mo>(</mo><mi>a</mi><mo>)</mo><mo>=</mo><mn>210.</mn><mi>a</mi><mo>(</mo><mn>210.</mn><mi>a</mi><mo>+</mo><mn>2</mn><mo>)</mo></mrow></math>
-
+Ensuite, on a 6469693237 = 6469693230 <em> 7 = 924241890 </em> 7 + 7 = 7 * 924241891.</p>
+<p>Il ne reste qu&#39;un seul candidat et il n&#39;est pas aussi évident que les autres puisqu&#39;on peut être sûr qu&#39;il ne peut pas se diviser par l&#39;un des 10 premiers nombres premiers. En effet, le reste de la division de ce nombre par l&#39;un des 10 nombres premiers est toujours 1.</p>
+<p>En essayant quelques nombres premiers, on obtient <math display="inline"><mrow><mn>6469693231</mn><mo>=</mo><mn>331</mn><mo>&times;</mo><mn>19545901</mn></mrow></math>.</p>
+<h1 id="par-d-duction">Par déduction</h1>
+<p>Notons <math display="inline"><mrow><mo>N</mo></mrow></math> le nombre composé à dix chiffres que nous cherchons. Pour qu&#39;il soit toujours composé si l&#39;on change l&#39;un quelconque de ses 9 premiers chiffres, il suffit qu&#39;il soit pair. On a donc <math display="inline"><mrow><mo>N</mo><mo>=</mo><mn>2.</mn><mi>n</mi></mrow></math>. Pour nous simplifier la vie, on peut le forcer à terminer par un zéro, du coup on obtient <math display="inline"><mrow><mo>N</mo><mo>=</mo><mn>10.</mn><mi>n</mi></mrow></math>. On a donc <math display="inline"><mrow><mo>N</mo></mrow></math>, <math display="inline"><mrow><mo>N</mo><mo>+</mo><mn>2</mn></mrow></math>, <math display="inline"><mrow><mo>N</mo><mo>+</mo><mn>4</mn></mrow></math>, <math display="inline"><mrow><mo>N</mo><mo>+</mo><mn>5</mn></mrow></math>, <math display="inline"><mrow><mo>N</mo><mo>+</mo><mn>6</mn></mrow></math> et <math display="inline"><mrow><mo>N</mo><mo>+</mo><mn>8</mn></mrow></math> qui sont des nombres composés. Pour que <math display="inline"><mrow><mo>N</mo><mo>+</mo><mn>3</mn></mrow></math>, <math display="inline"><mrow><mo>N</mo><mo>+</mo><mn>7</mn></mrow></math> et <math display="inline"><mrow><mo>N</mo><mo>+</mo><mn>9</mn></mrow></math> le soient aussi, il suffit que <math display="inline"><mrow><mo>N</mo></mrow></math> soit multiple de 3 et 7.</p>
+<p>Ainsi, <math display="inline"><mrow><mo>N</mo><mo>=</mo><mn>2</mn><mo>&times;</mo><mn>3</mn><mo>&times;</mo><mn>5</mn><mo>&times;</mo><mn>7</mn><mo>&times;</mo><mi>n</mi><mo>=</mo><mn>210.</mn><mi>n</mi></mrow></math>.</p>
+<p>Il ne nous reste qu&#39;à factoriser <math display="inline"><mrow><mo>N</mo><mo>+</mo><mn>1</mn></mrow></math>. Pour cela, on peut remarquer que <math display="inline"><mrow><mo>(</mo><mi>a</mi><mo>+</mo><mn>1</mn><msup><mo>)</mo><mn>2</mn></msup><mo>=</mo><mi>a</mi><mo>(</mo><mi>a</mi><mo>+</mo><mn>2</mn><mo>)</mo><mo>+</mo><mn>1</mn></mrow></math>. Du coup, si <math display="inline"><mrow><mo>N</mo><mo>=</mo><mn>210.</mn><mi>n</mi><mo>=</mo><mn>210.</mn><mi>a</mi><mo>(</mo><mn>210.</mn><mi>a</mi><mo>+</mo><mn>2</mn><mo>)</mo></mrow></math>, on a gangné. Il suffit maintenant de trouver un <math display="inline"><mrow><mi>a</mi></mrow></math> tel que <math display="inline"><mrow><mo>N</mo></mrow></math> possède 10 chiffres.</p>
+<p>On constate que <math display="inline"><mrow><mn>210.</mn><mi>a</mi><mo>(</mo><mn>210.</mn><mi>a</mi><mo>+</mo><mn>2</mn><mo>)</mo><mo>></mo><msup><mn>10</mn><mn>4</mn></msup><msup><mi>a</mi><mn>2</mn></msup></mrow></math>, ce qui signifie que <math display="inline"><mrow><mi>a</mi></mrow></math> a moins de 4 chiffres. Il est donc possible de trouver <math display="inline"><mrow><mi>a</mi></mrow></math> par dichotomie avec un maximum de 10 étapes (<math display="inline"><mrow><msup><mn>2</mn><mn>10</mn></msup><mo>=</mo><mn>1024</mn></mrow></math>). Posons <math display="inline"><mrow><mi>f</mi><mo>(</mo><mi>a</mi><mo>)</mo><mo>=</mo><mn>210.</mn><mi>a</mi><mo>(</mo><mn>210.</mn><mi>a</mi><mo>+</mo><mn>2</mn><mo>)</mo></mrow></math></p>
 <ul>
-<li><math><mrow><mi>f</mi><mo>(</mo><mn>1000</mn><mo>)</mo><mo>=</mo><mn>44100420000</mn></mrow></math></li>
-<li><math><mrow><mi>f</mi><mo>(</mo><mn>500</mn><mo>)</mo><mo>=</mo><mn>11025210000</mn></mrow></math></li>
-<li><math><mrow><mi>f</mi><mo>(</mo><mn>250</mn><mo>)</mo><mo>=</mo><mn>2756355000</mn></mrow></math>
-
-</li>
+<li><math display="inline"><mrow><mi>f</mi><mo>(</mo><mn>1000</mn><mo>)</mo><mo>=</mo><mn>44100420000</mn></mrow></math></li>
+<li><math display="inline"><mrow><mi>f</mi><mo>(</mo><mn>500</mn><mo>)</mo><mo>=</mo><mn>11025210000</mn></mrow></math></li>
+<li><math display="inline"><mrow><mi>f</mi><mo>(</mo><mn>250</mn><mo>)</mo><mo>=</mo><mn>2756355000</mn></mrow></math></li>
 </ul>
 <p>Vérifions que cela fonctionne :</p>
 <ul>
-<li>275635500<strong>1</strong> = <math><mrow><msup><mn>52501</mn><mn>2</mn></msup></mrow></math></li>
+<li>275635500<strong>1</strong> = <math display="inline"><mrow><msup><mn>52501</mn><mn>2</mn></msup></mrow></math></li>
 </ul>
-<div style="height:1rem"></div></article><footer><div><div><a href="allergique_a_la_primalite.html">1</a></div><div><div class="selected">2</div></div></div></footer></section></body></html>
+<div style="height:1rem"></div><footer>Pages : <span><a href="allergique_a_la_primalite.html">1</a></span><span><span class="selected">2</span></span></footer></article></section></body></html>

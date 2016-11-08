@@ -1,9 +1,33 @@
-var require = function() {
+/**********************************************************************
+ require( 'require' )
+ -----------------------------------------------------------------------
+ @example
+
+ var Path = require("node://path");  // Only in NodeJS/NW.js environment.
+ var Button = require("tfw.button");
+
+ **********************************************************************/
+
+window.require = function() {
     var modules = {};
-    
-    return function(id, body) {
+    var definitions = {};
+    var nodejs_require = typeof window.require === 'function' ? window.require : null;
+
+    var f = function(id, body) {
+        if( id.substr( 0, 7 ) == 'node://' ) {
+            // Calling for a NodeJS module.
+            if( !nodejs_require ) {
+                throw Error( "[require] NodeJS is not available to load module `" + id + "`!" );
+            }
+            return nodejs_require( id.substr( 7 ) );
+        }
+
+        if( typeof body === 'function' ) {
+            definitions[id] = body;
+            return;
+        }
         var mod;
-        body = window["#" + id];
+        body = definitions[id];
         if (typeof body === 'undefined') {
             var err = new Error("Required module is missing: " + id);   
             console.error(err.stack);
@@ -13,85 +37,29 @@ var require = function() {
         if (typeof mod === 'undefined') {
             mod = {exports: {}};
             var exports = mod.exports;
-            body(exports, mod);
+            body(f, mod, exports);
             modules[id] = mod.exports;
             mod = mod.exports;
             //console.log("Module initialized: " + id);
         }
         return mod;
     };
+    return f;
 }();
-
-
-
-//########################################
-window['#$']=function(exports,module){  exports.config={
-    name:"grenier",
-    description:"Articles concernant majoritairement l'algorithmie",
-    author:"Tolokoban",
-    version:"1.0.515",
-    major:1,
-    minor:0,
-    revision:515,
-    date:new Date(2016,1,4,18,34,34)
+function addListener(e,l) {
+    if (window.addEventListener) {
+        window.addEventListener(e,l,false);
+    } else {
+        window.attachEvent('on' + e, l);
+    }
 };
-var currentLang = null;
-exports.lang = function(lang) {
-    if (lang === undefined) {
-        lang = window.localStorage.getItem("Language");
-        if (!lang) {
-            lang = window.navigator.language;
-            if (!lang) {
-                lang = window.navigator.browserLanguage;
-                if (!lang) {
-                    lang = "fr";
-                }
-            }
-        }
-        lang = lang.substr(0, 2).toLowerCase();
+
+addListener(
+    'DOMContentLoaded',
+    function() {
+        document.body.parentNode.$data = {};
+        // Attach controllers.
+        require('polyfill.mathml');
+
     }
-    currentLang = lang;
-    window.localStorage.setItem("Language", lang);
-    return lang;
-};
-exports.intl = function(words, params) {
-    var dic = words[exports.lang()],
-    k = params[0],
-    txt, newTxt, i, c, lastIdx, pos;
-    if (!dic) {
-        //console.error("Missing internationalization for language : \"" + exports.lang() + "\"!");
-        return k;
-    }
-    txt = dic[k];
-    if (!txt) {
-        //console.error("Missing internationalization [" + exports.lang() + "]: \"" + k + "\"!");
-        return k;
-    }
-    if (params.length > 1) {
-        newTxt = "";
-        lastIdx = 0;
-        for (i = 0 ; i < txt.length ; i++) {
-            c = txt.charAt(i);
-            if (c === '$') {
-                newTxt += txt.substring(lastIdx, i);
-                i++;
-                pos = txt.charCodeAt(i) - 48;
-                if (pos < 0 || pos >= params.length) {
-                    newTxt += "$" + txt.charAt(i);
-                } else {
-                    newTxt += params[pos];
-                }
-                lastIdx = i + 1;
-            } else if (c === '\\') {
-                newTxt += txt.substring(lastIdx, i);
-                i++;
-                newTxt += txt.charAt(i);
-                lastIdx = i + 1;
-            }
-        }
-        newTxt += txt.substr(lastIdx);
-        txt = newTxt;
-    }
-    return txt;
-};
- }
+);

@@ -1,0 +1,26 @@
+<!DOCTYPE html><html><head><title>Notions d'immutable en Javascript</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><script src="../../js/articles/js_readonly/@js_readonly.js"></script><script src="../../js/$.js"></script><link rel="stylesheet" type="text/css" href="../../css/articles/js_readonly/@js_readonly.css"></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>Notions d'immutable en Javascript</header><article><p>Comment créer des constantes en Javascript ?</p>
+<h1 id="pour-une-propri-t-">Pour une propriété</h1>
+<p>En utilisant <strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty">defineProperty</a></strong>.</p>
+<p><pre class="custom highlight js">
+    var myObj <span class="operator">=</span> {};
+    Object.<span class="function">defineProperty</span>(myObj, 'PI', {
+        value: 3.14159265358979,
+        writable: false
+    });
+    
+    console.<span class="function">info</span>(<span class="string">"[script] myObj.PI=..."</span>, myObj.PI);
+    myObj.PI <span class="operator">=</span> 666;
+    console.<span class="function">info</span>(<span class="string">"[script] myObj.PI=..."</span>, myObj.PI);</pre></p>
+<p>Ce code retournera deux fois <code>3.14159265358979</code>. L&#39;affectation n&#39;aura aucun effet.</p>
+<p>Si vous ajoutez la directive <code>&quot;use strict&quot;</code> une exception sera soulevée pour vous avertir que la valeur est en lecture seule.</p>
+<h1 id="pour-tout-un-objet">Pour tout un objet</h1>
+<p>En utilisant <strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze">Object.freeze</a></strong>.</p>
+<p><pre class="custom highlight js">
+    var myObj <span class="operator">=</span> { PI: 3.14159265358979 };
+    
+    Object.<span class="function">freeze</span>( myObj );
+    
+    console.<span class="function">info</span>(<span class="string">"[script] myObj.PI=..."</span>, myObj.PI);
+    myObj.PI <span class="operator">=</span> 666;
+    console.<span class="function">info</span>(<span class="string">"[script] myObj.PI=..."</span>, myObj.PI);</pre></p>
+<div style="height:1rem"></div></article></section></body></html>

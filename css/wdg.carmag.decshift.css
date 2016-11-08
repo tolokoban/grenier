@@ -1,0 +1,10 @@
+.wdg-carmag-decshift span.bad {
+    font-weight: 700;
+    color: #d00;
+}
+
+.wdg-carmag-decshift li.ok b {
+    background: #7f7;
+    border-radius: .5em;
+    box-shadow: 0 0 .5em .2rem #7f7;
+}

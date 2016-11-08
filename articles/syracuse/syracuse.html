@@ -1,0 +1,19 @@
+<!DOCTYPE html><html><head><title>Promenade à Syracuse</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><script src="../../js/articles/syracuse/@syracuse.js"></script><link rel="stylesheet" type="text/css" href="../../css/polyfill.mathml.css"><script src="../../js/$.js"></script><script src="../../js/polyfill.mathml.js"></script><link rel="stylesheet" type="text/css" href="../../css/articles/syracuse/@syracuse.css"></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>Promenade à Syracuse</header><article><p>L&#39;autre soir, je prends une bière au génépi avec le bon vieux Thomas. Il me demande tout de go si je connais la conjecture de Syracuse ?</p>
+<p>Oui, il s&#39;agit d&#39;une suite de nombres dont on conjecture qu&#39;elle retombe toujours sur 1. Une sorte d&#39;algorithme qui ne rentre pas en boucle infinie. Du moins, c&#39;est ce que personne n&#39;a pu démontrer. Mais on a quand même essayé sur des milliards de nombres de départ et ça a toujours marché.</p>
+<p>Comme souvent, il me dit que je ne suis pas très clair et veut que je lui décrive concrètement cet algorithme.</p>
+<p>Pour créer la suite, on transforme nombre par son successeur grâce à l&#39;algorithme suivant :</p>
+<ul>
+<li>Tant que le nombre est pair, on le divise par deux.</li>
+<li>Si on tombe sur 1, on s&#39;arrête.</li>
+<li>Sinon, on multiplie par 3 et on ajoute 1.</li>
+</ul>
+<p>En javascript, ça donne ça :
+        <pre class="custom highlight js">
+    function <span class="function">next</span>( n ) {
+       <span class="keyword"> while</span> ( n <span class="operator">%</span> 2 <span class="operator">==</span> 0 ) n <span class="operator">&gt;</span><span class="operator">&gt;</span><span class="operator">=</span> 1;
+       <span class="keyword"> if</span> ( n <span class="operator">==</span> 1 )<span class="keyword"> return</span> 1;
+       <span class="keyword"> return</span> 3 <span class="operator">*</span> n <span class="operator">+</span> 1;
+    }</pre></p>
+<p>Thomas est sceptique sur le fait qu&#39;on trouve un jour une démonstration à cette conjecture. Il pense qu&#39;elle est trop célèbre et que le nombre de démonstrations erronées est tel que cela finira par décourager toute nouvelle tentative. Pourquoi faire de la recherche sur la conjecture de Syracuse dans ces conditions ?</p>
+<p>Il me semble qu&#39;on peut simplement faire de la recherche pour la beauté du geste, sans forcément vouloir aboutir : juste pour la promenade. Je lui propose donc un voyage dans le <strong>monde binaire de Syracuse</strong>.</p>
+<div style="height:1rem"></div><footer>Pages : <span><span class="selected">1</span></span><span><a href="syracuse.1.html">2</a></span><span><a href="syracuse.2.html">3</a></span></footer></article></section></body></html>

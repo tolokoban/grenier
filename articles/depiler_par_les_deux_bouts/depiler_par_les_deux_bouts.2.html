@@ -1,33 +1,33 @@
-<!DOCTYPE HTML><html><head><title>Dépiler les pièces par les deux bouts</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><link rel="stylesheet" type="text/css" href="../../css/articles/depiler_par_les_deux_bouts/@depiler_par_les_deux_bouts.2.css"><script src="../../js/articles/depiler_par_les_deux_bouts/@depiler_par_les_deux_bouts.2.js"></script></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>Dépiler les pièces par les deux bouts</header><article><p><a name="minmax"></a></p>
+<!DOCTYPE html><html><head><title>Dépiler les pièces par les deux bouts</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><script src="../../js/articles/depiler_par_les_deux_bouts/@depiler_par_les_deux_bouts.2.js"></script><link rel="stylesheet" type="text/css" href="../../css/polyfill.mathml.css"><link rel="stylesheet" type="text/css" href="../../css/tfw.grader.css"><link rel="stylesheet" type="text/css" href="../../css/wdg.css"><link rel="stylesheet" type="text/css" href="../../css/depiler2bouts.main.css"><link rel="stylesheet" type="text/css" href="../../css/tp4.bulle.css"><link rel="stylesheet" type="text/css" href="../../css/dom.css"><script src="../../js/$.js"></script><script src="../../js/polyfill.mathml.js"></script><script src="../../js/tfw.grader.js"></script><script src="../../js/wdg.js"></script><script src="../../js/depiler2bouts.main.js"></script><script src="../../js/tp4.bulle.js"></script><script src="../../js/svg.triangle.js"></script><script src="../../js/x-widget.js"></script><script src="../../js/tfw.data-binding.js"></script><script src="../../js/tfw.listeners.js"></script><script src="../../js/dom.js"></script><script src="../../js/polyfill.classList.js"></script><script src="../../js/polyfill.string.js"></script><link rel="stylesheet" type="text/css" href="../../css/articles/depiler_par_les_deux_bouts/@depiler_par_les_deux_bouts.2.css"></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>Dépiler les pièces par les deux bouts</header><article><p><a name="minmax"></a></p>
 <h1 id="l-algorithme-du-minimax">L&#39;algorithme du Minimax</h1>
 <p>Le <strong>gain</strong> d&#39;une partie est la somme des pièces gagnées par le premier joueur à laquelle on soustrait la somme des pièces gagnées par le second.<br>Si le résultat est positif, le premier joueur est vainqueur.</p>
 <blockquote>
 <p>Prouvez que, dans le jeu présenté ici, le <strong>gain</strong> ne peut jamais être nul. (<a href="depiler_par_les_deux_bouts.3.html#solution1">solution</a>)</p>
 </blockquote>
-<p>Si on appelle <strong>MAX</strong> le premier joueur (qui cherche à maximiser le gain) et <strong>MIN</strong> le second, on en déduit l&#39;algorithme suivant :</p>
-<pre class="custom highlight js">function <span class="function">max</span>(values, F, L) {
-   <span class="keyword"> if</span> (F <span class="operator">==</span> L)<span class="keyword"> return</span> values[F];
-   <span class="keyword"> return</span> Math.<span class="function">max</span>(
-        values[F] <span class="operator">+</span> <span class="function">min</span>(values, F <span class="operator">+</span> 1, L),
-        values[L] <span class="operator">+</span> <span class="function">min</span>(values, F, L <span class="operator">-</span> 1)
-    );
-}
-<span class="keyword">
-function</span> <span class="function">min</span>(values, F, L) {
-   <span class="keyword"> if</span> (F <span class="operator">==</span> L)<span class="keyword"> return</span> <span class="operator">-</span>values[F];
-   <span class="keyword"> return</span> Math.<span class="function">min</span>(
-            <span class="operator">-</span> values[F] <span class="operator">+</span> <span class="function">max</span>(values, F <span class="operator">+</span> 1, L),
-            <span class="operator">-</span> values[L] <span class="operator">+</span> <span class="function">max</span>(values, F, L <span class="operator">-</span> 1)
-    );
-}</pre>
-
+<p>Si on appelle <strong>MAX</strong> le premier joueur (qui cherche à maximiser le gain) et <strong>MIN</strong> le second, on en déduit l&#39;algorithme suivant :
+<pre class="custom highlight js">
+    function <span class="function">max</span>(values, F, L) {
+       <span class="keyword"> if</span> (F <span class="operator">==</span> L)<span class="keyword"> return</span> values[F];
+       <span class="keyword"> return</span> Math.<span class="function">max</span>(
+            values[F] <span class="operator">+</span> <span class="function">min</span>(values, F <span class="operator">+</span> 1, L),
+            values[L] <span class="operator">+</span> <span class="function">min</span>(values, F, L <span class="operator">-</span> 1)
+        );
+    }
+    <span class="keyword">
+    function</span> <span class="function">min</span>(values, F, L) {
+       <span class="keyword"> if</span> (F <span class="operator">==</span> L)<span class="keyword"> return</span> <span class="operator">-</span>values[F];
+       <span class="keyword"> return</span> Math.<span class="function">min</span>(
+                <span class="operator">-</span> values[F] <span class="operator">+</span> <span class="function">max</span>(values, F <span class="operator">+</span> 1, L),
+                <span class="operator">-</span> values[L] <span class="operator">+</span> <span class="function">max</span>(values, F, L <span class="operator">-</span> 1)
+        );
+    }</pre></p>
 <p>Le paramètre <code>values</code> est un tableau des valeurs des pièces. Par exemple : <code>[2,3,5,4,6,8,10,1,9,7]</code>.
 <code>F</code> est l&#39;indice de la première pièce (en partant de la gauche) et <code>L</code> est l&#39;indice de la dernière (<code>L</code> = last).</p>
-<p>Pour connaître le gain d&#39;une partie qui commence par la prise de la première pièce (first), on écrit :</p>
-<pre class="custom highlight js">var gain <span class="operator">=</span> values[0] <span class="operator">+</span> <span class="function">min</span>(values, 1, 9);</pre>
-
-<p>Et pour le gain résultant de la prise de la dernière pièce :</p>
-<pre class="custom highlight js">var gain <span class="operator">=</span> values[9] <span class="operator">+</span> <span class="function">min</span>(values, 0, 8);</pre>
-
-<p>Pour ce jeu, l&#39;algorithme est très rapide puisqu&#39;il ne doit analyser que <math><mrow><msup><mn>9</mn><mn>2</mn></msup><mo>=</mo><mn>512</mn></mrow></math> parties possibles. Mais c&#39;est le même genre d&#39;algorithme (avec quelques optimisations comme le <a href="https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning">alpha-beta pruning</a>) qui sert à l&#39;intelligence artificielle d&#39;un jeu d&#39;échec.</p>
-<div style="height:1rem"></div></article><footer><div><div><a href="depiler_par_les_deux_bouts.html">1</a></div><div><a href="depiler_par_les_deux_bouts.1.html">2</a></div><div><div class="selected">3</div></div><div><a href="depiler_par_les_deux_bouts.3.html">4</a></div></div></footer></section></body></html>
+<p>Pour connaître le gain d&#39;une partie qui commence par la prise de la première pièce (first), on écrit :
+<pre class="custom highlight js">
+    var gain <span class="operator">=</span> values[0] <span class="operator">+</span> <span class="function">min</span>(values, 1, 9);</pre></p>
+<p>Et pour le gain résultant de la prise de la dernière pièce :
+<pre class="custom highlight js">
+    var gain <span class="operator">=</span> values[9] <span class="operator">+</span> <span class="function">min</span>(values, 0, 8);</pre></p>
+<p>Pour ce jeu, l&#39;algorithme est très rapide puisqu&#39;il ne doit analyser que <math display="inline"><mrow><msup><mn>9</mn><mn>2</mn></msup><mo>=</mo><mn>512</mn></mrow></math> parties possibles. Mais c&#39;est le même genre d&#39;algorithme (avec quelques optimisations comme le <a href="https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning">alpha-beta pruning</a>) qui sert à l&#39;intelligence artificielle d&#39;un jeu d&#39;échec.</p>
+<div style="height:1rem"></div><footer>Pages : <span><a href="depiler_par_les_deux_bouts.html">1</a></span><span><a href="depiler_par_les_deux_bouts.1.html">2</a></span><span><span class="selected">3</span></span><span><a href="depiler_par_les_deux_bouts.3.html">4</a></span></footer></article></section></body></html>

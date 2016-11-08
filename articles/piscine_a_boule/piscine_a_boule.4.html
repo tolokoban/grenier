@@ -1,0 +1,343 @@
+<!DOCTYPE html><html><head>
+        <script src="../../three.min.js"></script>
+        <script id="vertex1" type="x-shader/x-vertex">//<![CDATA[
+// Cette variable sera passée (après interpolation) à chaque pixel
+// traité par le fragment-shader. C'est un vecteurs dont les coordonnées
+// sont comprises entre -1.0 et +1.0.
+varying vec2 var_XY;
+
+// Fonction principage du shader, appelée pour chaque vertex.
+void main(void) {
+  // `position` est un vec3 global qui contient les coordonnées
+  // du vertex courant.
+  float x = position.x;
+  float y = position.y;
+
+  // On se ramève à un carré centré en (0,0) et de côté 2.
+  if (x > 0.0) {
+    if (y > 0.0) {
+      var_XY = vec2( 1.0, 1.0 );
+    } else {
+      var_XY = vec2( 1.0, -1.0 );
+    }
+  } else {
+    if (y > 0.0) {
+      var_XY = vec2( -1.0, 1.0 );
+    } else {
+      var_XY = vec2( -1.0, -1.0 );
+    }
+  }
+
+  // `gl_Position` : coordonnées du vertex dans le repère de l'écran.
+  // `position` : coordonnées du vertex dans le repère de son modèle.
+  // `modelViewMatrix` : passage du repère du modèle dans le repère
+  //                     de la caméra.
+  // `projectionMatrix` : passage du repère de la caméra dans celui
+  //                      de l'écran.
+  gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+}//]]></script>
+        <script id="fragment1" type="x-shader/x-fragment">//<![CDATA[
+// Variable récupérée (après interpolation) du vertex-shader.
+varying vec2 var_XY;
+
+// Fonction appelée pour chaque pixel visible de l'écran.
+void main(void) {
+  float x = var_XY.x;
+  float y = var_XY.y;
+
+  // La distance du point (x,y) au centre de l'écran (0,0)
+  // permet de savoir si on est dans le cercle ou dehors.
+  float r = x*x + y*y;
+  if (r < 1.0) {
+    // Si on est dans le cercle, on met un pixel rouge.
+    // 
+    gl_FragColor = vec4( 1.0, 0.0, 0.0, 1.0 );
+  } else {
+    // Si on est hors du cercle, on met un pixel transparent.
+    gl_FragColor = vec4( 0.0, 1.0, 0.0, 1.0 );
+  }    
+}//]]></script>
+        <script id="vertex2" type="x-shader/x-vertex">//<![CDATA[
+// Cette variable sera passée (après interpolation) à chaque pixel
+// traité par le fragment-shader. C'est un vecteurs dont les coordonnées
+// sont comprises entre -1.0 et +1.0.
+varying vec2 var_XY;
+
+void main(void) {
+  float x = position.x;
+  float y = position.y;
+
+  if (x > 0.0) {
+    if (y > 0.0) {
+      var_XY = vec2( 1.0, 1.0 );
+    } else {
+      var_XY = vec2( 1.0, -1.0 );
+    }
+  } else {
+    if (y > 0.0) {
+      var_XY = vec2( -1.0, 1.0 );
+    } else {
+      var_XY = vec2( -1.0, -1.0 );
+    }
+  }
+
+  // Pour que le carré nous fasse toujours face, il faut
+  // commencer par projeter son centre dans le repère
+  // de l'écran.
+  vec4 center = vec4( 0.0, 0.0, position.z, 1.0 );
+  vec4 p = projectionMatrix * modelViewMatrix * center;
+  // Cela nous donne la valeur du `z` et on peut reconstituer
+  // le `x` et le `y` en utilisant les coordonnées dans le
+  // repère du modèle.
+  p.x += var_XY.x * 0.5;
+  p.y += var_XY.y * 0.5;
+  
+  gl_Position = p;
+}//]]></script>
+        <script id="fragment2" type="x-shader/x-fragment">//<![CDATA[
+// Variable récupérée (après interpolation) du vertex-shader.
+varying vec2 var_XY;
+
+// Couleur de la boule.
+uniform vec3 uni_Color;
+
+// Fonction appelée pour chaque pixel visible de l'écran.
+void main(void) {
+  float x = var_XY.x;
+  float y = var_XY.y;
+
+  // La distance du point (x,y) au centre de l'écran (0,0)
+  // permet de savoir si on est dans le cercle ou dehors.
+  float r = x*x + y*y;
+  if (r < 1.0) {
+    // Si on est dans le cercle, on met un pixel `uni_Color`.
+    gl_FragColor = vec4( uni_Color, 1.0 );
+  } else {
+    // Si on est hors du cercle, on met un pixel transparent.
+    gl_FragColor = vec4( 0.0, 1.0, 0.0, 0.0 );
+  }    
+}//]]></script>
+        <script id="fragment3" type="x-shader/x-fragment">//<![CDATA[
+// Variable récupérée (après interpolation) du vertex-shader.
+varying vec2 var_XY;
+
+// Couleur de la boule.
+uniform vec3 uni_Color;
+
+// Fonction appelée pour chaque pixel visible de l'écran.
+void main(void) {
+  float x = var_XY.x;
+  float y = var_XY.y;
+
+  // La distance du point (x,y) au centre de l'écran (0,0)
+  // permet de savoir si on est dans le cercle ou dehors.
+  float r = x*x + y*y;
+  if (r < 1.0) {
+    // Si on est dans le cercle, on met un pixel `uni_Color`.
+    gl_FragColor = vec4( (1.0 - 0.75 * r) * uni_Color, 1.0 );
+  } else {
+    // Si on est hors du cercle, on met un pixel transparent.
+    gl_FragColor = vec4( 0.0, 1.0, 0.0, 0.0 );
+  }    
+}//]]></script>
+        <script id="fragment4" type="x-shader/x-fragment">//<![CDATA[
+varying vec2 var_XY;
+uniform vec3 uni_Color;
+
+// Couleur du point qui fait face à la lumière.
+const vec3 cst_LightColorFront = vec3( 1.0, 1.0, 1.0 );
+// Couleur du point qui tourne le dos à la lumière.
+const vec3 cst_LightColorBack = vec3( 0.0, 0.0, 0.0 );
+
+void main(void) {
+  float x = var_XY.x;
+  float y = var_XY.y;
+  float r = x*x + y*y;
+
+  if (r < 1.0) {
+    // Le vecteur normal au point (x,y) a pour coordonnées (x,y,z).
+    float z = sqrt( 1.0 - r );
+    // Direction de la lumière.
+    // Je prends une direction au hasard et constante pour
+    // le moment.
+    vec3 dir = normalize( vec3( 7, 2, 5) );
+    // Produit scalaire qui est maximal quand le vecteur normal
+    // est parallèle et dans le même sens que le vecteur `dir`.
+    float a = dot( dir, vec3( x, y, z ) );
+
+    if (a > 0.0) {
+      // On interpole suivant `a` entre 
+      // la couleur de la sphère et celle de la lumière.
+      gl_FragColor = vec4( a * cst_LightColorFront + (1.0 - a) * uni_Color, 1.0);
+    } else {
+      // La même chose pour la partie à l'ombre.
+      a = -a;
+      gl_FragColor = vec4( a * cst_LightColorBack + (1.0 - a) * uni_Color, 1.0);
+    }
+  } else {
+    gl_FragColor = vec4( 0.0, 1.0, 0.0, 0.0 );
+  }
+}//]]></script>
+        <script id="fragment5" type="x-shader/x-fragment">//<![CDATA[
+varying vec2 var_XY;
+uniform vec3 uni_Color;
+
+// Les `Value` permettent de minimiser l'éclat de la lumière.
+const float cst_LightValueFront = 0.7;
+const float cst_LightValueBack = 1.0;
+const vec3 cst_LightColorFront = vec3( 0.9, 0.9, 0.8 );
+const vec3 cst_LightColorBack = vec3( 0.0, 0.0, 0.2 );
+
+void main(void) {
+  float x = var_XY.x;
+  float y = var_XY.y;
+  float r = x*x + y*y;
+
+  if (r < 1.0) {
+    // Pour limiter l'éclat de la lumière, on modifie sa couleur
+    // en la moyennant avec la couleur de la sphère.
+    vec3 colorFront = cst_LightColorFront * cst_LightValueFront
+      + uni_Color * (1.0 - cst_LightValueFront);
+    vec3 colorBack = cst_LightColorBack * cst_LightValueBack
+      + uni_Color * (1.0 - cst_LightValueBack);
+
+    float z = sqrt( 1.0 - r );
+    vec3 dir = normalize( vec3( 7, 2, 5) );
+    float a = dot( dir, vec3( x, y, z ) );
+
+    if (a > 0.0) {
+      gl_FragColor = vec4( a * colorFront + (1.0 - a) * uni_Color, 1.0);
+    } else {
+      a = -a;
+      gl_FragColor = vec4( a * colorBack + (1.0 - a) * uni_Color, 1.0);
+    }
+  } else {
+    gl_FragColor = vec4( 0.0, 1.0, 0.0, 0.0 );
+  }
+}//]]></script>
+        <script id="vertex3" type="x-shader/x-vertex">//<![CDATA[
+varying vec2 var_XY;
+varying vec3 var_Position;
+
+void main(void) {
+  float x = position.x;
+  float y = position.y;
+
+  if (x > 0.0) {
+    if (y > 0.0) {
+      var_XY = vec2( 1.0, 1.0 );
+    } else {
+      var_XY = vec2( 1.0, -1.0 );
+    }
+  } else {
+    if (y > 0.0) {
+      var_XY = vec2( -1.0, 1.0 );
+    } else {
+      var_XY = vec2( -1.0, -1.0 );
+    }
+  }
+
+  vec4 center = vec4( 0.0, 0.0, position.z, 1.0 );
+  vec4 p = projectionMatrix * modelViewMatrix * center;
+  p.x += var_XY.x * 0.5;
+  p.y += var_XY.y * 0.5;
+  
+  gl_Position = p;
+  var_Position = vec3(gl_Position);
+}//]]></script>
+        <script id="fragment6" type="x-shader/x-fragment">//<![CDATA[
+varying vec2 var_XY;
+varying vec3 var_Position;
+
+uniform vec3 uni_Color;
+
+const float cst_LightValueFront = 0.7;
+const float cst_LightValueBack = 1.0;
+const vec3 cst_LightColorFront = vec3( 0.9, 0.9, 0.8 );
+const vec3 cst_LightColorBack = vec3( 0.0, 0.0, 0.2 );
+
+void main(void) {
+  float x = var_XY.x;
+  float y = var_XY.y;
+  float r = x*x + y*y;
+
+  // On a inversé la condition pour faire tout de
+  // suite un sort aux pixels invisibles.
+  if (r >= 1.0) {
+    gl_FragColor = vec4( 0.0, 0.0, 0.0, 0.0 );
+    return;
+  }
+
+  if (r > 0.8) {
+    // Le liseré noir autour de la sphère est créé ainsi.
+    // En diminuant 0.99, on épaissit le trait.
+    gl_FragColor = vec4( uni_Color * 0.3, 1.0 );
+  } 
+  else {
+    vec3 color = vec3(uni_Color);
+
+    vec3 colorFront = cst_LightColorFront * cst_LightValueFront
+      + uni_Color * (1.0 - cst_LightValueFront);
+    vec3 colorBack = cst_LightColorBack * cst_LightValueBack
+      + uni_Color * (1.0 - cst_LightValueBack);
+
+    float z = sqrt( 1.0 - r );
+    vec3 dir = normalize( vec3( 7, 2, 5) - cameraPosition );
+    float a = dot( dir, vec3( x, y, z ) );
+
+    if (a > 0.0) {
+      color = a * colorFront + (1.0 - a) * uni_Color;
+    } else {
+      a = -a;
+      color = a * colorBack + (1.0 - a) * uni_Color;
+    }
+
+    color *= 1.0 - r * 0.6;
+    gl_FragColor = vec4( color, 1.0 );
+  }
+}//]]></script>
+    <title>La piscine à boules</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><script src="../../js/articles/piscine_a_boule/@piscine_a_boule.4.js"></script><link rel="stylesheet" type="text/css" href="../../css/three.canvas.css"><link rel="stylesheet" type="text/css" href="../../css/wdg.css"><link rel="stylesheet" type="text/css" href="../../css/dom.css"><script src="../../js/$.js"></script><script src="../../js/piscine.shader2.js"></script><script src="../../js/piscine.bouncing-squares.js"></script><script src="../../js/three.canvas.js"></script><script src="../../js/wdg.js"></script><script src="../../js/piscine.shader.js"></script><script src="../../js/piscine.bouncing-squares.face-me.js"></script><script src="../../js/piscine.lowres-sphere.js"></script><script src="../../js/x-widget.js"></script><script src="../../js/tfw.data-binding.js"></script><script src="../../js/tfw.listeners.js"></script><script src="../../js/dom.js"></script><script src="../../js/polyfill.classList.js"></script><script src="../../js/polyfill.string.js"></script><link rel="stylesheet" type="text/css" href="../../css/articles/piscine_a_boule/@piscine_a_boule.4.css"></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>La piscine à boules</header><article><p>Un peu moins d&#39;éclat pour la lumière.
+<pre class="custom highlight js">
+    varying vec2 var_XY;
+    uniform vec3 uni_Color;
+    
+    <span class="comment">// Les `Value` permettent de minimiser l'éclat de la lumière.
+    </span>const float cst_LightValueFront <span class="operator">=</span> 0.7;<span class="keyword">
+    const</span> float cst_LightValueBack <span class="operator">=</span> 1.0;<span class="keyword">
+    const</span> vec3 cst_LightColorFront <span class="operator">=</span> <span class="function">vec3</span>( 0.9, 0.9, 0.8 );<span class="keyword">
+    const</span> vec3 cst_LightColorBack <span class="operator">=</span> <span class="function">vec3</span>( 0.0, 0.0, 0.2 );
+    <span class="keyword">
+    void</span> <span class="function">main</span><span class="keyword">(void</span>) {
+      float x <span class="operator">=</span> var_XY.x;
+      float y <span class="operator">=</span> var_XY.y;
+      float r <span class="operator">=</span> x<span class="operator">*</span>x <span class="operator">+</span> y<span class="operator">*</span>y;
+    
+     <span class="keyword"> if</span> (r <span class="operator">&lt;</span> 1.0) {
+        <span class="comment">// Pour limiter l'éclat de la lumière, on modifie sa couleur
+    </span>    <span class="comment">// en la moyennant avec la couleur de la sphère.
+    </span>    vec3 colorFront <span class="operator">=</span> cst_LightColorFront <span class="operator">*</span> cst_LightValueFront
+          <span class="operator">+</span> uni_Color <span class="operator">*</span> (1.0 <span class="operator">-</span> cst_LightValueFront);
+        vec3 colorBack <span class="operator">=</span> cst_LightColorBack <span class="operator">*</span> cst_LightValueBack
+          <span class="operator">+</span> uni_Color <span class="operator">*</span> (1.0 <span class="operator">-</span> cst_LightValueBack);
+    
+        float z <span class="operator">=</span> <span class="function">sqrt</span>( 1.0 <span class="operator">-</span> r );
+        vec3 dir <span class="operator">=</span> <span class="function">normalize</span>( <span class="function">vec3</span>( 7, 2, 5) );
+        float a <span class="operator">=</span> <span class="function">dot</span>( dir, <span class="function">vec3</span>( x, y, z ) );
+    
+       <span class="keyword"> if</span> (a <span class="operator">&gt;</span> 0.0) {
+          gl_FragColor <span class="operator">=</span> <span class="function">vec4</span>( a <span class="operator">*</span> colorFront <span class="operator">+</span> (1.0 <span class="operator">-</span> a) <span class="operator">*</span> uni_Color, 1.0);
+        }<span class="keyword"> else</span> {
+          a <span class="operator">=</span> <span class="operator">-</span>a;
+          gl_FragColor <span class="operator">=</span> <span class="function">vec4</span>( a <span class="operator">*</span> colorBack <span class="operator">+</span> (1.0 <span class="operator">-</span> a) <span class="operator">*</span> uni_Color, 1.0);
+        }
+      }<span class="keyword"> else</span> {
+        gl_FragColor <span class="operator">=</span> <span class="function">vec4</span>( 0.0, 1.0, 0.0, 0.0 );
+      }
+    }</pre></p>
+<p>Et voici la comparaison par rapport à la version précédente :
+<center>
+<div id="piscine.shader210" style="display:none"></div>
+<div id="piscine.shader211" style="display:none"></div>
+</center></p>
+<p>Un poil mieux, mais ça manque toujours de contraste.</p>
+<div style="height:1rem"></div><footer>Pages : <span><a href="piscine_a_boule.html">1</a></span><span><a href="piscine_a_boule.1.html">2</a></span><span><a href="piscine_a_boule.2.html">3</a></span><span><a href="piscine_a_boule.3.html">4</a></span><span><span class="selected">5</span></span><span><a href="piscine_a_boule.5.html">6</a></span></footer></article></section></body></html>

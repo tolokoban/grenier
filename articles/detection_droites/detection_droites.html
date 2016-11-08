@@ -1,4 +1,4 @@
-<!DOCTYPE HTML><html><head><title>Détection de droites dans une image</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><link rel="stylesheet" type="text/css" href="../../css/articles/detection_droites/@detection_droites.css"><script src="../../js/articles/detection_droites/@detection_droites.js"></script></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>Détection de droites dans une image</header><article><p>Je vous présente ici la technique de la <a href="http://en.wikipedia.org/wiki/Hough_transform">transformée de Hough</a>.</p>
+<!DOCTYPE html><html><head><title>Détection de droites dans une image</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><script src="../../js/articles/detection_droites/@detection_droites.js"></script><link rel="stylesheet" type="text/css" href="../../css/detection_droites.css"><script src="../../js/$.js"></script><script src="../../js/detection_droites.js"></script><link rel="stylesheet" type="text/css" href="../../css/articles/detection_droites/@detection_droites.css"></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>Détection de droites dans une image</header><article><p>Je vous présente ici la technique de la <a href="http://en.wikipedia.org/wiki/Hough_transform">transformée de Hough</a>.</p>
 <p>On commence par une détection de contours. Pour chaque point qui en résulte, on recherche les paramètres de toutes les droites qui peuvent passer par lui. Normalement, il y en a une infinité, mais on se place dans un monde discret pour que ce soit réalisable. On recense donc une liste de paramètres dont certains peuvent apparaître plusieurs fois. Ce sont ceux dont l&#39;occurence est la plus grande qui ont le plus de chance de représenter une droite dans l&#39;image.</p>
 <h1 id="param-trage-d-une-droite">Paramétrage d&#39;une droite</h1>
 <p>Toute droite du plan peut être identifiée de façon unique par deux paramètres :</p>
@@ -14,8 +14,5 @@
 <p><img style="box-shadow:0 0 3px #000;float:right;margin-left:1em" id="image" src="sample.jpg"/></p>
 <p>L&#39;image ci-contre comporte 32x32 pixels. Voici comment détecter les droites qui se cachent dans les points en noir.</p>
 <p>On commence par recenser les coordonnées de chaque point noir. Ensuite, on remplit un tableau pour toutes les valeurs discrètes de <strong>R</strong> en fonction des 36 valeurs de <strong>A</strong> (0°, 10°, 20°, ..., 350°).</p>
-<div id="sample"></div>
-
-
-
+<p><div id="sample"></div></p>
 <div style="height:1rem"></div></article></section></body></html>
