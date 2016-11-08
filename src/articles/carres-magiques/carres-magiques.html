@@ -12,10 +12,13 @@ Voici deux exemples de carrés magiques d'ordre 3
 <x-carmag>3,13,11 ; 17,9,1 ; 7,5,15</x-carmag> <x-carmag>3,8,1 ; 2,4,6 ; 7,0,5</x-carmag>
 
 Le deuxième est dit __parfait__ parce qu'il est composé de nombres consécutifs commençant par 0.
+À partir de cette forme, on peut obtenir une infinité de carrés magiques en appliquant une fonction linéaire à toutes les cases du carré magique parfait.
+Par exemple, la fonction <x-latex>f(n) = n+1</x-latex> qui ajoute 1 à chaque case et donne le résultat plus connu suivant :
+<x-carmag>4,9,2 ; 3,5,7 ; 8,1,6</x-carmag>
 
 On va donc regarder de plus près comment on peut trouver des __carrés magiques parfaits__ de différents ordres.        
     </page>
-   
+    
     <page>        
 # Ordre 3
 
@@ -190,6 +193,11 @@ On a utilisé un décalage _non-constant_. Dans la première et troisième colon
 Pourquoi ça marche ?
 
 Il y a peut-être un théorème pour cela, mais je ne le connais pas. Il va donc falloir se débrouiller tout seul.
+Commençons par regarder pour quels nombres pairs ces décalages décrémentaux fonctionnent.
+<wdg:carmag.decshift />
+
+Hum... Ce système n'a pas l'air de fonctionner souvent.  
+Mais à y regarder de plus près, on peut conjecturer qu'il fonctionne seulement si <x-latex>n</x-latex> est une puissance de 2, c'est-à-dire si on peut l'écrire sous forme d'un produit composé uniquement de 2. <x-latex>n = 2^k</x-latex>.
 
     </page>
 </x-article>
