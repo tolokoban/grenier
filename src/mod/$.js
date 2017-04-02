@@ -1,4 +1,4 @@
-exports.config={"name":"\"grenier\"","description":"\"Articles concernant majoritairement l'algorithmie\"","author":"\"Tolokoban\"","version":"\"1.0.518\"","major":"1","minor":"0","revision":"518","date":"2017-04-02T09:00:26.000Z","consts":{}};
+exports.config={"name":"\"grenier\"","description":"\"Articles concernant majoritairement l'algorithmie\"","author":"\"Tolokoban\"","version":"\"1.0.519\"","major":"1","minor":"0","revision":"519","date":"2017-04-02T15:08:16.000Z","consts":{}};
 var currentLang = null;
 exports.lang = function(lang) {
     if (lang === undefined) {
