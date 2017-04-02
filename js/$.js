@@ -1,4 +1,4 @@
-/** @module $ */require( '$', function(require, module, exports) {     exports.config={"name":"\"grenier\"","description":"\"Articles concernant majoritairement l'algorithmie\"","author":"\"Tolokoban\"","version":"\"1.0.517\"","major":"1","minor":"0","revision":"517","date":"2016-11-07T10:42:04.000Z","consts":{}};
+/** @module $ */require( '$', function(require, module, exports) {     exports.config={"name":"\"grenier\"","description":"\"Articles concernant majoritairement l'algorithmie\"","author":"\"Tolokoban\"","version":"\"1.0.518\"","major":"1","minor":"0","revision":"518","date":"2017-04-02T09:00:26.000Z","consts":{}};
 var currentLang = null;
 exports.lang = function(lang) {
     if (lang === undefined) {
@@ -24,17 +24,23 @@ exports.lang = function(lang) {
 };
 exports.intl = function(words, params) {
     var dic = words[exports.lang()],
-    k = params[0],
-    txt, newTxt, i, c, lastIdx, pos;
+        k = params[0],
+        txt, newTxt, i, c, lastIdx, pos;
+    var defLang;
+    for( defLang in words ) break;
+    if( !defLang ) return k;
     if (!dic) {
-        //console.error("Missing internationalization for language : \"" + exports.lang() + "\"!");
-        return k;
+        dic = words[defLang];
+        if( !dic ) {
+            return k;
+        }
     }
     txt = dic[k];
-    if (!txt) {
-        //console.error("Missing internationalization [" + exports.lang() + "]: \"" + k + "\"!");
-        return k;
+    if( !txt ) {
+        dic = words[defLang];
+        txt = dic[k];
     }
+    if (!txt) return k;
     if (params.length > 1) {
         newTxt = "";
         lastIdx = 0;

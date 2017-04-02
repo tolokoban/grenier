@@ -60,13 +60,13 @@ addListener(
         document.body.parentNode.$data = {};
         // Attach controllers.
         var W = require('x-widget');
-        W('theatre10022', 'theatre100', {})
-        W('theatre100.main23', 'theatre100.main', {})
-        W('theatre100.main24', 'theatre100.main', {})
-        W('theatre100.main25', 'theatre100.main', {})
-        W('theatre100.main26', 'theatre100.main', {})
-        W('theatre100.main27', 'theatre100.main', {})
-        W('theatre100.main28', 'theatre100.main', {})
+        W('theatre10028', 'theatre100', {})
+        W('theatre100.main29', 'theatre100.main', {})
+        W('theatre100.main30', 'theatre100.main', {})
+        W('theatre100.main31', 'theatre100.main', {})
+        W('theatre100.main32', 'theatre100.main', {})
+        W('theatre100.main33', 'theatre100.main', {})
+        W('theatre100.main34', 'theatre100.main', {})
 require('polyfill.mathml');
 
     }

@@ -61,7 +61,7 @@ addListener(
         // Attach controllers.
         var W = require('x-widget');
         W('game1', 'depiler2bouts.main', {})
-        W('tfw.grader0', 'tfw.grader', {})
+        W('tfw.grader1', 'tfw.grader', {})
 require('polyfill.mathml');
         W('game2', 'depiler2bouts.main', {})
 

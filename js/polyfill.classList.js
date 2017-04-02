@@ -1,4 +1,4 @@
-/** @module polyfill.classList */require( 'polyfill.classList', function(require, module, exports) { var _intl_={"en":{}},_$=require("$").intl;function _(){return _$(_intl_, arguments);}
+/** @module polyfill.classList */require( 'polyfill.classList', function(require, module, exports) { var _=function(){var D={"en":{}},X=require("$").intl;function _(){return X(D,arguments);}_.all=D;return _}();
     /*
  * classList.js: Cross-browser full element.classList implementation.
  * 1.1.20150312

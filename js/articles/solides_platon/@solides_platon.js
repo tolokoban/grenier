@@ -60,15 +60,15 @@ addListener(
         document.body.parentNode.$data = {};
         // Attach controllers.
         var W = require('x-widget');
-        W('platon.solide14', 'platon.solide', {})
-require('polyfill.mathml');
         W('platon.solide15', 'platon.solide', {})
+require('polyfill.mathml');
         W('platon.solide16', 'platon.solide', {})
-        W('platon.dodeca117', 'platon.dodeca1', {})
-        W('platon.solide18', 'platon.solide', {})
+        W('platon.solide17', 'platon.solide', {})
+        W('platon.dodeca118', 'platon.dodeca1', {})
         W('platon.solide19', 'platon.solide', {})
-        W('platon.icosaedre20', 'platon.icosaedre', {})
-        W('platon.solide21', 'platon.solide', {})
+        W('platon.solide20', 'platon.solide', {})
+        W('platon.icosaedre21', 'platon.icosaedre', {})
+        W('platon.solide22', 'platon.solide', {})
 
     }
 );

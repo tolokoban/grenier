@@ -1,4 +1,4 @@
-/** @module tp4.bulle */require( 'tp4.bulle', function(require, module, exports) { var _intl_={"en":{"close":"Close","later":"Later!","next":"Next"},"fr":{"close":"Fermer","later":"Plus tard!","next":"Suivant"}},_$=require("$").intl;function _(){return _$(_intl_, arguments);}
+/** @module tp4.bulle */require( 'tp4.bulle', function(require, module, exports) { var _=function(){var D={"en":{"close":"Close","later":"Later!","next":"Next"},"fr":{"close":"Fermer","later":"Plus tard!","next":"Suivant"}},X=require("$").intl;function _(){return X(D,arguments);}_.all=D;return _}();
     var Widget = require("wdg");
 var D = Widget.div;
 

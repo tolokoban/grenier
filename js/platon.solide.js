@@ -1,4 +1,4 @@
-/** @module platon.solide */require( 'platon.solide', function(require, module, exports) { var _intl_={"en":{},"fr":{}},_$=require("$").intl;function _(){return _$(_intl_, arguments);}
+/** @module platon.solide */require( 'platon.solide', function(require, module, exports) { var _=function(){var D={"en":{},"fr":{}},X=require("$").intl;function _(){return X(D,arguments);}_.all=D;return _}();
     "use strict";
 var ThreeCanvas = require("three.canvas");
 var Rotator = require("three.rotator");

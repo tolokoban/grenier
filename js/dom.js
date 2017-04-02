@@ -1,4 +1,4 @@
-/** @module dom */require( 'dom', function(require, module, exports) { var _intl_={"en":{},"fr":{}},_$=require("$").intl;function _(){return _$(_intl_, arguments);}
+/** @module dom */require( 'dom', function(require, module, exports) { var _=function(){var D={"en":{},"fr":{}},X=require("$").intl;function _(){return X(D,arguments);}_.all=D;return _}();
    /**
  * @module dom
  *

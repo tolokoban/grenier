@@ -60,11 +60,10 @@ addListener(
         document.body.parentNode.$data = {};
         // Attach controllers.
         var W = require('x-widget');
-        W('piscine.lowres-sphere1', 'piscine.lowres-sphere', {})
-        W('piscine.bouncing-squares2', 'piscine.bouncing-squares', {})
-        W('piscine.bouncing-squares.face-me3', 'piscine.bouncing-squares.face-me', {})
-        W('piscine.shader4', 'piscine.shader', {})
-        W('piscine.shader25', 'piscine.shader2', {})
+        W('piscine.lowres-sphere2', 'piscine.lowres-sphere', {})
+        W('piscine.bouncing-squares3', 'piscine.bouncing-squares', {})
+        W('piscine.bouncing-squares.face-me4', 'piscine.bouncing-squares.face-me', {})
+        W('piscine.shader5', 'piscine.shader', {})
         W('piscine.shader26', 'piscine.shader2', {})
         W('piscine.shader27', 'piscine.shader2', {})
         W('piscine.shader28', 'piscine.shader2', {})
@@ -73,6 +72,7 @@ addListener(
         W('piscine.shader211', 'piscine.shader2', {})
         W('piscine.shader212', 'piscine.shader2', {})
         W('piscine.shader213', 'piscine.shader2', {})
+        W('piscine.shader214', 'piscine.shader2', {})
 
     }
 );

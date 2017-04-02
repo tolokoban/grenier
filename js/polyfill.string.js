@@ -1,4 +1,4 @@
-/** @module polyfill.string */require( 'polyfill.string', function(require, module, exports) { var _intl_={"en":{}},_$=require("$").intl;function _(){return _$(_intl_, arguments);}
+/** @module polyfill.string */require( 'polyfill.string', function(require, module, exports) { var _=function(){var D={"en":{}},X=require("$").intl;function _(){return X(D,arguments);}_.all=D;return _}();
     // IE11 doe not support String.toLowerCase().
 if (typeof String.toLowerCase !== 'function') {
     String.toLowerCase = function(v) { return v.toLowerCase(); };

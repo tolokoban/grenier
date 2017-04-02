@@ -60,6 +60,8 @@ addListener(
         document.body.parentNode.$data = {};
         // Attach controllers.
         require('polyfill.mathml');
+var W = require('x-widget');
+        W('wdg.carmag.decshift0', 'wdg.carmag.decshift', {})
 
     }
 );

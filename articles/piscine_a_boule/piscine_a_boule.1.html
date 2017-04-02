@@ -296,10 +296,10 @@ void main(void) {
     gl_FragColor = vec4( color, 1.0 );
   }
 }//]]></script>
-    <title>La piscine à boules</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><script src="../../js/articles/piscine_a_boule/@piscine_a_boule.1.js"></script><link rel="stylesheet" type="text/css" href="../../css/three.canvas.css"><link rel="stylesheet" type="text/css" href="../../css/wdg.css"><link rel="stylesheet" type="text/css" href="../../css/dom.css"><script src="../../js/$.js"></script><script src="../../js/piscine.shader2.js"></script><script src="../../js/piscine.bouncing-squares.js"></script><script src="../../js/three.canvas.js"></script><script src="../../js/wdg.js"></script><script src="../../js/piscine.shader.js"></script><script src="../../js/piscine.bouncing-squares.face-me.js"></script><script src="../../js/piscine.lowres-sphere.js"></script><script src="../../js/x-widget.js"></script><script src="../../js/tfw.data-binding.js"></script><script src="../../js/tfw.listeners.js"></script><script src="../../js/dom.js"></script><script src="../../js/polyfill.classList.js"></script><script src="../../js/polyfill.string.js"></script><link rel="stylesheet" type="text/css" href="../../css/articles/piscine_a_boule/@piscine_a_boule.1.css"></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>La piscine à boules</header><article><p><a name="page2"></a></p>
+    <title>La piscine à boules</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="Articles concernant majoritairement l'algorithmie"></meta><script defer="null" src="../../js/articles/piscine_a_boule/@piscine_a_boule.1.js"></script><link rel="stylesheet" type="text/css" href="../../css/three.canvas.css"><link rel="stylesheet" type="text/css" href="../../css/wdg.css"><link rel="stylesheet" type="text/css" href="../../css/dom.css"><script defer="null" src="../../js/$.js"></script><script defer="null" src="../../js/piscine.shader2.js"></script><script defer="null" src="../../js/piscine.bouncing-squares.js"></script><script defer="null" src="../../js/three.canvas.js"></script><script defer="null" src="../../js/wdg.js"></script><script defer="null" src="../../js/piscine.shader.js"></script><script defer="null" src="../../js/piscine.bouncing-squares.face-me.js"></script><script defer="null" src="../../js/piscine.lowres-sphere.js"></script><script defer="null" src="../../js/x-widget.js"></script><script defer="null" src="../../js/tfw.data-binding.js"></script><script defer="null" src="../../js/tfw.listeners.js"></script><script defer="null" src="../../js/tfw.css.js"></script><script defer="null" src="../../js/dom.js"></script><script defer="null" src="../../js/polyfill.classList.js"></script><script defer="null" src="../../js/polyfill.string.js"></script><link rel="stylesheet" type="text/css" href="../../css/articles/piscine_a_boule/@piscine_a_boule.1.css"></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>La piscine à boules</header><article><p><a name="page2"></a></p>
 <p>Je donne donc une rotation à chaque carré pour qu&#39;il s&#39;oriente vers la caméra.
 <center>
-<div id="piscine.bouncing-squares.face-me3" style="display:none"></div>
+<div id="piscine.bouncing-squares.face-me4" style="display:none"></div>
 </center></p>
 <p>J&#39;en ai profité pour rentrer à l&#39;intérieur de la piscine et mieux observer les détails de près.
 Il ne me reste plus qu&#39;à dessiner de jolis sphères sur ces carrés et je pourrai mystifier le Thom&#39;.
@@ -380,8 +380,8 @@ Alors, quand le <em>fragment-shader</em> devra déterminer la couleur d&#39;un p
         transparent: true
     })</pre></p>
 <p><center>
-<div id="piscine.shader4" style="display:none"></div>
-<div id="piscine.shader25" style="display:none"></div>
+<div id="piscine.shader5" style="display:none"></div>
+<div id="piscine.shader26" style="display:none"></div>
 </center></p>
 <p>En y regardant de plus près, je m&#39;apreçois que la technique de faire tourner les carrés pour qu&#39;ils me fassent face n&#39;est pas très bonne. En effet, par moment, ils ont tendance à tourner un peu autour de l&#39;axe Z. Ce que je veux, moi, c&#39;est que leurs côtés soient toujours parallèles aux bords de l&#39;écran.</p>
 <p>Je dois pouvoir utiliser le <em>vertex-shader</em> pour cela, mais oui !</p>

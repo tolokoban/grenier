@@ -296,7 +296,7 @@ void main(void) {
     gl_FragColor = vec4( color, 1.0 );
   }
 }//]]></script>
-    <title>La piscine à boules</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><script src="../../js/articles/piscine_a_boule/@piscine_a_boule.2.js"></script><link rel="stylesheet" type="text/css" href="../../css/three.canvas.css"><link rel="stylesheet" type="text/css" href="../../css/wdg.css"><link rel="stylesheet" type="text/css" href="../../css/dom.css"><script src="../../js/$.js"></script><script src="../../js/piscine.shader2.js"></script><script src="../../js/piscine.bouncing-squares.js"></script><script src="../../js/three.canvas.js"></script><script src="../../js/wdg.js"></script><script src="../../js/piscine.shader.js"></script><script src="../../js/piscine.bouncing-squares.face-me.js"></script><script src="../../js/piscine.lowres-sphere.js"></script><script src="../../js/x-widget.js"></script><script src="../../js/tfw.data-binding.js"></script><script src="../../js/tfw.listeners.js"></script><script src="../../js/dom.js"></script><script src="../../js/polyfill.classList.js"></script><script src="../../js/polyfill.string.js"></script><link rel="stylesheet" type="text/css" href="../../css/articles/piscine_a_boule/@piscine_a_boule.2.css"></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>La piscine à boules</header><article><p><a name="page3"></a></p>
+    <title>La piscine à boules</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="Articles concernant majoritairement l'algorithmie"></meta><script defer="null" src="../../js/articles/piscine_a_boule/@piscine_a_boule.2.js"></script><link rel="stylesheet" type="text/css" href="../../css/three.canvas.css"><link rel="stylesheet" type="text/css" href="../../css/wdg.css"><link rel="stylesheet" type="text/css" href="../../css/dom.css"><script defer="null" src="../../js/$.js"></script><script defer="null" src="../../js/piscine.shader2.js"></script><script defer="null" src="../../js/piscine.bouncing-squares.js"></script><script defer="null" src="../../js/three.canvas.js"></script><script defer="null" src="../../js/wdg.js"></script><script defer="null" src="../../js/piscine.shader.js"></script><script defer="null" src="../../js/piscine.bouncing-squares.face-me.js"></script><script defer="null" src="../../js/piscine.lowres-sphere.js"></script><script defer="null" src="../../js/x-widget.js"></script><script defer="null" src="../../js/tfw.data-binding.js"></script><script defer="null" src="../../js/tfw.listeners.js"></script><script defer="null" src="../../js/tfw.css.js"></script><script defer="null" src="../../js/dom.js"></script><script defer="null" src="../../js/polyfill.classList.js"></script><script defer="null" src="../../js/polyfill.string.js"></script><link rel="stylesheet" type="text/css" href="../../css/articles/piscine_a_boule/@piscine_a_boule.2.css"></head><body><section class="x-article custom"><header><a class="back" href="../../index.html">◀</a>La piscine à boules</header><article><p><a name="page3"></a></p>
 <p>Rien à changer du côté du <em>vertex-shader</em>, en revanche, il faut passer l&#39;information de couleur au <em>fragment-shader</em> :</p>
 <p><pre class="custom highlight js">
     new THREE.<span class="function">ShaderMaterial</span>({
@@ -332,12 +332,12 @@ void main(void) {
       }    
     }</pre>    </p>
 <p>Et voilà le travail !
-<center><div id="piscine.shader26" style="display:none"></div></center></p>
+<center><div id="piscine.shader27" style="display:none"></div></center></p>
 <p>Même près de la caméra, les sphères ont des bords qui ressemblent à des cercles et pas à des polygones.
 Mais je trouve que c&#39;est un peu plat. Je rajoute donc du relief en assombrissant la couleur au fur et à mesure qu&#39;on s&#39;éloigne du centre du cercle.</p>
 <p><pre class="custom highlight js">
     gl_FragColor <span class="operator">=</span> <span class="function">vec4</span>( (1.0 <span class="operator">-</span> 0.5 <span class="operator">*</span> r) <span class="operator">*</span> uni_Color, 1.0 );</pre></p>
-<p><center><div id="piscine.shader27" style="display:none"></div></center></p>
+<p><center><div id="piscine.shader28" style="display:none"></div></center></p>
 <p>Hey ! C&#39;est quand même plus chouette, non ?</p>
 <p>Tout fier, je montre mes résultats à Thomas sur mon FirefoxOS Phone.</p>
 <ul>

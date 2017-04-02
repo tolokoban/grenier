@@ -1,4 +1,4 @@
-/** @module tfw.listeners */require( 'tfw.listeners', function(require, module, exports) { var _intl_={"en":{}},_$=require("$").intl;function _(){return _$(_intl_, arguments);}
+/** @module tfw.listeners */require( 'tfw.listeners', function(require, module, exports) { var _=function(){var D={"en":{}},X=require("$").intl;function _(){return X(D,arguments);}_.all=D;return _}();
     /**
  * Gestion d'une liste de fonctions devant réagir à des événements.
  * @class
