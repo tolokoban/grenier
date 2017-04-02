@@ -28,6 +28,13 @@ section.x-article * {
     font-family: fira;
 }
 
+section.x-article pre,
+section.x-article code,
+section.x-article pre *,
+section.x-article code * {
+    font-family: monospace;
+}
+
 section.x-article h1,
 section.x-article h2,
 section.x-article h3 {

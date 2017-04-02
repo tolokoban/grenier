@@ -114,7 +114,12 @@ function print( struct ) {
         if (item.value < 0) item.value = '(???)';
         console.log("  " + item.bin + " [label=\"" + item.value + "\\n" + item.bin + "\"];");
     });
+    var columns = [];
     struct.forEach(function (item, index) {
+        if (!Array.isArray(columns[item.value])) {
+            columns[item.value] = [];
+        }
+        columns[item.value].push(item.bin);
         item.links.forEach(function (index2) {
             var item2 = struct[index2];
             for (var i=0; i<item.bin.length; i++) {
@@ -130,7 +135,19 @@ function print( struct ) {
             }
         });
     });
+    console.log("/*");
+    var i, j, out;
+    for (j=0; j<columns[0].length; j++) {
+        out = '';
+        for (i=0; i<columns.length; i++) {
+            out += columns[i][j] + "  ";
+        }
+        console.log(out);
+    }
+    console.log("*/");
     console.log("}");
+
+
 }
 
 /**

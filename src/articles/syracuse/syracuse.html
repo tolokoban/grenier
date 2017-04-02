@@ -58,39 +58,80 @@ De même, la multiplication par 3 revient à ajouter le double. Et ajouter <b st
  10000010
 </pre>
 
-En transformant nos 0 et 1 par des carrés vides ou pleins, on obtient de jolis dessins pour nos suites.
+En transformant nos 0 et 1 par des carrés vides ou pleins, on obtient de jolis
+dessins pour nos suites.
 
-<!-- <x-widget name="syracuse" $value="137" />  -->
+Chaque colonne représente un nombre en base 2. On remarque sur la dernière ligne
+ne comporte que des cases noires. Cela est dû au fait qu'on ne conserve que les
+nombres impairs.
 
+Voici la représentation graphique pour __137__.
+<x-widget name="syracuse" $value="137" />
+
+Voici la représentation graphique pour __111__.
+<x-widget name="syracuse" $value="111" />
+
+Voici la représentation graphique pour __495__ en bases 2, 3, 4, 5, 6, 7, 8 et 9.
+<x-widget name="syracuse" $value="495" $base="2"/>
+<x-widget name="syracuse" $value="495" $base="3"/>
+<x-widget name="syracuse" $value="495" $base="4"/>
+<x-widget name="syracuse" $value="495" $base="5"/>
+<x-widget name="syracuse" $value="495" $base="6"/>
+<x-widget name="syracuse" $value="495" $base="7"/>
+<x-widget name="syracuse" $value="495" $base="8"/>
+<x-widget name="syracuse" $value="495" $base="9"/>
     </page>
 
     <page>
 # Règles remarquables
 
-En regardant ces dessins, on voit de jolis motifs apparaître. On peut même en déduire des règles.
+En regardant ces dessins, on voit de jolis motifs apparaître.
+On peut même en déduire des règles.
 
 ## `1(01)+ => 1`
 
-Tout nombre dont l'écriture est un "1" suivi d'un nombre quelconque de répétitions de "01" a comme successeur le "1" terminal.
+<div style="float:right"><x-widget name="syracuse" $value="1365" /></div>
+Tout nombre dont l'écriture est un "1" suivi d'un nombre quelconque de répétitions 
+de "01" a comme successeur le "1" terminal.
 Par exemple : <code>101, 10101, 1010101010101, </code>...
 
-De tels nombres ont un nombre impair <x-latex>N</x-latex> de chiffres et ont la formule suivante :
+De tels nombres ont un nombre impair <x-latex>N</x-latex> de chiffres et ont la 
+formule suivante :
 <x-latex>n = \sum_{i=0}^{N-1\over 2}2^{2i}</x-latex>
 
 Ainsi, on a :
 <x-latex>3n+1 = 1 + n + 2n = 1 + \sum_{i=0}^{N-1\over 2}2^{2i} + \sum_{i=1}^{1 + N-1\over 2}2^{2i}</x-latex>
 <x-latex>= 1 + \sum_{i=0}^{N+1} 2^i = 1 + 2^{N+2} - 1 = 2^{N+2}</x-latex>
 
-On démontre ainsi la conjecture pour tous les nombres de la forme `1(01)+`. Même s'il y a un nombre infini de tels nombres, on est encore très loin d'avoir démontré la conjecture pour tous les nombres possibles.
+On démontre ainsi la conjecture pour tous les nombres de la forme `1(01)+`. 
+Même s'il y a un nombre infini de tels nombres, on est très loin d'avoir démontré 
+la conjecture pour tous les nombres possibles.
 
 ## `A0(1){n} => B0(1){n - 1}`
 
-Quand on fait des essais avec des nombres quelconques, on finit toujours par apercevoir des triangles rectangles isocèles sur la droite. Ils correspondent à des séries de 1 qui décroissent régulièrement de ligne en ligne.
+<div style="float2:right"><x-widget name="syracuse" 
+  $value="1215" 
+  $spot="6,5,4,3,2,1,0,0,3,2,1,3,2,1,3,2,1,2,1,0,5,4,3,2,1,0,2,1,3,2,1,4,3,2,1,0,3,2,1,2,1,6,5,4,3,2,1,4,3,2,1,0,0,0,0,3,2,1"/></div>
+Quand on fait des essais avec des nombres quelconques, on finit toujours par 
+apercevoir des triangles rectangles isocèles (surlignés sur le diagramme).
+Ils correspondent à des séries de 1 qui décroissent régulièrement de ligne en ligne.
 
-Ainsi, tout nombre qui se termine par un 0 suivi de <i>n</i> 1 donnera un nombre se terminant par un 0 suivi de <i>n - 1</i> 1.
+Ainsi, tout nombre qui se termine par un 0 suivi de <i>n</i> 1 donnera un nombre
+se terminant par un 0 suivi de <i>n - 1</i> 1.
 
 ## `f( A1(01)* ) = f( A1 )`
 
-Si le successeur d'un nombre <i>n</i> est <i>s</i>, alors tout nombre obtenu en ajoutant un nombre quelconque de fois <code>01</code> à sa droite aura aussi <i>s</i> comme successeur.
+Si le successeur d'un nombre <i>n</i> est <i>s</i>, alors tout nombre obtenu en 
+ajoutant un nombre quelconque de fois <code>01</code> à sa droite aura aussi 
+<i>s</i> comme successeur.
+
+Voici, par exemple les diagrammes pour __123 (`1111011`)__
+
+<x-widget name="syracuse" $value="123" />
+
+et __31573 (`111101101010101`)__.
+
+<x-widget name="syracuse" $value="31573" />
+
     </page>
 </x-article>
