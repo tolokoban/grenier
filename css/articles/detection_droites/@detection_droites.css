@@ -29,7 +29,9 @@ section.x-article * {
 }
 
 section.x-article pre,
-section.x-article code {
+section.x-article code,
+section.x-article pre *,
+section.x-article code * {
     font-family: monospace;
 }
 
@@ -218,3 +220,4 @@ pre.highlight .regexp {
     background: #ff8;
     color: #000;
 }
+div.grid{display:table;border-collapse:collapse}div.grid>div{display:table-row}div.grid>div>div{display:table-cell;font-size:9px;padding:2px;border:1px solid #777;background:#eee;text-align:right}div.grid>div>div:first-child{background:#333;color:#eee;text-align:center;font-weight:700}

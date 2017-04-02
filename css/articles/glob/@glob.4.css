@@ -29,7 +29,9 @@ section.x-article * {
 }
 
 section.x-article pre,
-section.x-article code {
+section.x-article code,
+section.x-article pre *,
+section.x-article code * {
     font-family: monospace;
 }
 

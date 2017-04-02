@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /** @module wdg.carmag.decshift */require( 'wdg.carmag.decshift', function(require, module, exports) { var _=function(){var D={"en":{},"fr":{}},X=require("$").intl;function _(){return X(D,arguments);}_.all=D;return _}();
+=======
+/** @module wdg.carmag.decshift */require( 'wdg.carmag.decshift', function(require, module, exports) { var _intl_={"en":{},"fr":{}},_$=require("$").intl;function _(){return _$(_intl_, arguments);}
+>>>>>>> 6aabe40e81dbc302b41a1600f4f16493136a247a
     /**
  * @module wdg.carmag.decshift
  *
